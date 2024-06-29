@@ -53,6 +53,6 @@ class Shoe(db.Model):
     def serialize(self):
         return {
             "shoe_name": self.shoe_name,
-            "email": self.email,
+            "shoe_size": self.shoe_size,
             # do not serialize the password, its a security breach
         }
