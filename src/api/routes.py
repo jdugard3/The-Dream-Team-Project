@@ -44,7 +44,8 @@ def generate_token():
 def register_user():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-
+    full_name = request.json.get("full_name", None)
+    
     # query to check if email already exists
     email = email.lower()
     user = User.query.filter_by(email=email).first()
@@ -61,7 +62,7 @@ def register_user():
     user = User()
     user.email = email
     user.password = password
-    user.is_active = True
+    user.full_name = full_name
     db.session.add(user)
     db.session.commit()
 
