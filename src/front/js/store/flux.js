@@ -77,7 +77,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return data;
 			},
 
-			syncSessionTokenFromStore: () => {
+			syncSessionTokenFromStore: async () => {
 				const sessionToken = sessionStorage.getItem('token');
 				if (sessionToken && sessionToken != "" && sessionToken != undefined) {
 					setStore({token: sessionToken})
@@ -98,39 +98,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({
 					signupMessage: data.msg,
 					isSignUpSuccessful: response.ok
-				})
-				return data;
-			},
-			login: async (userEmail, userPassword) => {
-				const options = {
-					method: 'POST',
-					mode: 'cors',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						email: userEmail,
-						password: userPassword
-					})
-				}
-				const response = await fetch(`${process.env.BACKEND_URL}api/token`, options)
-
-				if(!response.ok) {
-					const data = await response.json()
-					setStore({loginMessage: data.msg})
-					return {
-						error: {
-							status: response.status,
-							statusText: response.statusText
-						}
-					}
-				}
-				const data = await response.json()
-				sessionStorage.setItem("token", data.access_token)
-				setStore({
-					loginMessage: data.msg,
-					token: data.access_token,
-					isLoginSuccessful: true
 				})
 				return data;
 			},
