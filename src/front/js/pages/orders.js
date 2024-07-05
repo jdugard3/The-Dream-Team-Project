@@ -1,26 +1,49 @@
-import React, { useContext } from "react";
-import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import "../../styles/home.css";
+import React from 'react';
+import 'styles.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-export const Home = () => {
-	const { store, actions } = useContext(Context);
-
-	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
-			</p>
-		</div>
-	);
+const OrdersPage = () => {
+    return (
+        <div className="container mt-5">
+            <h1 className="mb-4">[username]'s Orders</h1>
+            <table className="table table-hover">
+                <thead className="table-dark">
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Number</th>
+                        <th scope="col">Details</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>05/12/2024</td>
+                        <th scope="row">4</th>
+                        <td>details on order 4</td>
+                        <td>$250.00</td>
+                    </tr>
+                    <tr>
+                        <td>03/14/2024</td>
+                        <th scope="row">3</th>
+                        <td>details on order 3</td>
+                        <td>$715.26</td>
+						</tr>
+                    <tr>
+                        <td>01/02/2024</td>
+                        <th scope="row">2</th>
+                        <td>details on order 2</td>
+                        <td>$320.24</td>
+						</tr>
+                    <tr>
+                        <td>11/26/2023</td>
+                        <th scope="row">1</th>
+                        <td>details on order 1</td>
+                        <td>$305.05</td>
+					</tr>
+                </tbody>
+            </table>
+        </div>
+    );
 };
+
+export default OrdersPage;
