@@ -7,6 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isLoginSuccessful: false,
 			isSignUpSuccessful: false,
 			orders:[],
+			favorites:[],
 
 		},
 		actions: {
