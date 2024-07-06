@@ -1,13 +1,12 @@
 import React from 'react';
-import 'styles.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '../../styles/orders.css';
 
-const OrdersPage = () => {
+export const OrdersPage = () => {
     return (
         <div className="container mt-5">
             <h1 className="mb-4">[username]'s Orders</h1>
             <table className="table table-hover">
-                <thead className="table-dark">
+                <thead className="table">
                     <tr>
                         <th scope="col">Date</th>
                         <th scope="col">Number</th>
@@ -18,25 +17,25 @@ const OrdersPage = () => {
                 <tbody>
                     <tr>
                         <td>05/12/2024</td>
-                        <th scope="row">4</th>
+                        <td>4</td>
                         <td>details on order 4</td>
                         <td>$250.00</td>
                     </tr>
                     <tr>
                         <td>03/14/2024</td>
-                        <th scope="row">3</th>
+                        <td>3</td>
                         <td>details on order 3</td>
                         <td>$715.26</td>
 						</tr>
                     <tr>
                         <td>01/02/2024</td>
-                        <th scope="row">2</th>
+                        <td>2</td>
                         <td>details on order 2</td>
                         <td>$320.24</td>
 						</tr>
                     <tr>
                         <td>11/26/2023</td>
-                        <th scope="row">1</th>
+                        <td>1</td>
                         <td>details on order 1</td>
                         <td>$305.05</td>
 					</tr>
