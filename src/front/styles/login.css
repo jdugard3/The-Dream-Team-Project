@@ -3,3 +3,13 @@
     border-color: red;
     box-shadow: black -5px 5px 3px ;
 }
+
+.basketball-button {
+    background-color: white;
+    border: none;
+}
+
+.basketball-img {
+    width: 70px;
+    height: 70px;
+}
