@@ -8,12 +8,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isSignUpSuccessful: false,
 			orders:[],
 			favorites:[],
-			shoes:[],
-				shoeDetails:{
-					name:"",
-					brand:"", 
-					story:"",
+			shoes:[
+				{
+					brand:"Nike",
+					id:"1",
+					name:"The Nike Shoe",
+					retailPrice:100,
+					story:""
+
 				},
+				{
+					brand:"Jordan",
+					id:"2",
+					name:"Air Jordan",
+					retailPrice:250,
+					story:""
+
+				},
+				{
+					brand:"Adidas",
+					id:"3",
+					name:"Adidas shoe",
+					retailPrice:50,
+					story:""
+
+				},
+			],
 
 		},
 		actions: {
