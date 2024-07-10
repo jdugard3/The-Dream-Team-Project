@@ -7,9 +7,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			loginMessage: null, 
 			isLoginSuccessful: false,
 		},
+
 		actions: {
 			
-			signUp: async (userEmail, userPassword) => {
+			signUp: async (userEmail, userPassword, userFullName) => {
 				const options = {
 					method: 'POST',
 					mode: 'cors',
@@ -18,14 +19,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 					body: JSON.stringify({
 						email: userEmail,
-						password: userPassword
+						password: userPassword,
+						full_name: userFullName
 					})
 				}
 				const response = await fetch(`${process.env.BACKEND_URL}api/signup`, options)
 
 				if(!response.ok) {
 					const data = await response.json()
-					setStore({signupMessage: data.msg})
+					//setStore({signupMessage: data.msg})
 					return {
 						error: {
 							status: response.status,
