@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 export const Feedback = () => {
-    const [feedbackText, setFeedbackText] = useState(""); 
-    const maxCharacters = 300; 
+    const [feedbackText, setFeedbackText] = useState("");
+    const maxCharacters = 300;
 
     const handleChange = (event) => {
-        setFeedbackText(event.target.value); 
+        setFeedbackText(event.target.value);
     };
 
     const charactersLeft = maxCharacters - feedbackText.length;
@@ -29,14 +29,14 @@ export const Feedback = () => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <div class="mb-3">
-                                <label for="exampleFormControlTextarea1" class="form-label">Enter your feedback</label>
+                            <div className="mb-3">
+                                <label htmlFor="exampleFormControlTextarea1" className="form-label">Enter your feedback</label>
                                 <textarea
                                     className="form-control"
                                     id="exampleFormControlTextarea1"
                                     rows="3"
                                     value={feedbackText}
-                                    onChange={handleChange} 
+                                    onChange={handleChange}
                                 >
                                 </textarea>
                                 <small className="text-muted">{charactersLeft} characters left</small>

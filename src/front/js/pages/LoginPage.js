@@ -5,8 +5,8 @@ import "../../styles/login.css";
 
 export const LoginPage = () => {
 
-    const [ email, setEmail ] = useState("");
-    const [ password, setPassword ] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [resetPassword, setResetPassword] = useState("");
     const [emptyEmail, setEmptyEmail] = useState("");
     const [emptyPassword, setEmptyPassword] = useState("");
@@ -28,10 +28,10 @@ export const LoginPage = () => {
             setResetPassword("Forgot your password?");
         }
 
-        if (email === "" ) {
+        if (email === "") {
             setEmptyEmail("Field cannot be empty");
         }
-        if(password ===""){
+        if (password === "") {
             setEmptyPassword("Field cannot be empty");
         }
     }
@@ -44,19 +44,20 @@ export const LoginPage = () => {
     }, [store.isLoginSuccessful])
 
     return (
-        <> 
-            <div className="login-page container-fluid" style={{textAlign: "center", justifyContent: "center", display: "inline-flex"}}>
-                <div className="login-box" style={{width:"325px", height: "250px", margin: "auto", marginTop: "100px"}}>
-                    <div className="login-box-contents" style={{width:"400px", height: "450px"}} >
-                        <h2>Log into your account</h2>
+        <>
+            <div className="login-page container-fluid" style={{ textAlign: "center", justifyContent: "center", display: "flex"}}>
+                <div className="login-box" style={{ width: "325px", height: "250px", margin: "auto", marginTop: "100px" }}>
+                    <div className="login-box-contents" style={{ width: "400px", height: "550px" }}>
+                        <h2>Log In</h2>
                         <br></br>
                         <br></br>
                         <div>
                             {store.signupMessage || ""}
                         </div>
-                        {errorMessage && !emptyEmail && !emptyPassword && <div style={{color: 'red'}}>{errorMessage}</div>}
+                        {errorMessage && !emptyEmail && !emptyPassword && <div style={{ color: 'red' }}>{errorMessage}</div>}
                         <br></br>
-                        <input 
+                        <h4 style={{ marginLeft: "-125px" }}>Email:</h4>
+                        <input
                             type="email"
                             placeholder="Enter email"
                             value={email}
@@ -64,9 +65,10 @@ export const LoginPage = () => {
                             required
                         />
                         <br></br>
-                        {emptyEmail && <div style={{color: 'red'}}>{emptyEmail}</div>}
+                        {emptyEmail && <div style={{ color: 'red' }}>{emptyEmail}</div>}
                         <br></br>
-                        <input 
+                        <h4 style={{ marginLeft: "-82px" }}>Password:</h4>
+                        <input
                             type="password"
                             placeholder="Enter password"
                             value={password}
@@ -74,16 +76,16 @@ export const LoginPage = () => {
                             required
                         />
                         <br></br>
-                        {emptyPassword && <div style={{color: 'red'}}>{emptyPassword}</div>}
-                        {resetPassword && !emptyEmail && !emptyPassword && <Link to={"/signup"}>{resetPassword}</Link>}
+                        {emptyPassword && <div style={{ color: 'red' }}>{emptyPassword}</div>}
+                        {resetPassword && !emptyEmail && !emptyPassword && <Link to={"/resetpassword"}>{resetPassword}</Link>}
                         <br></br>
-                        <button className="basketball-button" onClick={handleClick}><img className="basketball-img" src="https://cdn-icons-png.flaticon.com/512/889/889455.png"/></button>
+                        <button className="basketball-button" onClick={handleClick}><img className="basketball-img" src="https://cdn-icons-png.flaticon.com/512/889/889455.png" /></button>
                         <br></br>
                         <br></br>
-                        <a>Don't have an account? </a> 
-                            <Link to={"/signup"}>
-                                Sign Up
-                            </Link> 
+                        <a>Don't have an account? </a>
+                        <Link to={"/signup"}>
+                            Sign Up
+                        </Link>
                     </div>
                 </div>
             </div>

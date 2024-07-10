@@ -23,8 +23,8 @@ export const SignUpPage = () => {
         setEmptyPassword("");
         setSpecialCharWarning("");
 
-        if (password === confirmPassword) {
-            actions.signUp(email, password);
+        if (password == confirmPassword) {
+            actions.signUp(email, password, fullName);
         } else {
             setPasswordMismatch("Passwords do not match");
         }
@@ -32,7 +32,7 @@ export const SignUpPage = () => {
         if (email === "") {
             setEmptyEmail("Field cannot be empty");
         }
-        if (password === ""){
+        if (password === "") {
             setEmptyPassword("Field cannot be empty");
         }
         if (fullName === "") {
@@ -71,7 +71,7 @@ export const SignUpPage = () => {
 
     useEffect(() => {
         if (store.isSignUpSuccessful) {
-            navigate("/login");
+            navigate("/feedback");
         }
     }, [store.isSignUpSuccessful, navigate]);
 
@@ -93,7 +93,7 @@ export const SignUpPage = () => {
                             onChange={e => setFullName(e.target.value)}
                             required
                         />
-                        {emptyName && <div style={{color: 'red'}}>{emptyPassword}</div>}
+                        {emptyName && <div style={{ color: 'red' }}>{emptyPassword}</div>}
                         <br />
                         <br />
                         <input
@@ -103,7 +103,7 @@ export const SignUpPage = () => {
                             onChange={e => setEmail(e.target.value)}
                             required
                         />
-                        {emptyEmail && !confirmPassword && !passwordMismatch && <div style={{color: 'red'}}>{emptyEmail}</div>}
+                        {emptyEmail && !confirmPassword && !passwordMismatch && <div style={{ color: 'red' }}>{emptyEmail}</div>}
                         <br />
                         <br />
                         <input
@@ -114,9 +114,9 @@ export const SignUpPage = () => {
                             required
                         />
                         <br />
-                        <a style={{color: 'red'}}>Special characters needed: @!$1-9</a>
+                        <a style={{ color: 'red' }}>Special characters needed: @!$1-9</a>
                         {specialCharWarning && !confirmPassword && !passwordMismatch && <div style={{ color: 'red' }}>{specialCharWarning}</div>}
-                        {emptyPassword && !confirmPassword && !passwordMismatch && <div style={{color: 'red'}}>{emptyPassword}</div>}
+                        {emptyPassword && !confirmPassword && !passwordMismatch && <div style={{ color: 'red' }}>{emptyPassword}</div>}
                         <br />
                         <br />
                         <input
@@ -126,7 +126,7 @@ export const SignUpPage = () => {
                             onChange={handleConfirmPasswordChange}
                             required
                         />
-                        {emptyPassword && <div style={{color: 'red'}}>{emptyPassword}</div>}
+                        {emptyPassword && <div style={{ color: 'red' }}>{emptyPassword}</div>}
                         <br />
                         {passwordMismatch && <div style={{ color: 'red' }}>{passwordMismatch}</div>}
                         <br />
