@@ -1,0 +1,31 @@
+.navbar-nav {
+    flex-direction: row; /* Ensure items are in a row */
+    width: 100%; /* Full width of the navbar */
+    justify-content: flex-end; /* Align items to the right */
+}
+
+.navbar-nav .nav-item {
+    flex-grow: 1; /* Make nav items take up equal space */
+}
+
+.navbar-nav .nav-item .btn-custom {
+    border: 1px solid #ccc; /* Light grey border */
+    margin-right: -1px; /* To ensure the borders are flush */
+    padding: 10px 20px; /* Adjust padding as needed */
+    text-align: center; /* Center align text */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.navbar-nav .nav-item .btn-custom:first-child {
+    border-top-left-radius: 0.25rem; /* Optional: Add border radius to the first button */
+    border-bottom-left-radius: 0.25rem;
+}
+
+.navbar-nav .nav-item .btn-custom:last-child {
+    border-top-right-radius: 0.25rem; /* Optional: Add border radius to the last button */
+    border-bottom-right-radius: 0.25rem;
+}
+
+.navbar-nav .nav-item .btn-custom:hover {
+    background-color: #f8f9fa; /* Optional: Change background color on hover */
+}

@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 6188d0a009cf
+Revision ID: 64ff2a4bbe6e
 Revises: 
-Create Date: 2024-07-03 16:49:20.389329
+Create Date: 2024-07-08 23:47:38.822733
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6188d0a009cf'
+revision = '64ff2a4bbe6e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,9 +23,21 @@ def upgrade():
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('password', sa.String(length=80), nullable=False),
     sa.Column('full_name', sa.String(length=120), nullable=False),
+    sa.Column('shipping_address', sa.String(length=120), nullable=False),
+    sa.Column('billing_address', sa.String(length=120), nullable=False),
+    sa.Column('credit_card_num', sa.String(length=16), nullable=False),
+    sa.Column('credit_card_cvv', sa.String(length=3), nullable=False),
+    sa.Column('credit_card_year', sa.String(length=120), nullable=False),
+    sa.Column('credit_card_month', sa.String(length=120), nullable=False),
     sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('billing_address'),
+    sa.UniqueConstraint('credit_card_cvv'),
+    sa.UniqueConstraint('credit_card_month'),
+    sa.UniqueConstraint('credit_card_num'),
+    sa.UniqueConstraint('credit_card_year'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('full_name')
+    sa.UniqueConstraint('full_name'),
+    sa.UniqueConstraint('shipping_address')
     )
     op.create_table('shoes_table',
     sa.Column('id', sa.Integer(), nullable=False),
