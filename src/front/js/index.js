@@ -1,17 +1,12 @@
+//import react into the bundle
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Home } from "./pages/home";
-import { MichaelJordan } from "./pages/MichaelJordan";
+
+//include your index.scss file into the bundle
 import "../styles/index.css";
 
-const App = () => (
-  <Router>
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/michael-jordan" element={<MichaelJordan />} />
-    </Routes>
-  </Router>
-);
+//import your own components
+import Layout from "./layout";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+//render your react application
+ReactDOM.render(<Layout />, document.querySelector("#app"));

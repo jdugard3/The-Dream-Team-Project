@@ -5,6 +5,29 @@ import "../../styles/home.css";
 export const Home = () => {
 	const { store, actions } = useContext(Context);
 
+	const collections = [
+		{
+			name: "Michael Jordan",
+			image: "/path/to/michael-jordan-sneakers.jpg"
+		},
+		{
+			name: "Kobe Bryant",
+			image: "/path/to/kobe-bryant-sneakers.jpg"
+		},
+		{
+			name: "LeBron James",
+			image: "/path/to/lebron-james-sneakers.jpg"
+		},
+		{
+			name: "Stephen Curry",
+			image: "/path/to/stephen-curry-sneakers.jpg"
+		},
+		{
+			name: "Kevin Durant",
+			image: "/path/to/kevin-durant-sneakers.jpg"
+		}
+	];
+
 	return (
 		<div>
 			<header>
@@ -25,26 +48,12 @@ export const Home = () => {
 					<a href="/collections" className="explore-button">Explore Collections</a>
 				</section>
 				<section className="collections">
-					<div className="collection">
-						<img src="/path/to/michael-jordan-sneakers.jpg" alt="Michael Jordan Sneakers" />
-						<h2>Michael Jordan</h2>
-					</div>
-					<div className="collection">
-						<img src="/path/to/kobe-bryant-sneakers.jpg" alt="Kobe Bryant Sneakers" />
-						<h2>Kobe Bryant</h2>
-					</div>
-					<div className="collection">
-						<img src="/path/to/lebron-james-sneakers.jpg" alt="LeBron James Sneakers" />
-						<h2>LeBron James</h2>
-					</div>
-					<div className="collection">
-						<img src="/path/to/stephen-curry-sneakers.jpg" alt="Stephen Curry Sneakers" />
-						<h2>Stephen Curry</h2>
-					</div>
-					<div className="collection">
-						<img src="/path/to/kevin-durant-sneakers.jpg" alt="Kevin Durant Sneakers" />
-						<h2>Kevin Durant</h2>
-					</div>
+					{collections.map((collection, index) => (
+						<div key={index} className="collection">
+							<img src={collection.image} alt={`${collection.name} Sneakers`} />
+							<h2>{collection.name}</h2>
+						</div>
+					))}
 				</section>
 			</main>
 			<footer>

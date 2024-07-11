@@ -49,7 +49,7 @@ header ul li a:hover {
 .hero {
     text-align: center;
     padding: 50px 20px;
-    background: url('/path/to/hero-background.jpg') no-repeat center center;
+    background: url('../img/hero-background.jpg') no-repeat center center; /* Ensure this path is correct */
     background-size: cover;
 }
 
