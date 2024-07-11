@@ -130,7 +130,18 @@ const getState = ({ getStore, getActions, setStore }) => {
                 const store = getStore();
                 setStore({ favorites: store.favorites.filter(shoe => shoe.id !== shoeId) });
             },
-		}
+
+			addToCart: (shoe) => {
+				const store = getStore();
+				setStore({ orders: [...store.orders, shoe] });
+			},
+
+			removeFromCart: (shoeId) => {
+				const store = getStore();
+				setStore({ orders: store.orders.filter (shoe => shoe.id !== shoeId) });
+			}
+
+		},
 	};
 };
 

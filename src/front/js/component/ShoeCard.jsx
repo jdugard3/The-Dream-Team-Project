@@ -9,8 +9,15 @@ const ShoeCard = ({ shoes }) => {
         if (!store.favorites.includes(shoes)) {
             actions.addFavorite(shoes);
         } else {
-            actions.removeFavorite(shoes.id); // Ensure removeFavorite uses shoes.id
+            actions.removeFavorite(shoes.id); 
         }
+    };
+
+    const handleOrders = () => {
+        if (!store.orders.includes(shoes)) {
+            actions.addToCart(shoes);
+        }
+        
     };
 
     return (
@@ -25,6 +32,7 @@ const ShoeCard = ({ shoes }) => {
                 <button className="btn btn-custom-favorite" onClick={handleFavorites}>
                     {store.favorites.includes(shoes) ? "Remove from Favorites" : "Add to Favorites"}
                 </button>
+                <button className="btn btn-custom-cart" onClick={handleOrders}>Add to Cart</button>
             </div>
         </div>
     );
