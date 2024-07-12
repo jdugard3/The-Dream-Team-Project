@@ -1,7 +1,194 @@
-/*
-    home.css: This website contains selectors only used in home.css
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
+header {
+    background-color: #d32f2f;
+    color: white;
+    padding: 10px 0;
+}
+
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+header ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+header ul li {
+    margin-left: 20px;
+}
+
+header ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header ul li a:hover {
+    text-decoration: underline;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    /*background: url('../img/hero-background.jpg') no-repeat center center; /* Ensure this path is correct */
+    background-size: cover;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.mission-statement {
+    font-size: 18px;
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.explore-button {
+    background-color: #e64a19;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.explore-button:hover {
+    background-color: #d32f2f;
+}
+
+.collections {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.collection {
+    text-align: center;
+    margin: 20px;
+}
+
+.collection img {
+    max-width: 200px;
+    height: auto;
+    border: 2px solid #d32f2f;
+    border-radius: 10px;
+}
+
+.collection h2 {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+footer {
+    background-color: #d32f2f;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+footer ul li {
+    margin: 0 10px;
+}
+
+footer ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+footer .social-media a {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+footer .social-media img {
+    width: 24px;
+    height: 24px;
+}
+
+.player-profile {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.player-profile img {
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.sneaker-pairs, .stories-behind {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.sneaker-pairs h2, .stories-behind h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sneaker-pair, .story {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.sneaker-pair img, .story img {
+    width: 80px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.sneaker-pair h3, .story h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.sneaker-pair p, .story p {
+    margin: 0;
+}
