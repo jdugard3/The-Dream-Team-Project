@@ -1,18 +1,15 @@
 import React from 'react';
 import '../../styles/profile.css';
-import { AppContext } from '../store/appContext.js';
-import { OrdersPage } from './OrdersPage.js';
 import { UserBar } from '../component/UserBar.js';
+import { useNavigate } from "react-router-dom";
+//import User from '../../../api/models.py';
 
 export const UserProfilePage = () => {
-
-    // Sample user data
-    const user = {
-        profilePic: 'https://via.placeholder.com/150', // Placeholder image, replace with actual image URL
-        username: 'ervil_lebaron',
-        name: 'Ervil Lebaron',
-        details: '6 Lakers Ln, Los Angeles, CA',
-    };
+    const navigate = useNavigate()
+  
+    const UserEditRedir=()=>{
+      navigate(`/profile/${User.id}/edit`);
+    }
 
     return (
         <div className="container mt-5">
@@ -35,9 +32,9 @@ export const UserProfilePage = () => {
                 </div>
                 <div className="col-md-8">
                     <h1>{user.username}</h1>
-                    <h3>{user.firstName} {user.lastName}</h3>
+                    <h3>{user.fullName}</h3>
                     <h5>{user.details}</h5>
-                    <button onlick='<OrdersPage />'>Update Shipping/Card Info</button>
+                    <button onlick={UserEditRedir()}>Update Shipping/Card Info</button>
                 </div>
             </div>
         </div>

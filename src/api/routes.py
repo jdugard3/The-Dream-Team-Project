@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, username, Shipping
+from api.models import db, User, Shipping
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
@@ -60,13 +60,13 @@ def register_user():
     # sign the user up
 
     user = User()
-    user.username = username
     user.email = email
     user.password = password
     user.full_name = full_name
 
     db.session.add(user)
     db.session.commit()
+    console.log(user.id)
 
     response = {
         'msg': f'Congratulations {user.email}. You have signed up!'
