@@ -9,7 +9,7 @@ export const Navbar = () => {
     return (
         <nav className="navbar custom-navbar">
             <div className="container">
-                <Link to="/home" className="navbar-brand">
+                <Link to="/" className="navbar-brand">
                     <img src="https://trello.com/1/cards/667c94d0b4d07a8c0c828db2/attachments/6685f3cabc9664e54ed22c08/previews/6685f3cbbc9664e54ed22c15/download/Hoop_Legend_Sneakers_Logo%21.webp" alt="Logo" className="navbar-logo" />
                 </Link>
                 <div className="navbar-buttons ml-auto">
