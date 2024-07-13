@@ -8,6 +8,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     full_name = db.Column(db.String(120), unique=True, nullable=False)
+    shipping_address = db.Column(db.String(120), unique=True, nullable=False)
     favorites = db.relationship('Favorite', back_populates='user')
     shoes = db.relationship('Shoe', back_populates='user')
 

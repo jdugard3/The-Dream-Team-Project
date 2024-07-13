@@ -1,11 +1,14 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
+
+import ShoeCard from "../component/ShoeCard.jsx";
+
 import "../../styles/home.css";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
-
-	const collections = [
+  
+  const collections = [
 		{
 			name: "Michael Jordan",
 			image: "/path/to/michael-jordan-sneakers.jpg"
@@ -28,17 +31,17 @@ export const Home = () => {
 		}
 	];
 
-	return (
+
+    return (
+        <>
+      
+        <div>
+            {store.shoes.map((shoe) => (
+                <ShoeCard key={shoe.id} shoes={shoe} />
+            ))}
+        </div>
+
 		<div>
-			<header>
-				<nav>
-					<div className="logo">Hoop Legend Sneakers</div>
-					<ul>
-						<li><a href="/">Home</a></li>
-						<li><a href="/michael-jordan">Michael Jordan Collection</a></li>
-					</ul>
-				</nav>
-			</header>
 			<main>
 				<section className="hero">
 					<h1>Welcome to Hoop Legend Sneakers</h1>
@@ -65,4 +68,5 @@ export const Home = () => {
 			</footer>
 		</div>
 	);
+  </>
 };

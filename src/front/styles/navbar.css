@@ -1,0 +1,67 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.custom-navbar {
+    background: linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,255,255,1) 100%);
+    border-bottom: 3px solid red;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo {
+    width: 110px; 
+    border-radius: 15px; 
+    transition: transform 0.3s ease;
+    background: rgba(255,255,255,0.5); 
+    padding: 5px; 
+}
+
+.navbar-logo:hover {
+    transform: scale(1.1);
+}
+
+.navbar-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-custom {
+    color: red;
+    border: 2px solid red;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.btn-custom:hover {
+    color: white;
+    background-color: red;
+}
+
+.dropdown-menu {
+    background-color: white;
+    border: 2px solid red;
+}
+
+.dropdown-item {
+    color: red;
+}
+
+.dropdown-item:hover {
+    background-color: red;
+    color: white;
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid #ddd;
+}
+
+.offcanvas-body {
+    padding: 1rem;
+}
