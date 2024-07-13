@@ -94,14 +94,13 @@ def shipping_info():
         credit_card_num=credit_card_num,
         credit_card_cvv=credit_card_cvv,
         credit_card_year=credit_card_year,
-        credit_card_month=credit_card_month,
-        last_four_digits=credit_card_num[-4:]
+        credit_card_month=credit_card_month
     )
 
     # Add to the database
     db.session.add(shipping)
     db.session.commit()
 
-    response = {'msg': f'Your card, ending in {shipping.last_four_digits}, was added!'}
+    response = {'msg': f'Your info was added!'}
 
     return jsonify(response), 201

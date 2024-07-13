@@ -1,91 +1,107 @@
-import React, { useContext }from 'react';
-import '../../styles/profile.css';
-import { useNavigate } from "react-router-dom";
-import { Context } from '../store/appContext';
+import React, { useState } from 'react';
 
 export const UserEditPage = () => {
-    const { store, actions } = useContext(Context)
+  
+  return (
+    <div>
+      <h2>Billing Address</h2>
+      <input
+        type="text"
+        name="street"
+        value={billingAddress.street}
+        onChange={handleBillingAddressChange}
+        placeholder="Street"
+      />
+      <input
+        type="text"
+        name="city"
+        value={billingAddress.city}
+        onChange={handleBillingAddressChange}
+        placeholder="City"
+      />
+      <input
+        type="text"
+        name="state"
+        value={billingAddress.state}
+        onChange={handleBillingAddressChange}
+        placeholder="State"
+      />
+      <input
+        type="text"
+        name="zip"
+        value={billingAddress.zip}
+        onChange={handleBillingAddressChange}
+        placeholder="Zip Code"
+      />
+      
+      <h2>Shipping Address</h2>
+      <label>
+        <input
+          type="checkbox"
+          checked={useBillingAddress}
+          onChange={handleCheckboxChange}
+        />
+        Same as Billing Address
+      </label>
+      <input
+        type="text"
+        name="street"
+        value={shippingAddress.street}
+        onChange={handleShippingAddressChange}
+        placeholder="Street"
+        disabled={useBillingAddress}
+      />
+      <input
+        type="text"
+        name="city"
+        value={shippingAddress.city}
+        onChange={handleShippingAddressChange}
+        placeholder="City"
+        disabled={useBillingAddress}
+      />
+      <input
+        type="text"
+        name="state"
+        value={shippingAddress.state}
+        onChange={handleShippingAddressChange}
+        placeholder="State"
+        disabled={useBillingAddress}
+      />
+      <input
+        type="text"
+        name="zip"
+        value={shippingAddress.zip}
+        onChange={handleShippingAddressChange}
+        placeholder="Zip Code"
+        disabled={useBillingAddress}
+      />
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const userData = {
-            shippingAddress,
-            billingAddress,
-            creditCardNumber,
-            creditCardCVV,
-            creditCardYear,
-            creditCardMonth,
-        };
-        console.log(userData);
-    };
+      <h2>Credit Card Information</h2>
+      <input
+        type="text"
+        name="cardNumber"
+        value={creditCardInfo.cardNumber}
+        onChange={handleCreditCardChange}
+        placeholder="Card Number"
+      />
+      <input
+        type="text"
+        name="expirationDate"
+        value={creditCardInfo.expirationDate}
+        onChange={handleCreditCardChange}
+        placeholder="Expiration Date"
+      />
+      <input
+        type="text"
+        name="cvv"
+        value={creditCardInfo.cvv}
+        onChange={handleCreditCardChange}
+        placeholder="CVV"
+      />
 
-    return (
-        <div>
-            <h1>User Edit Page</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Shipping Address:</label>
-                    <input
-                        type="text"
-                        value={shippingAddress}
-                        onChange={(e) => setShippingAddress(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label>Billing Address:</label>
-                    <input
-                        type="text"
-                        value={billingSameAsShipping ? shippingAddress : billingAddress}
-                        onChange={(e) => setBillingAddress(e.target.value)}
-                        disabled={billingSameAsShipping}
-                    />
-                </div>
-                <div>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={billingSameAsShipping}
-                            onChange={handleCheckboxChange}
-                        />
-                        Billing address same as shipping address
-                    </label>
-                </div>
-                <div>
-                    <label>Credit Card Number:</label>
-                    <input
-                        type="text"
-                        value={creditCardNumber}
-                        onChange={(e) => setCreditCardNumber(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label>Credit Card CVV:</label>
-                    <input
-                        type="text"
-                        value={creditCardCVV}
-                        onChange={(e) => setCreditCardCVV(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label>Credit Card Expiration Year:</label>
-                    <input
-                        type="text"
-                        value={creditCardYear}
-                        onChange={(e) => setCreditCardYear(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label>Credit Card Expiration Month:</label>
-                    <input
-                        type="text"
-                        value={creditCardMonth}
-                        onChange={(e) => setCreditCardMonth(e.target.value)}
-                    />
-                </div>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    );
+      <button onClick={() => console.log('Submit')}>Submit</button>
+    </div>
+  );
 };
 
 export default UserEditPage;
