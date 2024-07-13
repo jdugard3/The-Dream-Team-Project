@@ -1,0 +1,81 @@
+.shoe-card {
+    width: 18rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    background-color: white;
+}
+
+.shoe-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.shoe-card-header {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    background: rgba(255,0,0,0.1);
+}
+
+.shoe-card-title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.shoe-card-brand {
+    margin: 0;
+    font-size: 1rem;
+    color: #777;
+}
+
+.shoe-card-body {
+    padding: 1rem;
+}
+
+.shoe-card-price {
+    font-size: 1.25rem;
+    color: #000;
+    font-weight: bold;
+}
+
+.shoe-card-story {
+    font-size: 0.875rem;
+    color: #555;
+    margin: 0.5rem 0;
+}
+
+.btn-custom-favorite {
+    color: red;
+    border: 2px solid red;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-custom-favorite:hover {
+    color: white;
+    background-color: red;
+}
+
+.btn-custom-cart {
+    color: white;
+    border: 2px solid red;
+    background-color: red;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+}
+
+.btn-custom-cart:hover {
+    color: red;
+    background-color: white;
+}

@@ -1,0 +1,23 @@
+.login-box-contents {
+    border-style: solid;
+    border-color: red;
+    box-shadow: black -5px 5px 3px;
+    background-position: center;
+}
+
+.login-box-contents img {
+    background-position: center;
+}
+
+.basketball-button:hover{
+    background-color: white;
+    border: none;
+    border-radius: 50px;
+    transform: rotate(360deg);
+    transition: transform .7s ease-in-out;
+}
+
+.basketball-img{
+    width: 70px;
+    height: 70px;
+}

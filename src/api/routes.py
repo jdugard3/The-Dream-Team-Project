@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Shipping
+from api.models import db, User, Favorite, Shoe, Order, Feedback, Shipping
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
@@ -104,3 +104,35 @@ def shipping_info():
     response = {'msg': f'Your info was added!'}
 
     return jsonify(response), 201
+    return jsonify(response), 200
+
+@api.route('/feedback', methods=['POST'])
+
+def generate_feedback():
+    email = request.json.get("email", None)
+    description = request.json.get("description", None)
+
+    user = User.query.filter_by(email=email).first()
+
+    if user is None:
+        response = {
+            'msg': 'User not found.'
+        }
+        return jsonify(response), 403
+    
+    if description is None or description.strip() == "":
+        response = {
+            'msg': 'Feedback description cannot be empty.'
+        }
+        return jsonify(response), 400
+
+    feedback = Feedback(description=description, email=email)
+    db.session.add(feedback)
+    db.session.commit()
+
+    response = {
+        'msg': f'Thank you, {user.email} for your feedback!'
+    }
+    return jsonify(response), 200
+
+    
