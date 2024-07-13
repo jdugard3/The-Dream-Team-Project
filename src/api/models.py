@@ -10,6 +10,7 @@ class User(db.Model):
     full_name = db.Column(db.String(120), unique=True, nullable=False)
     favorites = db.relationship('Favorite', back_populates='user')
     shoes = db.relationship('Shoe', back_populates='user')
+    feedbacks = db.relationship('Feedback', back_populates='user')
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -86,9 +87,20 @@ class Order(db.Model):
 class Feedback(db.Model):
     __tablename__ = "feedback_table"
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    description = db.Column(db.String(600), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=False, nullable=False)
+    description = db.Column(db.String(300), unique=False, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user_table.id"))
+    user = db.relationship("User", back_populates="feedbacks")
+
+    def __repr__(self):
+            return f'<Feedback {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            "description": self.description
+        }
     
     
 

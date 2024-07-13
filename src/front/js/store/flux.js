@@ -1,14 +1,39 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		store: {
-			token: null,
-			signupMessage: null,
-			isSignUpSuccessful: false,
-			loginMessage: null, 
-			isLoginSuccessful: false,
-		},
+    return {
+        store: {
+            token: null,
+            signupMessage: null,
+            isSignUpSuccessful: false,
+            loginMessage: null,
+            isLoginSuccessful: false
+        },
 
-		actions: {
+        actions: {
+            feedback: async (userEmail, userFeedback) => {
+                const options = {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: userEmail,
+                        description: userFeedback
+                    })
+                }
+                const response = await fetch(`${process.env.BACKEND_URL}api/feedback`, options)
+
+                if (!response.ok) {
+                    return {
+                        error: {
+                            status: response.status,
+                            statusText: response.statusText
+                        }
+                    }
+                }
+				const data = await response.json();
+                return data;
+            },
 			
 			signUp: async (userEmail, userPassword, userFullName) => {
 				const options = {
@@ -25,9 +50,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				const response = await fetch(`${process.env.BACKEND_URL}api/signup`, options)
 
-				if(!response.ok) {
+				if (!response.ok) {
 					const data = await response.json()
-					//setStore({signupMessage: data.msg})
+					setStore({ signupMessage: data.msg })
 					return {
 						error: {
 							status: response.status,
@@ -35,6 +60,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					}
 				}
+
 				const data = await response.json()
 				setStore({
 					signupMessage: data.msg,
