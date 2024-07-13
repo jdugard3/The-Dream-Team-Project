@@ -4,6 +4,7 @@ import { Context } from "../store/appContext";
 import "../../styles/navbar.css";
 
 export const Navbar = () => {
+
     const { actions, store } = useContext(Context);
 
     return (
