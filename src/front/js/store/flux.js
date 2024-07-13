@@ -55,7 +55,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				if(!response.ok) {
 					const data = await response.json()
-					//setStore({signupMessage: data.msg})
+					setStore({signupMessage: data.msg})
 					return {
 						error: {
 							status: response.status,
