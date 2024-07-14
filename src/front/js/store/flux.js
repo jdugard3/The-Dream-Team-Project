@@ -1,53 +1,176 @@
 const getState = ({ getStore, getActions, setStore }) => {
+
 	return {
 		store: {
-			message: null,
-			demo: [
+			token: null,
+			signupMessage: null,
+			isSignUpSuccessful: false,
+			loginMessage: null, 
+			isLoginSuccessful: false,
+			orders:[],
+			favorites:[],
+			shoes:[
 				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
+					brand:"Nike",
+					id:"1",
+					name:"The Nike Shoe",
+					retailPrice:100,
+					story:""
+
 				},
 				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+					brand:"Jordan",
+					id:"2",
+					name:"Air Jordan",
+					retailPrice:250,
+					story:""
+
+				},
+				{
+					brand:"Adidas",
+					id:"3",
+					name:"Adidas shoe",
+					retailPrice:50,
+					story:""
+
+				},
+			],
 		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
+
+        actions: {
+            feedback: async (userEmail, userFeedback) => {
+                const options = {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: userEmail,
+                        description: userFeedback
+                    })
+                }
+                const response = await fetch(`${process.env.BACKEND_URL}api/feedback`, options)
+
+                if (!response.ok) {
+                    return {
+                        error: {
+                            status: response.status,
+                            statusText: response.statusText
+                        }
+                    }
+                }
+				const data = await response.json();
+                return data;
+            },
+			
+			signUp: async (userEmail, userPassword, userFullName) => {
+				const options = {
+					method: 'POST',
+					mode: 'cors',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						email: userEmail,
+						password: userPassword,
+						full_name: userFullName
+					})
+				}
+				const response = await fetch(`${process.env.BACKEND_URL}api/signup`, options)
+
+				if (!response.ok) {
+					const data = await response.json()
+					setStore({signupMessage: data.msg})
+					return {
+						error: {
+							status: response.status,
+							statusText: response.statusText
+						}
+					}
+				}
+
+				const data = await response.json()
+				setStore({
+					signupMessage: data.msg,
+					isSignUpSuccessful: response.ok
+				})
+				return data;
+			},
+			
+			login: async (userEmail, userPassword) => {
+				const options = {
+					method: 'POST',
+					mode: 'cors',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						email: userEmail,
+						password: userPassword
+					})
+				}
+				const response = await fetch(`${process.env.BACKEND_URL}api/token`, options)
+
+				if(!response.ok) {
+					const data = await response.json()
+					setStore({loginMessage: data.msg})
+					return {
+						error: {
+							status: response.status,
+							statusText: response.statusText
+						}
+					}
+				}
+				const data = await response.json()
+				sessionStorage.setItem("token", data.access_token)
+				setStore({
+					loginMessage: data.msg,
+					token: data.access_token,
+					isLoginSuccessful: true
+				})
+				return data;
 			},
 
-			getMessage: async () => {
-				try{
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				}catch(error){
-					console.log("Error loading message from backend", error)
+			syncSessionTokenFromStore: () => {
+				const sessionToken = sessionStorage.getItem('token');
+				if (sessionToken && sessionToken != "" && sessionToken != undefined) {
+					setStore({token: sessionToken})
 				}
 			},
-			changeColor: (index, color) => {
-				//get the store
+
+			logout: () => {
+				sessionStorage.removeItem('token');
+				setStore({
+					token: null,
+					signupMessage: null,
+					isSignUpSuccessful: false,
+					loginMessage: null, 
+					isLoginSuccessful: false,
+				})
+			},
+
+			addFavorite: (shoe) => {
+                const store = getStore();
+                setStore({ favorites: [...store.favorites, shoe] });
+            },
+			
+            removeFavorite: (shoeId) => {
+                const store = getStore();
+                setStore({ favorites: store.favorites.filter(shoe => shoe.id !== shoeId) });
+            },
+
+			addToCart: (shoe) => {
 				const store = getStore();
+				setStore({ orders: [...store.orders, shoe] });
+			},
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
+			removeFromCart: (shoeId) => {
+				const store = getStore();
+				setStore({ orders: store.orders.filter (shoe => shoe.id !== shoeId) });
 			}
-		}
+
+		},
 	};
 };
 
