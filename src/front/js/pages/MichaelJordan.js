@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Context } from "../store/appContext";
+import { Context } from "../store/appContext.js";
 import ShoeCard from "../component/ShoeCard.jsx";
 import "../../styles/home.css";
 
@@ -76,15 +76,6 @@ export const MichaelJordan = () => {
 
     return (
         <div>
-            <header>
-                <nav>
-                    <div className="logo">HoopLegendSneakers</div>
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/michael-jordan">Michael Jordan Collection</a></li>
-                    </ul>
-                </nav>
-            </header>
             <main>
                 <PlayerProfile player={player} />
                     <div>

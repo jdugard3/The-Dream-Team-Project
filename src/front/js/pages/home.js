@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
-
+import { Link } from "react-router-dom";
 import "../../styles/home.css";
 
 export const Home = () => {
@@ -9,30 +9,34 @@ export const Home = () => {
 	const collections = [
 		{
 			name: "Michael Jordan",
-			image: "/path/to/michael-jordan-sneakers.jpg"
+			image: "/path/to/michael-jordan-sneakers.jpg",
+			route: "/michael-jordan"
 		},
 		{
 			name: "Kobe Bryant",
-			image: "/path/to/kobe-bryant-sneakers.jpg"
+			image: "/path/to/kobe-bryant-sneakers.jpg",
+			route: "/kobe-bryant"
 		},
 		{
 			name: "LeBron James",
-			image: "/path/to/lebron-james-sneakers.jpg"
+			image: "/path/to/lebron-james-sneakers.jpg",
+			route: "/lebron-james"
 		},
 		{
 			name: "Stephen Curry",
-			image: "/path/to/stephen-curry-sneakers.jpg"
+			image: "/path/to/stephen-curry-sneakers.jpg",
+			route: "/stephen-curry"
 		},
 		{
 			name: "Kevin Durant",
-			image: "/path/to/kevin-durant-sneakers.jpg"
+			image: "/path/to/kevin-durant-sneakers.jpg",
+			route: "/kevin-durant"
 		}
 	];
 
 
 	return (
 		<>
-
 			<div>
 				<main>
 					<section className="hero">
@@ -44,10 +48,10 @@ export const Home = () => {
 					</section>
 					<section className="collections">
 						{collections.map((collection, index) => (
-						<div key={index} className="collection">
+							<Link to={collection.route} key={index} className="collection">
 								<img src={collection.image} alt={`${collection.name} Sneakers`} />
 								<h2>{collection.name}</h2>
-						</div>
+							</Link>
 						))}
 					</section>
 				</main>
