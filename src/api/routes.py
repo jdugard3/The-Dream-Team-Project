@@ -66,7 +66,6 @@ def register_user():
 
     db.session.add(user)
     db.session.commit()
-    console.log(user.id)
 
     response = {
         'msg': f'Congratulations {user.email}. You have signed up!'

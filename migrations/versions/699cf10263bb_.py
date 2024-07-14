@@ -1,14 +1,8 @@
 """empty message
 
-<<<<<<<< HEAD:migrations/versions/6366fb546c52_.py
-Revision ID: 6366fb546c52
+Revision ID: 699cf10263bb
 Revises: 
-Create Date: 2024-07-13 22:37:18.164960
-========
-Revision ID: a7c67b02a0a8
-Revises: 
-Create Date: 2024-07-13 18:32:17.698494
->>>>>>>> main:migrations/versions/a7c67b02a0a8_.py
+Create Date: 2024-07-13 23:52:07.074990
 
 """
 from alembic import op
@@ -16,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/6366fb546c52_.py
-revision = '6366fb546c52'
-========
-revision = 'a7c67b02a0a8'
->>>>>>>> main:migrations/versions/a7c67b02a0a8_.py
+revision = '699cf10263bb'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,11 +23,17 @@ def upgrade():
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('password', sa.String(length=80), nullable=False),
     sa.Column('full_name', sa.String(length=120), nullable=False),
-    sa.Column('shipping_address', sa.String(length=120), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('full_name'),
-    sa.UniqueConstraint('shipping_address')
+    sa.UniqueConstraint('full_name')
+    )
+    op.create_table('feedback_table',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('description', sa.String(length=300), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user_table.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('shipping_table',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -93,5 +89,6 @@ def downgrade():
     op.drop_table('favorites_table')
     op.drop_table('shoes_table')
     op.drop_table('shipping_table')
+    op.drop_table('feedback_table')
     op.drop_table('user_table')
     # ### end Alembic commands ###
