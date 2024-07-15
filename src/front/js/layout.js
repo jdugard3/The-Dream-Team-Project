@@ -10,6 +10,7 @@ import { Feedback } from "./pages/Feedback";
 import { LoginPage } from "./pages/LoginPage";
 import { SignUpPage } from "./pages/SignUpPage";
 import { ResetPassword } from "./pages/ResetPassword";
+import AboutUs from "./pages/AboutUs"; // Import the AboutUs component
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -18,7 +19,7 @@ import { Footer } from "./component/footer";
 const Layout = () => {
     const basename = process.env.BASENAME || "";
 
-    if(!process.env.BACKEND_URL || process.env.BACKEND_URL === "") return <BackendURL />;
+    if (!process.env.BACKEND_URL || process.env.BACKEND_URL === "") return <BackendURL />;
 
     return (
         <div>
@@ -29,17 +30,13 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
-
                         <Route element={<LoginPage />} path="/login" />
                         <Route element={<SignUpPage />} path="/signup" />
                         <Route element={<MichaelJordan />} path="/michael-jordan" />
-
                         <Route element={<Feedback />} path="/feedback" />
-                        <Route element={<LoginPage />} path="/login" />
-                        <Route element={<SignUpPage />} path="/signup" />
                         <Route element={<ResetPassword />} path="/resetpassword" />
-
-                        <Route element={<h1>Not found!</h1>} />
+                        <Route element={<AboutUs />} path="/about-us" /> {/* Add AboutUs route */}
+                        <Route element={<h1>Not found!</h1>} path="*" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

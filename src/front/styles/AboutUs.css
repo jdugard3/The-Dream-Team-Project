@@ -1,0 +1,43 @@
+.about-us {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .team {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .team-member {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 300px;
+    text-align: left;
+  }
+  
+  .team-member-image {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+  }
+  
+  .team-member h2 {
+    margin-top: 10px;
+    font-size: 1.5em;
+  }
+  
+  .team-member h3 {
+    margin-top: 5px;
+    font-size: 1.2em;
+    color: #666;
+  }
+  
+  .team-member p {
+    margin-top: 10px;
+    font-size: 1em;
+    color: #333;
+  }
+  
