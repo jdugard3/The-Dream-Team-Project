@@ -8,10 +8,10 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     full_name = db.Column(db.String(120), unique=True, nullable=False)
-    shipping_address = db.Column(db.String(120), unique=True, nullable=False)
     favorites = db.relationship('Favorite', back_populates='user')
     shoes = db.relationship('Shoe', back_populates='user')
     feedbacks = db.relationship('Feedback', back_populates='user')
+    orders = db.relationship('Order', back_populates='user')
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -69,13 +69,18 @@ class Order(db.Model):
     __tablename__ = "orders_table"
     id = db.Column(db.Integer, primary_key=True)
     shoe_id = db.Column(db.Integer, db.ForeignKey("shoes_table.id"))
-    shoe = db.relationship("Shoe", back_populates = "orders")
-    quantity = db.Column(db.String(120), nullable=False)
-    total_price = db.Column(db.String(120), nullable=False)
+    shoe = db.relationship("Shoe", back_populates="orders")
+    user_id = db.Column(db.Integer, db.ForeignKey("user_table.id"))
+    user = db.relationship("User", back_populates="orders")
+    quantity = db.Column(db.String, nullable=False)  # Changed to String
+    total_price = db.Column(db.Float, nullable=False)
     order_date = db.Column(db.String(120), nullable=False)
+    shipping_address = db.Column(db.String(250), nullable=False)
+    mailing_address = db.Column(db.String(250), nullable=False)
+    credit_card_info = db.Column(db.String(250), nullable=False)
 
     def __repr__(self):
-            return f'<Order {self.id}>'
+        return f'<Order {self.id}>'
 
     def serialize(self):
         return {
@@ -83,6 +88,9 @@ class Order(db.Model):
             "quantity": self.quantity,
             "total_price": self.total_price,
             "order_date": self.order_date,
+            "shipping_address": self.shipping_address,
+            "mailing_address": self.mailing_address,
+            "credit_card_info": self.credit_card_info
         }
 
 class Feedback(db.Model):

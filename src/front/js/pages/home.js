@@ -10,30 +10,34 @@ export const Home = () => {
 	const collections = [
 		{
 			name: "Michael Jordan",
-			image: "/path/to/michael-jordan-sneakers.jpg"
+			image: "/path/to/michael-jordan-sneakers.jpg",
+			route: "/michael-jordan"
 		},
 		{
 			name: "Kobe Bryant",
-			image: "/path/to/kobe-bryant-sneakers.jpg"
+			image: "/path/to/kobe-bryant-sneakers.jpg",
+			route: "/kobe-bryant"
 		},
 		{
 			name: "LeBron James",
-			image: "/path/to/lebron-james-sneakers.jpg"
+			image: "/path/to/lebron-james-sneakers.jpg",
+			route: "/lebron-james"
 		},
 		{
 			name: "Stephen Curry",
-			image: "/path/to/stephen-curry-sneakers.jpg"
+			image: "/path/to/stephen-curry-sneakers.jpg",
+			route: "/stephen-curry"
 		},
 		{
 			name: "Kevin Durant",
-			image: "/path/to/kevin-durant-sneakers.jpg"
+			image: "/path/to/kevin-durant-sneakers.jpg",
+			route: "/kevin-durant"
 		}
 	];
 
 
 	return (
 		<>
-
 			<div>
 				<main>
 					<section className="hero">

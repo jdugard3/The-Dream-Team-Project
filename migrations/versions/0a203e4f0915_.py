@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: a7c67b02a0a8
+Revision ID: 0a203e4f0915
 Revises: 
-Create Date: 2024-07-13 18:32:17.698494
+Create Date: 2024-07-14 19:43:19.687629
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a7c67b02a0a8'
+revision = '0a203e4f0915'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,11 +23,17 @@ def upgrade():
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('password', sa.String(length=80), nullable=False),
     sa.Column('full_name', sa.String(length=120), nullable=False),
-    sa.Column('shipping_address', sa.String(length=120), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('full_name'),
-    sa.UniqueConstraint('shipping_address')
+    sa.UniqueConstraint('full_name')
+    )
+    op.create_table('feedback_table',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('description', sa.String(length=300), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user_table.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('shoes_table',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -50,10 +56,15 @@ def upgrade():
     op.create_table('orders_table',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('shoe_id', sa.Integer(), nullable=True),
-    sa.Column('quantity', sa.String(length=120), nullable=False),
-    sa.Column('total_price', sa.String(length=120), nullable=False),
+    sa.Column('quantity', sa.String(length=50), nullable=False),
+    sa.Column('total_price', sa.Float(), nullable=False),
     sa.Column('order_date', sa.String(length=120), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('shipping_address', sa.String(length=300), nullable=False),
+    sa.Column('mailing_address', sa.String(length=300), nullable=False),
+    sa.Column('credit_card_info', sa.String(length=120), nullable=False),
     sa.ForeignKeyConstraint(['shoe_id'], ['shoes_table.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['user_table.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
@@ -64,5 +75,6 @@ def downgrade():
     op.drop_table('orders_table')
     op.drop_table('favorites_table')
     op.drop_table('shoes_table')
+    op.drop_table('feedback_table')
     op.drop_table('user_table')
     # ### end Alembic commands ###

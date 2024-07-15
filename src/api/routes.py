@@ -100,4 +100,65 @@ def generate_feedback():
     }
     return jsonify(response), 200
 
+# get all users & get 1 user routes 
+@api.route('/users', methods=['GET'])
+def get_all_users():
+    users = User.query.all()
+    serialized_users = []
+    for user in users: 
+        serialized_users.append(user.serialize())
+    return jsonify({"msg": "Here is the list of users", "users": serialized_users}), 200
+
+@api.route('/users/<int:user_id>', methods=['GET'])
+def get_one_user(user_id):
+    user = User.query.filter_by(id = user_id).first()
+    if user is None: 
+        return jsonify({"msg": "user not found"}), 404 
     
+    return jsonify({"msg": "Here is your user", "user": user.serialize()}), 200 
+
+
+@api.route('/orders', methods=['POST'])
+@jwt_required()
+def create_order():
+    try:
+        user_id = get_jwt_identity()
+        data = request.get_json()
+
+        shipping_address = data.get("shippingAddress")
+        mailing_address = data.get("mailingAddress")
+        credit_card_info = data.get("creditCardInfo")
+        orders = data.get("orders")
+
+        if not orders:
+            return jsonify({"msg": "No orders provided"}), 400
+
+        for order in orders:
+            shoe_id = order.get("id")
+            quantity = order.get("quantity", 1)  # Set default quantity to 1 if not provided
+            total_price = order.get("retailPrice")
+            order_date = "2024-07-14"  # should be dynamic
+
+            if not shoe_id or not total_price:
+                return jsonify({"msg": "Invalid order data"}), 400
+
+            new_order = Order(
+                shoe_id=shoe_id,
+                quantity=quantity,
+                total_price=total_price,
+                order_date=order_date,
+                user_id=user_id,
+                shipping_address=shipping_address,
+                mailing_address=mailing_address,
+                credit_card_info=credit_card_info
+            )
+            db.session.add(new_order)
+        
+        db.session.commit()
+
+        response = {
+            "msg": "Order created successfully"
+        }
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({"msg": f"An error occurred: {str(e)}"}), 500
