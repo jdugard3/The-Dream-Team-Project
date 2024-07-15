@@ -98,21 +98,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return data;
 			},
 			
-			login: async (userEmail, userPassword) => {
-				const options = {
+			login: async (user) => {
+				const response = await fetch(
+					process.env.BACKEND_URL + "api/users/login", {
 					method: 'POST',
-					mode: 'cors',
+					// mode: 'cors',
+					body: JSON.stringify({
+						email: user.email,
+						password: user.password
+					}),
 					headers: {
 						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						email: userEmail,
-						password: userPassword
-					})
-				}
-				const response = await fetch(`${process.env.BACKEND_URL}api/token`, options)
+					}
+				});
+				if (response.status !== 201) return false
+				const responseBody = await response.json();
+				setStore({
+					token: responseBody.access_token,
+					isLoggedIn: true
+				});
+				sessionStorage.setItem("token", responseBody.access_token);
+				return true
+			},
 
-                if(!response.ok) {
+                /* if(!response.ok) {
                     const data = await response.json()
                     setStore({loginMessage: data.msg})
                     return {
@@ -131,29 +140,35 @@ const getState = ({ getStore, getActions, setStore }) => {
                 })
                 getActions().fetchUserData();
                 return data;
-            },
+            }, */
 
-            fetchUserData: async () => {
-                const store = getStore();
-                const options = {
-                    method: 'GET', 
-                    mode: 'cors',
-                    headers: {
-                        'Authorization': `Bearer ${store.token}`,
-                    },
-                };
-                const response = await fetch(`${process.env.BACKEND_URL}api/user`, options)
-                
-                if(response.ok) {
-                    const user = await response.json();
-                    setStore({ user });
-                } else {
-                    console.error('Failed to fetch user data:', response.statusText);
-                }
-            },
+            fetchUserData: async (userId) => {
+				if (!userId) {
+					console.error("user ID is not defined");
+					return false
+				}
+
+				const response = await fetch(`${process.env.BACKEND_URL}api/user/${userId}`, {
+					method: 'GET', 
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${sessionStorage.getItem("token")}`
+					},
+				});
+				console.log("Response status:", response.status); // Debugging log
+				
+				if(!response.ok) {
+					
+					console.log("Failed to fetch User data:", response.status); // Debugging log
+					// setStore({ user });
+				}
+				const responseBody = await response.json();
+				return true
+			},
 
             syncSessionTokenFromStore: () => {
                 const sessionToken = sessionStorage.getItem('token');
+				console.log("Session token:", sessionToken); // Debugging log
                 if (sessionToken && sessionToken != "" && sessionToken != undefined) {
                     setStore({token: sessionToken})
                     getActions().fetchUserData();

@@ -16,17 +16,15 @@ export const LoginPage = () => {
 
     const handleClick = async () => {
 
-        setErrorMessage("");
-        setResetPassword("");
-        setEmptyEmail("");
-        setEmptyPassword("");
+        // setErrorMessage("");
+        // setResetPassword("");
+        // setEmptyEmail("");
+        // setEmptyPassword("");
 
-        const success = await actions.login(email, password);
-
-        if (success) {
-            setErrorMessage("Email or password does not match. Try Again");
-            setResetPassword("Forgot your password?");
-        }
+        const success = await actions.login({
+            email: email,
+            password: password
+        });
 
         if (email === "") {
             setEmptyEmail("Field cannot be empty");
@@ -34,11 +32,23 @@ export const LoginPage = () => {
         if (password === "") {
             setEmptyPassword("Field cannot be empty");
         }
+
+        if (success) {
+            navigate("/profile")
+        } else {
+            alert("An error occurred when logging in")
+        }
+
+        /* if (success) {
+            setErrorMessage("Email or password does not match. Try Again");
+            setResetPassword("Forgot your password?");
+        } */
+        
     }
 
     useEffect(() => {
         if (store.isLoginSuccessful) {
-            navigate("/feedback")
+            navigate("/profile")
         }
 
     }, [store.isLoginSuccessful])

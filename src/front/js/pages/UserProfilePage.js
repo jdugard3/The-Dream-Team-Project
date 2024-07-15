@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import '../../styles/profile.css';
 import { UserBar } from '../component/UserBar.js';
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,35 @@ import { Context } from "../store/appContext"; // Import Context
 export const UserProfilePage = () => {
     const { store, actions } = useContext(Context); // Use Context to access store and actions
     const navigate = useNavigate();
+    const [user, setUser] = useState({
+        id: "null",
+        email: "",
+        password: "",
+        full_name: "",
+        favorites: "",
+        shoes: "",
+        feedbacks: ""
+    })
+
+    useEffect(() => {
+
+        const getCurrentUser = async() => {
+           actions.fetchUserData()
+           
+        }
+
+        /* try {
+            if (!sessionStorage.getItem("token")||!sessionStorage.getItem("userId")) {
+                navigate("/login")
+            } else {
+                getCurrentUser()
+            }     
+        } catch (err) {
+            console.log(err)
+        } */
+        
+
+    },[]);
 
     useEffect(() => {
         actions.fetchUserData();
@@ -16,11 +45,12 @@ export const UserProfilePage = () => {
         navigate(`/profile/edit`);
     }
 
-    const user = store.user;
+    /* const user = store.user;
+    console.log("Current user data:", user); // Debugging log 
 
     if (!user) {
         return <div>Loading...</div>; // Handle loading state
-    }
+    } */
 
     return (
         <div className="container mt-5">
