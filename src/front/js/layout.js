@@ -10,7 +10,7 @@ import { Feedback } from "./pages/Feedback";
 import { LoginPage } from "./pages/LoginPage";
 import { SignUpPage } from "./pages/SignUpPage";
 import { ResetPassword } from "./pages/ResetPassword";
-import AboutUs from "./pages/AboutUs"; // Import the AboutUs component
+import { AboutUs } from "./pages/AboutUs"; // Import the AboutUs component
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
