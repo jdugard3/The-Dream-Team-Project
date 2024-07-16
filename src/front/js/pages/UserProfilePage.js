@@ -8,7 +8,7 @@ export const UserProfilePage = () => {
     const { store, actions } = useContext(Context); // Use Context to access store and actions
     const navigate = useNavigate();
     const [user, setUser] = useState({
-        id: "null",
+        id: "1",
         email: "",
         password: "",
         full_name: "",
