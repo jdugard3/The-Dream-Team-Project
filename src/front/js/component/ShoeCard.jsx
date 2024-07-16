@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
-import "../../styles/shoecard.css"
+import "../../styles/shoecard.css";
 
 const ShoeCard = ({ shoes }) => {
     const { store, actions } = useContext(Context);
@@ -17,7 +17,6 @@ const ShoeCard = ({ shoes }) => {
         if (!store.orders.includes(shoes)) {
             actions.addToCart(shoes);
         }
-        
     };
 
     return (

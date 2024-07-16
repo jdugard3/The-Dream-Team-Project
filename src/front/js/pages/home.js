@@ -49,7 +49,7 @@ export const Home = () => {
 					</section>
 					<section className="collections">
 						{collections.map((collection, index) => (
-						<Link key={index} className="collection">
+						<Link to={collection.route} key={index} className="collection">
 								<img src={collection.image} alt={`${collection.name} Sneakers`} />
 								<h2>{collection.name}</h2>
 						</Link>

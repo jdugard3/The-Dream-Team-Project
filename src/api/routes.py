@@ -127,38 +127,35 @@ def create_order():
 
         shipping_address = data.get("shippingAddress")
         mailing_address = data.get("mailingAddress")
-        credit_card_info = data.get("creditCardInfo")
-        orders = data.get("orders")
+        credit_card_info = data.get("creditCard")
+        items = data.get("items")
 
-        if not orders:
-            return jsonify({"msg": "No orders provided"}), 400
+        if not items:
+            return jsonify({"msg": "No items provided"}), 400
 
-        for order in orders:
-            shoe_id = order.get("id")
-            quantity = order.get("quantity", 1)  # Set default quantity to 1 if not provided
-            total_price = order.get("retailPrice")
-            order_date = "2024-07-14"  # should be dynamic
+        for item in items:
+            shoe_id = item.get("id")
+            quantity = item.get("quantity", 1)
+            total_price = item.get("retailPrice") * quantity
+            order_date = order_date
 
             if not shoe_id or not total_price:
-                return jsonify({"msg": "Invalid order data"}), 400
+                return jsonify({"msg": "Invalid item data"}), 400
 
             new_order = Order(
                 shoe_id=shoe_id,
+                user_id=user_id,
                 quantity=quantity,
                 total_price=total_price,
                 order_date=order_date,
-                user_id=user_id,
                 shipping_address=shipping_address,
                 mailing_address=mailing_address,
                 credit_card_info=credit_card_info
             )
             db.session.add(new_order)
-        
         db.session.commit()
 
-        response = {
-            "msg": "Order created successfully"
-        }
+        response = {"msg": "Order created successfully"}
         return jsonify(response), 200
     except Exception as e:
         return jsonify({"msg": f"An error occurred: {str(e)}"}), 500

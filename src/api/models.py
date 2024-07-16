@@ -72,7 +72,7 @@ class Order(db.Model):
     shoe = db.relationship("Shoe", back_populates="orders")
     user_id = db.Column(db.Integer, db.ForeignKey("user_table.id"))
     user = db.relationship("User", back_populates="orders")
-    quantity = db.Column(db.String, nullable=False)  # Changed to String
+    quantity = db.Column(db.Integer, nullable=False)  
     total_price = db.Column(db.Float, nullable=False)
     order_date = db.Column(db.String(120), nullable=False)
     shipping_address = db.Column(db.String(250), nullable=False)
