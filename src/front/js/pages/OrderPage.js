@@ -4,14 +4,21 @@ import { Context } from "../store/appContext";
 export const OrderPage = () => {
     const { store, actions } = useContext(Context);
     const [shippingAddress, setShippingAddress] = useState("");
-    const [mailingAddress, setMailingAddress] = useState("");
-    const [creditCard, setCreditCard] = useState("");
+    const [billingAddress, setBillingAddress] = useState("");
+    const [cardNumber, setCardNumber] = useState("");
+    const [cardCvv, setCardCvv] = useState("");
+    const [cardMonth, setCardMonth] = useState("");
+    const [cardYear, setCardYear] = useState("");
+
 
     const handleOrderSubmit = async () => {
-
         const success = await actions.submitOrder({
-            brand: brand,
-            
+            shippingAddress,
+            billingAddress,
+            cardNumber,
+            cardCvv,
+            cardMonth,
+            cardYear
         });
         if (success) {
             alert("Order submitted successfully!");
@@ -24,7 +31,7 @@ export const OrderPage = () => {
         <div>
             <h1>Order Page</h1>
             <div>
-                <h2>Shipping Address</h2>
+                <h3>Shipping Address</h3>
                 <input
                     type="text"
                     value={shippingAddress}
@@ -32,23 +39,47 @@ export const OrderPage = () => {
                 />
             </div>
             <div>
-                <h2>Mailing Address</h2>
+                <h3>Billing Address</h3>
                 <input
                     type="text"
-                    value={mailingAddress}
-                    onChange={(e) => setMailingAddress(e.target.value)}
+                    value={billingAddress}
+                    onChange={(e) => setBillingAddress(e.target.value)}
                 />
             </div>
             <div>
-                <h2>Credit Card Information</h2>
+                <h3>Card Number</h3>
                 <input
                     type="text"
-                    value={creditCard}
-                    onChange={(e) => setCreditCard(e.target.value)}
+                    value={cardNumber}
+                    onChange={(e) => setCardNumber(e.target.value)}
                 />
             </div>
             <div>
-                <h2>Cart Items</h2>
+                <h3>CVV Code</h3>
+                <input
+                    type="text"
+                    value={cardCvv}
+                    onChange={(e) => setCardCvv(e.target.value)}
+                />
+            </div>
+            <div>
+                <h3>Credit Card Month</h3>
+                <input
+                    type="text"
+                    value={cardMonth}
+                    onChange={(e) => setCardMonth(e.target.value)}
+                />
+            </div>
+            <div>
+                <h3>Credit Card Year</h3>
+                <input
+                    type="text"
+                    value={cardYear}
+                    onChange={(e) => setCardYear(e.target.value)}
+                />
+            </div>
+            <div>
+                <h3>Cart Items</h3>
                 {store.orders.map((item, index) => (
                     <div key={index}>
                         <p>{item.name} - ${item.retailPrice}</p>

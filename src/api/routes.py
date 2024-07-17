@@ -126,9 +126,9 @@ def create_order():
     billing_address = request.json.get("billing_address", None)
     credit_card_num = request.json.get("credit_card_num", None)
     credit_card_cvv = request.json.get("credit_card_cvv", None)
-    credit_card_year = request.json.get("credit_card_year", None)
     credit_card_month = request.json.get("credit_card_month", None)
-
+    credit_card_year = request.json.get("credit_card_year", None)
+    
     user = User.query.filter_by(id = user_id).first()
 
     if user_id is None:
@@ -142,8 +142,8 @@ def create_order():
         billing_address = billing_address, 
         credit_card_num = credit_card_num,
         credit_card_cvv = credit_card_cvv, 
-        credit_card_year = credit_card_year,
-        credit_card_month = credit_card_month
+        credit_card_month = credit_card_month,
+        credit_card_year = credit_card_year
     )
 
     db.session.add(shipping)

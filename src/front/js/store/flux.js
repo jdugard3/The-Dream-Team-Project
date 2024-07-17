@@ -4,7 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             token: null,
             signupMessage: null,
             isSignUpSuccessful: false,
-            loginMessage: null, 
+            loginMessage: null,
             isLoginSuccessful: false,
             orders: [],
             favorites: [],
@@ -74,7 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                 if (!response.ok) {
                     const data = await response.json()
-                    setStore({signupMessage: data.msg})
+                    setStore({ signupMessage: data.msg })
                     return {
                         error: {
                             status: response.status,
@@ -105,9 +105,9 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
                 const response = await fetch(`${process.env.BACKEND_URL}api/token`, options)
 
-                if(!response.ok) {
+                if (!response.ok) {
                     const data = await response.json()
-                    setStore({loginMessage: data.msg})
+                    setStore({ loginMessage: data.msg })
                     return {
                         error: {
                             status: response.status,
@@ -128,7 +128,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             syncSessionTokenFromStore: () => {
                 const sessionToken = sessionStorage.getItem('token');
                 if (sessionToken && sessionToken != "" && sessionToken != undefined) {
-                    setStore({token: sessionToken})
+                    setStore({ token: sessionToken })
                 }
             },
 
@@ -138,59 +138,59 @@ const getState = ({ getStore, getActions, setStore }) => {
                     token: null,
                     signupMessage: null,
                     isSignUpSuccessful: false,
-                    loginMessage: null, 
+                    loginMessage: null,
                     isLoginSuccessful: false,
                 })
             },
 
             getShoes: async () => {
-				const response = await fetch("https://zylalabs.com/api/916/sneakers+database+api/731/search+sneaker", {
-					method: 'GET',
-					headers: {
-						'Authorization': 'Bearer 4921|JxMOxwG0dTICy45mwp3WwQLJIvEps1RSbXk3Qdsk',
-						'Content-Type': 'application/json'
-					}
-				});
-		
-				if (!response.ok) {
-					throw new Error(`Error: ${response.status} ${response.statusText}`);
-				}
-		
-				const data = await response.json();
-				console.log(data.results);
-				setStore({shoes: data.results})
-			},
+                const response = await fetch("https://zylalabs.com/api/916/sneakers+database+api/731/search+sneaker", {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer 4921|JxMOxwG0dTICy45mwp3WwQLJIvEps1RSbXk3Qdsk',
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-			getShoeDetails: async (id) => {
-				setStore({ shoeDetails: null });
-				const response = await fetch(`https://zylalabs.com/api/916/sneakers+database+api/733/get+sneaker+by+id&sneaker_id=Required?sneaker_id=${id}`, {
-					method: 'GET',
-					headers: {
-						'Authorization': 'Bearer 4921|JxMOxwG0dTICy45mwp3WwQLJIvEps1RSbXk3Qdsk',
-						'Content-Type': 'application/json'
-					}
-				});
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} ${response.statusText}`);
+                }
 
-				if (!response.ok) {
-					throw new Error(`Error: ${response.status} ${response.statusText}`);
-				}
+                const data = await response.json();
+                console.log(data.results);
+                setStore({ shoes: data.results })
+            },
 
-				const data = await response.json();
-				console.log(data);
-			},
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+            getShoeDetails: async (id) => {
+                setStore({ shoeDetails: null });
+                const response = await fetch(`https://zylalabs.com/api/916/sneakers+database+api/733/get+sneaker+by+id&sneaker_id=Required?sneaker_id=${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer 4921|JxMOxwG0dTICy45mwp3WwQLJIvEps1RSbXk3Qdsk',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log(data);
+            },
+
+
+
+
+
+
+
+
+
+
+
+
+
             addFavorite: (shoe) => {
                 const store = getStore();
                 setStore({ favorites: [...store.favorites, shoe] });
@@ -211,46 +211,41 @@ const getState = ({ getStore, getActions, setStore }) => {
                 setStore({ orders: store.orders.filter(shoe => shoe.id !== shoeId) });
             },
 
-            // submitOrder: async (order) => {
-            //     let data = JSON.stringify({shoe_id: order.shoe_id, shoe: order.shoe, quantitiy: order.quantity, total: order.total_price, shipping_address: order.shipping_address, mailing_address: order.mailing_address, credit_card_info: order.credit_card_info })
+            submitOrder: async (userShippingAddress, userBillingAddress, userCardNumber, userCardCvv, userCardMonth, userCardYear) => {
+                const store = getStore()
+                const options = {
+                    method: "POST",
+                    mode: "cors",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${store.token}`
+                    },
+                    body: JSON.stringify({
+                        shipping_address: userShippingAddress,
+                        billing_address: userBillingAddress,
+                        credit_card_num: userCardNumber,
+                        credit_card_cvv: userCardCvv,
+                        credit_card_month: userCardMonth,
+                        credit_card_year: userCardYear
+                    })
+                };
 
-            //     const response = await fetch(`${process.env.BACKEND_URL}api/orders`, {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //             "Authorization": "Bearer " + sessionStorage.getItem("token")
-            //         },
-            //         body: data
-            //     })
-            //     if (response.status !== 200) return false;
-            //     const responseBody = await response.json();
-            //     console.log(responseBody)
-            //     return true
-            
+                const response = await fetch(`${process.env.BACKEND_URL}api/orders`, options);
 
-            submitOrder: async (orderData) => {
-                try {
-                    const store = getStore();
-                    const token = store.token;
-                    const options = {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${token}`
-                        },
-                        body: JSON.stringify(orderData)
-                    };
-                    const response = await fetch(`${process.env.BACKEND_URL}/api/orders`, options);
-                    if (!response.ok) {
-                        throw new Error("Error submitting order", response.statusText );
+                if(!response.ok) {
+                    return {
+                        error: {
+                            status: response.status,
+                            statusText: response.statusText
+                        }
                     }
-                    const data = await response.json();
-                    setStore({ orders: [] });  // Clear the cart after successful order submission
-                    return true;
-                } catch (error) {
-                    console.error("Error submitting order: ", error);
-                    return false;
                 }
+
+                const data = await response.json();
+                setStore({
+                    orders: []
+                });
+                return data;
             },
         }
     };
