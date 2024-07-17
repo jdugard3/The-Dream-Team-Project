@@ -154,7 +154,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
-						'Authorization': `Bearer ${sessionStorage.getItem("token")}`
+						'Authorization': 'Bearer ' + sessionStorage.getItem("token")
 					},
 				});
 				console.log("Response status:", response.status); // Debugging log

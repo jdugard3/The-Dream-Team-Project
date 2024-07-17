@@ -49,7 +49,6 @@ class Shipping(db.Model):
             "credit_card_year": self.credit_card_year,
             "credit_card_month": self.credit_card_month,
 
-            # do not serialize the password, its a security breach
         }
 
 class Favorite(db.Model):

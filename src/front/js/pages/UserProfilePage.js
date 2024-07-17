@@ -8,49 +8,34 @@ export const UserProfilePage = () => {
     const { store, actions } = useContext(Context); // Use Context to access store and actions
     const navigate = useNavigate();
     const [user, setUser] = useState({
-        id: "1",
         email: "",
         password: "",
         full_name: "",
         favorites: "",
         shoes: "",
         feedbacks: ""
-    })
+    });
 
     useEffect(() => {
-
-        const getCurrentUser = async() => {
-           actions.fetchUserData()
-           
-        }
-
-        /* try {
-            if (!sessionStorage.getItem("token")||!sessionStorage.getItem("userId")) {
-                navigate("/login")
-            } else {
-                getCurrentUser()
-            }     
-        } catch (err) {
-            console.log(err)
-        } */
-        
-
-    },[]);
-
-    useEffect(() => {
-        actions.fetchUserData();
-    }, [actions]); // Include actions as a dependency
-
-    const UserEditRedir = () => {
-        navigate(`/profile/edit`);
-    }
-
-    /* const user = store.user;
-    console.log("Current user data:", user); // Debugging log 
-
-    if (!user) {
-        return <div>Loading...</div>; // Handle loading state
-    } */
+        const fetchUserData = async () => {
+            try {
+                if (!sessionStorage.getItem("token")) {
+                    navigate("/login");
+                    return; // Exit function early if token or userId is not present
+                }
+    
+                const userData = await actions.fetchUserData(); // Assuming fetchUserData returns user data
+                setUser(userData); // Update user state with fetched user data
+            } catch (err) {
+                console.error("Error fetching user data:", err);
+                // Optionally handle error state or retry logic
+            }
+        };
+    
+        fetchUserData(); // Call fetchUserData when component mounts
+    }, []);
+    
+    const UserEditRedir = () => { navigate(`/profile/edit`); };
 
     return (
         <div className="container mt-5">
@@ -60,7 +45,6 @@ export const UserProfilePage = () => {
                     <UserBar />
                 </div>
                 <div className="col-1"></div>
-                </div>
                 <div className="col-md-8">
                     <h1>{user.username}</h1>
                     <h3>{user.full_name}</h3>
@@ -68,6 +52,7 @@ export const UserProfilePage = () => {
                     <button onClick={UserEditRedir}>Update Shipping/Card Info</button>
                 </div>
             </div>
+        </div>
     );
 };
 
