@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Favorite, Shoe, Order, Feedback
+from api.models import db, User, Favorite, Shoe, Order, Feedback, Shipping
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
@@ -121,41 +121,36 @@ def get_one_user(user_id):
 @api.route('/orders', methods=['POST'])
 @jwt_required()
 def create_order():
-    try:
-        user_id = get_jwt_identity()
-        data = request.get_json()
+    user_id = get_jwt_identity() 
 
-        shipping_address = data.get("shippingAddress")
-        mailing_address = data.get("mailingAddress")
-        credit_card_info = data.get("creditCard")
-        items = data.get("items")
+    shipping_address = request.json.get("shipping_address", None)
+    billing_address = request.json.get("billing_address", None)
+    credit_card_num = request.json.get("credit_card_num", None)
+    credit_card_cvv = request.json.get("credit_card_cvv", None)
+    credit_card_year = request.json.get("credit_card_year", None)
+    credit_card_month = request.json.get("credit_card_month", None)
 
-        if not items:
-            return jsonify({"msg": "No items provided"}), 400
+    user = User.query.filter_by(id = user_id).first()
 
-        for item in items:
-            shoe_id = item.get("id")
-            quantity = item.get("quantity", 1)
-            total_price = item.get("retailPrice") * quantity
-            order_date = order_date
+    if user_id is None:
+        response = {
+            'msg': 'Please sign in to purchase'
+        }
+        return jsonify(response), 400
+    
+    shipping = Shipping(
+        shipping_address = shipping_address,
+        billing_address = billing_address, 
+        credit_card_num = credit_card_num,
+        credit_card_cvv = credit_card_cvv, 
+        credit_card_year = credit_card_year,
+        credit_card_month = credit_card_month
+    )
 
-            if not shoe_id or not total_price:
-                return jsonify({"msg": "Invalid item data"}), 400
-
-            new_order = Order(
-                shoe_id=shoe_id,
-                user_id=user_id,
-                quantity=quantity,
-                total_price=total_price,
-                order_date=order_date,
-                shipping_address=shipping_address,
-                mailing_address=mailing_address,
-                credit_card_info=credit_card_info
-            )
-            db.session.add(new_order)
-        db.session.commit()
-
-        response = {"msg": "Order created successfully"}
-        return jsonify(response), 200
-    except Exception as e:
-        return jsonify({"msg": f"An error occurred: {str(e)}"}), 500
+    db.session.add(shipping)
+    db.session.commit()
+    
+    response = {
+        'msg': "Your puchase is complete!"
+    }
+    return jsonify(response), 200

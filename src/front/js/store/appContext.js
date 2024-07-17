@@ -30,6 +30,7 @@ const injectContext = PassedComponent => {
 			 **/
 			// state.actions.getMessage(); // <---- calling this function from the flux.js actions
 			state.actions.syncSessionTokenFromStore();
+			// state.actions.getShoes();
 		}, []);
 
 		// The initial value for the context is not null anymore, but the current state of this component,

@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: b37e551b05b6
+Revision ID: 96a0a088f3c5
 Revises: 
-Create Date: 2024-07-15 04:40:06.260430
+Create Date: 2024-07-17 02:41:19.063184
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b37e551b05b6'
+revision = '96a0a088f3c5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -35,11 +35,29 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['user_table.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('shipping_table',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('shipping_address', sa.String(length=120), nullable=False),
+    sa.Column('billing_address', sa.String(length=120), nullable=False),
+    sa.Column('credit_card_num', sa.String(length=16), nullable=False),
+    sa.Column('credit_card_cvv', sa.String(length=3), nullable=False),
+    sa.Column('credit_card_year', sa.String(length=120), nullable=False),
+    sa.Column('credit_card_month', sa.String(length=120), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user_table.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('billing_address'),
+    sa.UniqueConstraint('credit_card_cvv'),
+    sa.UniqueConstraint('credit_card_month'),
+    sa.UniqueConstraint('credit_card_num'),
+    sa.UniqueConstraint('credit_card_year'),
+    sa.UniqueConstraint('shipping_address')
+    )
     op.create_table('shoes_table',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('shoe_name', sa.String(length=120), nullable=False),
     sa.Column('shoe_size', sa.String(length=120), nullable=False),
-    sa.Column('manufacturer', sa.String(length=120), nullable=False),
+    sa.Column('shoe_brand', sa.String(length=120), nullable=False),
     sa.Column('shoe_price', sa.String(length=120), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user_table.id'], ),
@@ -58,11 +76,9 @@ def upgrade():
     sa.Column('shoe_id', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('quantity', sa.Integer(), nullable=False),
-    sa.Column('total_price', sa.Float(), nullable=False),
-    sa.Column('order_date', sa.String(length=120), nullable=False),
-    sa.Column('shipping_address', sa.String(length=250), nullable=False),
-    sa.Column('mailing_address', sa.String(length=250), nullable=False),
-    sa.Column('credit_card_info', sa.String(length=250), nullable=False),
+    sa.Column('shoe_size', sa.Integer(), nullable=False),
+    sa.Column('total_price', sa.Float(), nullable=True),
+    sa.Column('order_date', sa.String(length=120), nullable=True),
     sa.ForeignKeyConstraint(['shoe_id'], ['shoes_table.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user_table.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -75,6 +91,7 @@ def downgrade():
     op.drop_table('orders_table')
     op.drop_table('favorites_table')
     op.drop_table('shoes_table')
+    op.drop_table('shipping_table')
     op.drop_table('feedback_table')
     op.drop_table('user_table')
     # ### end Alembic commands ###
