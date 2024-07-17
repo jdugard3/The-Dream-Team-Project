@@ -189,7 +189,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.error("Error submitting order: ", error);
                     return false;
                 }
-            }
+            },
         }
     };
 };

@@ -72,7 +72,6 @@ def register_user():
     return jsonify(response), 200
 
 @api.route('/feedback', methods=['POST'])
-
 def generate_feedback():
     email = request.json.get("email", None)
     description = request.json.get("description", None)
