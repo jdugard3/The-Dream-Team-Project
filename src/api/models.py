@@ -48,7 +48,7 @@ class Shoe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     shoe_name = db.Column(db.String(120), nullable=False)
     shoe_size = db.Column(db.String(120), nullable=False)
-    manufacturer = db.Column(db.String(120), nullable=False)
+    shoe_brand = db.Column(db.String(120), nullable=False)
     shoe_price = db.Column(db.String(120), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user_table.id"))
     user = db.relationship("User", back_populates="shoes")
@@ -72,12 +72,10 @@ class Order(db.Model):
     shoe = db.relationship("Shoe", back_populates="orders")
     user_id = db.Column(db.Integer, db.ForeignKey("user_table.id"))
     user = db.relationship("User", back_populates="orders")
-    quantity = db.Column(db.Integer, nullable=False)  
-    total_price = db.Column(db.Float, nullable=False)
-    order_date = db.Column(db.String(120), nullable=False)
-    shipping_address = db.Column(db.String(250), nullable=False)
-    mailing_address = db.Column(db.String(250), nullable=False)
-    credit_card_info = db.Column(db.String(250), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    shoe_size = db.Column(db.Integer, nullable=False)  
+    total_price = db.Column(db.Float, nullable=True)
+    order_date = db.Column(db.String(120), nullable=True)
 
     def __repr__(self):
         return f'<Order {self.id}>'
@@ -88,9 +86,7 @@ class Order(db.Model):
             "quantity": self.quantity,
             "total_price": self.total_price,
             "order_date": self.order_date,
-            "shipping_address": self.shipping_address,
-            "mailing_address": self.mailing_address,
-            "credit_card_info": self.credit_card_info
+            
         }
 
 class Feedback(db.Model):
@@ -111,6 +107,32 @@ class Feedback(db.Model):
             "description": self.description
         }
     
+
+
+
+class Shipping(db.Model):
+    __tablename__ = "shipping_table"
+    id = db.Column(db.Integer, primary_key=True)
+    shipping_address = db.Column(db.String(120), unique=True, nullable=False)
+    billing_address = db.Column(db.String(120), unique=True, nullable=False)
+    credit_card_num = db.Column(db.String(16), unique=True, nullable=False)
+    credit_card_cvv = db.Column(db.String(3), unique=True, nullable=False)
+    credit_card_year = db.Column(db.String(120), unique=True, nullable=False)
+    credit_card_month = db.Column(db.String(120), unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user_table.id"))
+    user = db.relationship("User", backref="shipping")
+    def __repr__(self):
+        return f'<Shipping {self.id}>'
+    def serialize(self):
+        return {
+            "id": self.id,
+            "shipping_address": self.shipping_address,
+            "billing_address": self.billing_address,
+            "credit_card_num": self.credit_card_num,
+            "credit_card_cvv": self.credit_card_cvv,
+            "credit_card_year": self.credit_card_year,
+            "credit_card_month": self.credit_card_month,
+        }
     
 
 

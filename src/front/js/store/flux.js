@@ -13,22 +13,19 @@ const getState = ({ getStore, getActions, setStore }) => {
                     brand: "Nike",
                     id: "1",
                     name: "The Nike Shoe",
-                    retailPrice: 100,
-                    story: ""
+                    retailPrice: 100
                 },
                 {
                     brand: "Jordan",
                     id: "2",
                     name: "Air Jordan",
-                    retailPrice: 250,
-                    story: ""
+                    retailPrice: 250
                 },
                 {
                     brand: "Adidas",
                     id: "3",
                     name: "Adidas Shoe",
-                    retailPrice: 50,
-                    story: ""
+                    retailPrice: 50
                 }
             ]
         },
@@ -146,6 +143,54 @@ const getState = ({ getStore, getActions, setStore }) => {
                 })
             },
 
+            getShoes: async () => {
+				const response = await fetch("https://zylalabs.com/api/916/sneakers+database+api/731/search+sneaker", {
+					method: 'GET',
+					headers: {
+						'Authorization': 'Bearer 4921|JxMOxwG0dTICy45mwp3WwQLJIvEps1RSbXk3Qdsk',
+						'Content-Type': 'application/json'
+					}
+				});
+		
+				if (!response.ok) {
+					throw new Error(`Error: ${response.status} ${response.statusText}`);
+				}
+		
+				const data = await response.json();
+				console.log(data.results);
+				setStore({shoes: data.results})
+			},
+
+			getShoeDetails: async (id) => {
+				setStore({ shoeDetails: null });
+				const response = await fetch(`https://zylalabs.com/api/916/sneakers+database+api/733/get+sneaker+by+id&sneaker_id=Required?sneaker_id=${id}`, {
+					method: 'GET',
+					headers: {
+						'Authorization': 'Bearer 4921|JxMOxwG0dTICy45mwp3WwQLJIvEps1RSbXk3Qdsk',
+						'Content-Type': 'application/json'
+					}
+				});
+
+				if (!response.ok) {
+					throw new Error(`Error: ${response.status} ${response.statusText}`);
+				}
+
+				const data = await response.json();
+				console.log(data);
+			},
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             addFavorite: (shoe) => {
                 const store = getStore();
                 setStore({ favorites: [...store.favorites, shoe] });
@@ -166,6 +211,23 @@ const getState = ({ getStore, getActions, setStore }) => {
                 setStore({ orders: store.orders.filter(shoe => shoe.id !== shoeId) });
             },
 
+            // submitOrder: async (order) => {
+            //     let data = JSON.stringify({shoe_id: order.shoe_id, shoe: order.shoe, quantitiy: order.quantity, total: order.total_price, shipping_address: order.shipping_address, mailing_address: order.mailing_address, credit_card_info: order.credit_card_info })
+
+            //     const response = await fetch(`${process.env.BACKEND_URL}api/orders`, {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //             "Authorization": "Bearer " + sessionStorage.getItem("token")
+            //         },
+            //         body: data
+            //     })
+            //     if (response.status !== 200) return false;
+            //     const responseBody = await response.json();
+            //     console.log(responseBody)
+            //     return true
+            
+
             submitOrder: async (orderData) => {
                 try {
                     const store = getStore();
@@ -180,7 +242,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     };
                     const response = await fetch(`${process.env.BACKEND_URL}/api/orders`, options);
                     if (!response.ok) {
-                        throw new Error("Error submitting order");
+                        throw new Error("Error submitting order", response.statusText );
                     }
                     const data = await response.json();
                     setStore({ orders: [] });  // Clear the cart after successful order submission

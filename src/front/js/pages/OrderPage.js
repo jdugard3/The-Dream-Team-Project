@@ -8,14 +8,11 @@ export const OrderPage = () => {
     const [creditCard, setCreditCard] = useState("");
 
     const handleOrderSubmit = async () => {
-        const orderData = {
-            shippingAddress,
-            mailingAddress,
-            creditCard,
-            items: store.orders,
-        };
 
-        const success = await actions.submitOrder(orderData);
+        const success = await actions.submitOrder({
+            brand: brand,
+            
+        });
         if (success) {
             alert("Order submitted successfully!");
         } else {
