@@ -141,8 +141,10 @@ def get_all_users():
         serialize_users.append(user.serialize())
     return jsonify({"msg": "Here is the list of users", "users": serialize_users}), 200
 
-@api.route('/users/<int:user_id>', methods=['GET'])
-def get_one_user(user_id):
+@api.route('/user', methods=['GET'])
+@jwt_required()
+def get_one_user():
+    user_id = get_jwt_identity()
     user = User.query.filter_by(id = user_id)
     if user is None:
         return jsonify({"msg": "user not found"}), 404

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import '../../styles/profile.css';
 import { UserBar } from '../component/UserBar.js';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Context } from "../store/appContext"; // Import Context
 
 export const UserProfilePage = () => {
@@ -24,8 +24,12 @@ export const UserProfilePage = () => {
                     return; // Exit function early if token or userId is not present
                 }
     
-                const userData = await actions.fetchUserData(); // Assuming fetchUserData returns user data
-                setUser(userData); // Update user state with fetched user data
+                const result = await actions.fetchUserData(); // Assuming fetchUserData returns user data
+                if (result) {
+                    setUser(store.user)
+                } else {
+                    alert("An error occurred when trying to fetch user data. Please try again later")
+                }
             } catch (err) {
                 console.error("Error fetching user data:", err);
                 // Optionally handle error state or retry logic
@@ -46,10 +50,11 @@ export const UserProfilePage = () => {
                 </div>
                 <div className="col-1"></div>
                 <div className="col-md-8">
-                    <h1>{user.username}</h1>
-                    <h3>{user.full_name}</h3>
-                    <h5>{user.details}</h5>
-                    <button onClick={UserEditRedir}>Update Shipping/Card Info</button>
+                    <h1>{user?.username}</h1>
+                    <h3>{user?.full_name}</h3>
+                    <h5>{user?.details}</h5>
+                    {/* <button onClick={UserEditRedir}></button> */}
+                    <Link to="/profile/edit"><button>Update Shipping/Card Info</button></Link>
                 </div>
             </div>
         </div>

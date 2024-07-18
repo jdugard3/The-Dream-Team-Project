@@ -7,7 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isSignUpSuccessful: false,
 			loginMessage: null,
 			isLoginSuccessful: false,
-			userId: null,
+			user: null,
 			orders: [],
 			favorites: [],
 			shoes: [
@@ -145,15 +145,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			return data;
 		}, */
 
-			fetchUserData: async (userId) => {
-				if (!userId) {
-					console.error("user ID is not defined");
-					return false
-				}
-				const response = await fetch(`${process.env.BACKEND_URL}api/user/${userId}`, {
-					method: 'GET',
+			fetchUserData: async () => {
+				
+				const response = await fetch(`${process.env.BACKEND_URL}api/user`, {
 					headers: {
-						'Content-Type': 'application/json',
 						'Authorization': 'Bearer ' + sessionStorage.getItem("token")
 					},
 				});
@@ -164,7 +159,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 				const data = await response.json();
-				
+				setStore({user:data.user})
 				return true
 			},
 
