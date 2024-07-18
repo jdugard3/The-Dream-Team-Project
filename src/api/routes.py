@@ -145,7 +145,7 @@ def get_all_users():
 @jwt_required()
 def get_one_user():
     user_id = get_jwt_identity()
-    user = User.query.filter_by(id = user_id)
+    user = User.query.filter_by(id = user_id).first()
     if user is None:
         return jsonify({"msg": "user not found"}), 404
     return jsonify({"msg": "Here is your user", "user": user.serialize()}), 200
