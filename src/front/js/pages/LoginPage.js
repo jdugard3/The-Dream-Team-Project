@@ -36,12 +36,12 @@ export const LoginPage = () => {
         }
     }
 
-    // useEffect(() => {
-    //     if (store.isLoginSuccessful) {
-    //         navigate("/")
-    //     }
+    useEffect(() => {
+        if (store.isLoginSuccessful) {
+            navigate("/")
+        }
 
-    // }, [store.isLoginSuccessful])
+    }, [store.isLoginSuccessful])
 
     return (
         <>
