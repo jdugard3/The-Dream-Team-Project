@@ -127,7 +127,6 @@ def create_order():
     credit_card_cvv = request.json.get("credit_card_cvv", None)
     credit_card_month = request.json.get("credit_card_month", None)
     credit_card_year = request.json.get("credit_card_year", None)
-
     order_date=request.json.get("order_date", None)
     shoes=request.json.get("shoes", None)
     issues=[]
