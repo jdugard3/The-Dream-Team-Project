@@ -5,11 +5,11 @@ import "../../styles/shoecard.css";
 const ShoeCard = ({ shoes }) => {
     const { store, actions } = useContext(Context);
 
-    useEffect(() => {
-       if (!store.shoeImages[shoes.id]) {
-        actions.getShoeImage(shoes.id);
-       }
-    }, [store.shoeImages, shoes.id, actions]);
+    // useEffect(() => {
+    //    if (!store.shoeImages[shoes.id]) {
+    //     actions.getShoeImage(shoes.id);
+    //    }
+    // }, [store.shoeImages, shoes.id, actions]);
 
     const handleFavorites = () => {
         if (!store.favorites.includes(shoes)) {

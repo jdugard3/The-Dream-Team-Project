@@ -117,6 +117,21 @@ def get_one_user(user_id):
     return jsonify({"msg": "Here is your user", "user": user.serialize()}), 200 
 
 
+@api.route('/orders/my-orders', methods=['GET'])
+@jwt_required()
+def get_my_order():
+    user_id= get_jwt_identity()
+    user=User.query.filter_by(id=user_id).first()
+
+    if not user:
+        return jsonify({"msg": "user not found"}), 404 
+    
+    orders_table = [order.serialize() for order in user.orders_table]
+    return jsonify(orders_table), 200 
+
+
+
+
 @api.route('/orders', methods=['POST'])
 @jwt_required()
 def create_order():

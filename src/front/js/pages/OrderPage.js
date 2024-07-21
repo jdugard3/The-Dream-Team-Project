@@ -11,57 +11,88 @@ export const OrderPage = () => {
     const [cardMonth, setCardMonth] = useState("");
     const [cardYear, setCardYear] = useState("");
 
-    // below is the useState codes in charge of checking fields, valid card number, etc
-    const [emptyShipping, setEmptyShipping] = useState("");
-    const [emptyBilling, setEmptyBilling] = useState("");
-    const [emptyCardNum, setEmptyCardNum] = useState("");
-    const [emptyCvv, setEmptyCvv] = useState("");
-    const [emptyCardMonth, setEmptyCardMonth] = useState("");
-    const [emptyCardYear, setEmptyCardYear] = useState("");
+    // // below is the useState codes in charge of checking fields, valid card number, etc
+    // const [emptyShipping, setEmptyShipping] = useState("");
+    // const [emptyBilling, setEmptyBilling] = useState("");
+    // const [emptyCardNum, setEmptyCardNum] = useState("");
+    // const [emptyCvv, setEmptyCvv] = useState("");
+    // const [emptyCardMonth, setEmptyCardMonth] = useState("");
+    // const [emptyCardYear, setEmptyCardYear] = useState("");
 
-    const handleOrderSubmit = () => {
-        setEmptyShipping("");
-        setEmptyBilling("");
-        setEmptyCardNum("");
-        setEmptyCvv("");
-        setEmptyCardMonth("");
-        setEmptyCardYear("");
+    // const handleOrderSubmit = () => {
+    //     setEmptyShipping("");
+    //     setEmptyBilling("");
+    //     setEmptyCardNum("");
+    //     setEmptyCvv("");
+    //     setEmptyCardMonth("");
+    //     setEmptyCardYear("");
+    // };
+    //     let valid = true;
 
-        actions.submitOrder(shippingAddress, billingAddress, cardNumber, cardCvv, cardMonth, cardYear);
+    //     if (shippingAddress === "") {
+    //         setEmptyShipping("Field required");
+    //         valid = false;
+    //     }
+    //     if (billingAddress === "") {
+    //         setEmptyBilling("Field required");
+    //         valid = false;
 
-        if (shippingAddress === "") {
-            setEmptyShipping("Field required");
-        }
-        if (billingAddress === "") {
-            setEmptyBilling("Field required");
-        }
-        if (cardNumber === "") {
-            setEmptyCardNum("Field required");
-        }
-        if (cardCvv === "") {
-            setEmptyCvv("Field required");
-        }
-        if (cardMonth === "") {
-            setEmptyCardMonth("Field required");
-        }
-        if (cardYear === "") {
-            setEmptyCardYear("Field required");
-        }
-    };
+    //     }
+    //     if (cardNumber === "") {
+    //         setEmptyCardNum("Field required");
+    //         valid = false;
 
-    const handleCardNumberChange = (e) => {
-        const value = e.target.value.replace(/\D/g, "");
-        if (value.length <= 16) {
-            setCardNumber(value);
-        }
-    };
+    //     }
+    //     if (cardCvv === "") {
+    //         setEmptyCvv("Field required");
+    //         valid = false;
 
-    const handleCardCvvChange = (e) => {
-        const value = e.target.value.replace(/\D/g, "");
-        if (value.length <= 4) {
-            setCardCvv(value);
+    //     }
+    //     if (cardMonth === "") {
+    //         setEmptyCardMonth("Field required");
+    //         valid = false;
+
+    //     }
+    //     if (cardYear === "") {
+    //         setEmptyCardYear("Field required");
+    //         valid = false;
+    //     }
+        
+    //     if (valid) {
+    //         actions.submitOrder(shippingAddress, billingAddress, cardNumber, cardCvv, cardMonth, cardYear);
+    //     }
+    // };
+
+    // const handleCardNumberChange = (e) => {
+    //     const value = e.target.value.replace(/\D/g, "");
+    //     if (value.length <= 16) {
+    //         setCardNumber(value);
+    //     }
+    // };
+
+    // const handleCardCvvChange = (e) => {
+    //     const value = e.target.value.replace(/\D/g, "");
+    //     if (value.length <= 4) {
+    //         setCardCvv(value);
+    //     }
+    // };
+
+    const handleOrderSubmit = async () => {
+        const success = await actions.submitOrder({
+            shipping_address: shippingAddress,
+            billing_address: billingAddress, 
+            card_num: cardNumber,
+            card_cvv: cardCvv,
+            card_month: cardMonth,
+            card_year: cardYear,
+        });
+        if (success){
+            console.log("alert sucessfully submitted")
         }
-    };
+        else{
+            console.log("alert, not successfully submitted")
+        }
+    }
 
     return (
         <div>
@@ -75,7 +106,7 @@ export const OrderPage = () => {
                     onChange={e => setShippingAddress(e.target.value)}
                     required
                 />
-                {emptyShipping && <div style={{ color: 'red' }}>{emptyShipping}</div>}
+                {/* {emptyShipping && <div style={{ color: 'red' }}>{emptyShipping}</div>} */}
             </div>
             <div>
                 <h3>Billing Address</h3>
@@ -86,7 +117,7 @@ export const OrderPage = () => {
                     onChange={e => setBillingAddress(e.target.value)}
                     required
                 />
-                {emptyBilling && <div style={{ color: 'red' }}>{emptyBilling}</div>}
+                {/* {emptyBilling && <div style={{ color: 'red' }}>{emptyBilling}</div>} */}
             </div>
             <div>
                 <h3>Card Number</h3>
@@ -94,11 +125,11 @@ export const OrderPage = () => {
                     type="text"
                     placeholder="Card Number"
                     value={cardNumber}
-                    onChange={handleCardNumberChange}
+                    onChange={e => setCardNumber(e.target.value)}
                     maxLength={16}
                     required
                 />
-                {emptyCardNum && <div style={{ color: 'red' }}>{emptyCardNum}</div>}
+                {/* {emptyCardNum && <div style={{ color: 'red' }}>{emptyCardNum}</div>} */}
             </div>
             <div>
                 <h3>CVV Code</h3>
@@ -106,11 +137,11 @@ export const OrderPage = () => {
                     type="text"
                     placeholder="CVV"
                     value={cardCvv}
-                    onChange={handleCardCvvChange}
+                    onChange={e => setCardCvv(e.target.value)}
                     maxLength={4}
                     required
                 />
-                {emptyCvv && <div style={{ color: 'red' }}>{emptyCvv}</div>}
+                {/* {emptyCvv && <div style={{ color: 'red' }}>{emptyCvv}</div>} */}
             </div>
             <div>
                 <h3>Credit Card Month</h3>
@@ -121,7 +152,7 @@ export const OrderPage = () => {
                     onChange={e => setCardMonth(e.target.value)}
                     required
                 />
-                {emptyCardMonth && <div style={{ color: 'red' }}>{emptyCardMonth}</div>}
+                {/* {emptyCardMonth && <div style={{ color: 'red' }}>{emptyCardMonth}</div>} */}
             </div>
             <div>
                 <h3>Credit Card Year</h3>
@@ -132,7 +163,7 @@ export const OrderPage = () => {
                     onChange={e => setCardYear(e.target.value)}
                     required
                 />
-                {emptyCardYear && <div style={{ color: 'red' }}>{emptyCardYear}</div>}
+                {/* {emptyCardYear && <div style={{ color: 'red' }}>{emptyCardYear}</div>} */}
             </div>
             <div className="cart-display">
                 <h3>Cart Items</h3>
