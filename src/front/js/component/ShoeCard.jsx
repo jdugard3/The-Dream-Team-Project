@@ -1,9 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/shoecard.css";
 
 const ShoeCard = ({ shoes }) => {
     const { store, actions } = useContext(Context);
+
+    useEffect(() => {
+       if (!store.shoeImages[shoes.id]) {
+        actions.getShoeImage(shoes.id);
+       }
+    }, [store.shoeImages, shoes.id, actions]);
 
     const handleFavorites = () => {
         if (!store.favorites.includes(shoes)) {
@@ -28,6 +34,7 @@ const ShoeCard = ({ shoes }) => {
                 <p className="shoe-card-brand">{shoes.brand}</p>
             </div>
             <div className="shoe-card-body">
+                {store.shoeImages[shoes.id] && <img src={store.shoeImages[shoes.id]} className="shoe-card-image" />}
                 <p className="shoe-card-price">${shoes.retailPrice}</p>
                 <p className="shoe-card-story">{shoes.story}</p>
                 <button className="btn btn-custom-favorite" onClick={handleFavorites}>

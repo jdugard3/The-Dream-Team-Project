@@ -76,7 +76,7 @@ export const MichaelJordan = () => {
 
     return (
         <div>
-            <header>
+            {/* <header>
                 <nav>
                     <div className="logo">HoopLegendSneakers</div>
                     <ul>
@@ -84,7 +84,7 @@ export const MichaelJordan = () => {
                         <li><a href="/michael-jordan">Michael Jordan Collection</a></li>
                     </ul>
                 </nav>
-            </header>
+            </header> */}
             <main>
                 <PlayerProfile player={player} />
                     <div>
@@ -105,7 +105,7 @@ export const MichaelJordan = () => {
                     ))}
                 </section>
             </main>
-            <footer>
+            {/* <footer>
                 <p>© 2024 HoopLegendSneakers. Celebrating the history and significance of legendary basketball sneakers.</p>
                 <ul>
                     <li><a href="/">Home</a></li>
@@ -117,7 +117,7 @@ export const MichaelJordan = () => {
                     <a href="#"><img src="/path/to/twitter-icon.png" alt="Twitter" /></a>
                     <a href="#"><img src="/path/to/instagram-icon.png" alt="Instagram" /></a>
                 </div>
-            </footer>
+            </footer> */}
         </div>
     );
 };

@@ -39,6 +39,7 @@ export const LoginPage = () => {
         if (store.isLoginSuccessful) {
             navigate("/")
         }
+
     }, [store.isLoginSuccessful])
 
     return (

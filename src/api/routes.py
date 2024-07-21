@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Favorite, Shoe, Order, Feedback, Shipping
+from api.models import db, User, Favorite, Shoe, Order, Feedback, ShippingAddress,BillingAddress,Card,ShoesOrdered
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
@@ -121,35 +121,90 @@ def get_one_user(user_id):
 @jwt_required()
 def create_order():
     user_id = get_jwt_identity() 
-
-    shipping_address = request.json.get("shipping_address", None)
     billing_address = request.json.get("billing_address", None)
+    shipping_address = request.json.get("shipping_address", None)
     credit_card_num = request.json.get("credit_card_num", None)
     credit_card_cvv = request.json.get("credit_card_cvv", None)
     credit_card_month = request.json.get("credit_card_month", None)
     credit_card_year = request.json.get("credit_card_year", None)
 
-    user = User.query.filter_by(id = user_id).first()
+    order_date=request.json.get("order_date", None)
+    shoes=request.json.get("shoes", None)
+    issues=[]
+    shipping = ShippingAddress.query.filter_by(address=shipping_address).first()
+    print(shipping)
+    if shipping is None:
+        shipping = ShippingAddress(address=shipping_address,user_id=user_id)
+        db.session.add(shipping)
+        db.session.commit()
+        db.session.refresh(shipping)
 
-    if user_id is None:
+    billing = BillingAddress.query.filter_by(address=billing_address).first()
+    print(billing)
+    if billing is None:
+        billing = BillingAddress(address=billing_address,user_id=user_id)
+        db.session.add(billing)
+        db.session.commit()
+        db.session.refresh(billing)
+    
+    card = Card.query.filter_by(num=credit_card_num ).first()
+    print(card)
+    if card is None:
+        card = Card(num=credit_card_num,cvv=credit_card_cvv,month=credit_card_month,year=credit_card_year,user_id=user_id)
+        db.session.add(card)
+        db.session.commit()
+        db.session.refresh(card)
+    
+    user = User.query.filter_by(id = user_id).first()
+    if user is None:
         response = {
             'msg': 'Please sign in to purchase'
         }
         return jsonify(response), 400
-    
-    shipping = Shipping(
-        shipping_address = shipping_address,
-        billing_address = billing_address, 
-        credit_card_num = credit_card_num,
-        credit_card_cvv = credit_card_cvv, 
-        credit_card_month = credit_card_month,
-        credit_card_year = credit_card_year
-    )
 
-    db.session.add(shipping)
+    if shoes is None:
+        response = {
+            'msg': 'No shoes were sent'
+        }
+        return jsonify(response), 400
+    
+    order = Order(user_id=user_id,card_id=card.id,billing_address_id=billing.id,shipping_address_id=shipping.id, order_date=order_date)
+    db.session.add(order)
     db.session.commit()
     
+    print(order)
+    total_price=0
+    for shoe in shoes:
+        print(shoe)
+        shoe = Shoe.query.filter_by(id=shoe["id"]).first()
+        if shoe is None:
+            issues.append("shoe not found")
+        else:
+            shoe_ordered = ShoesOrdered(order_id=order.id,shoe_id=shoe.id)
+            db.session.add(shoe_ordered)
+            db.session.commit()
+            db.session.refresh(shoe_ordered)
+            total_price+=shoe.price
+
+    order.total_price=total_price
+    db.session.commit()
+    
+    
     response = {
-        'msg': "Your purchase is complete!"
+        'msg': "Your puchase is complete!",
+        "order_details":order.serialize()
     }
     return jsonify(response), 200
+
+@api.route('/orders', methods=['GET'])
+@jwt_required()
+def get_user_orders():
+    orders = Order.query.filter_by(user_id = get_jwt_identity())
+    if orders is None: 
+        return jsonify({"msg": "orders not found"}), 404 
+    serialized_orders=[]
+    for order in orders:
+        serialized_orders.append(order.serialize())
+
+    
+    return jsonify({"msg": "Here are your orders", "orders": serialized_orders}), 200 

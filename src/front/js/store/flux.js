@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             isSignUpSuccessful: false,
             loginMessage: null,
             isLoginSuccessful: false,
+            cartItems: [],
             orders: [],
             cartItems: [],
             favorites: [],
@@ -28,7 +29,8 @@ const getState = ({ getStore, getActions, setStore }) => {
                     name: "Adidas Shoe",
                     retailPrice: 50
                 }
-            ]
+            ],
+            shoeImages: {}
         },
 
         actions: {
@@ -166,6 +168,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                 const data = await response.json();
                 setStore({ shoes: data.results })
+
+                data.results.forEach(shoe => {
+                    getActions().getShoeImage(shoe.id);
+                });
             },
 
             getShoeDetails: async (id) => {
@@ -186,16 +192,26 @@ const getState = ({ getStore, getActions, setStore }) => {
                 console.log(data);
             },
 
+            getShoeImage: async (id) => {
+                const response = await fetch(`https://zylalabs.com/api/916/sneakers+database+api/733/get+sneaker+by+id&sneaker_id=Required?sneaker_id=${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer 4921|JxMOxwG0dTICy45mwp3WwQLJIvEps1RSbXk3Qdsk',
+                        'Content-Type': 'application/json'
+                    }
+                });
 
+                if (!response.ok) {
+                    console.log(`Error: ${response.status}, ${response.statusText}`);
+                    return;
+                }
 
+                const data = await response.json();
+                const imageUrl = data.results[0].image.original;
 
-
-
-
-
-
-
-
+                const store = getStore();
+                setStore({ shoeImages: { ...store.shoeImages, [id]: imageUrl } });
+            },
 
 
             addFavorite: (shoe) => {
@@ -238,14 +254,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                 const response = await fetch(`${process.env.BACKEND_URL}api/orders`, options);
 
-                if(!response.ok) {
-                    return false;
+                if (!response.ok) {
+                    console.log({
+                        error: {
+                            status: response.status,
+                            statusText: response.statusText
+                        }
+                    })
+                    return false
                 }
                 const data = await response.json();
+                console.log(data)
                 setStore({
-                    orders: []
-                })
-                return data;
+                    cartItems: []
+                });
+                return true;
             },
         }
     };
