@@ -7,6 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             loginMessage: null,
             isLoginSuccessful: false,
             orders: [],
+            cartItems: [],
             favorites: [],
             shoes: [
                 {
@@ -69,27 +70,34 @@ const getState = ({ getStore, getActions, setStore }) => {
                         password: userPassword,
                         full_name: userFullName
                     })
-                }
-                const response = await fetch(`${process.env.BACKEND_URL}api/signup`, options)
-
+                };
+            
+                const response = await fetch(`${process.env.BACKEND_URL}api/signup`, options);
+            
                 if (!response.ok) {
-                    const data = await response.json()
-                    setStore({ signupMessage: data.msg })
+                    const data = await response.json();
+                    
+                    if (response.status === 409) { // Assuming 409 for "User already exists"
+                        setStore({ signupMessage: "User already exists" });
+                    } else {
+                        setStore({ signupMessage: data.msg || "Sign up failed" });
+                    }
+                    
                     return {
                         error: {
                             status: response.status,
                             statusText: response.statusText
                         }
-                    }
+                    };
                 }
-
-                const data = await response.json()
+            
+                const data = await response.json();
                 setStore({
                     signupMessage: data.msg,
                     isSignUpSuccessful: response.ok
-                })
+                });
                 return data;
-            },
+            },            
 
             login: async (userEmail, userPassword) => {
                 const options = {
@@ -157,7 +165,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
 
                 const data = await response.json();
-                console.log(data.results);
                 setStore({ shoes: data.results })
             },
 
@@ -215,7 +222,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 const store = getStore()
                 const options = {
                     method: "POST",
-                    mode: "cors",
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${store.token}`
@@ -233,18 +239,12 @@ const getState = ({ getStore, getActions, setStore }) => {
                 const response = await fetch(`${process.env.BACKEND_URL}api/orders`, options);
 
                 if(!response.ok) {
-                    return {
-                        error: {
-                            status: response.status,
-                            statusText: response.statusText
-                        }
-                    }
+                    return false;
                 }
-
                 const data = await response.json();
                 setStore({
                     orders: []
-                });
+                })
                 return data;
             },
         }

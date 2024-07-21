@@ -41,7 +41,7 @@ export const Home = () => {
 			<div>
 				<main>
 					<section className="hero">
-						<h1>Welcome to Hoop Legend Sneakers</h1>
+						<h1 className="website-title" >Welcome to Hoop Legend Sneakers</h1>
 						<p className="mission-statement">
 							At HoopLegendSneakers, we celebrate the legacy of basketball's greatest superstars by bringing you an exclusive collection of iconic sneakers from Michael Jordan, Kobe Bryant, LeBron James, Stephen Curry, and Kevin Durant. Our mission is to connect you with the stories behind each legendary pair, providing not just footwear but a piece of basketball history. With detailed player bios and the rich narratives of their signature sneakers, we aim to inspire and ignite the passion of every basketball enthusiast. Step into greatness and wear the legacy with HoopLegendSneakers.
 						</p>

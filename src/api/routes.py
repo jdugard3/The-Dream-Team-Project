@@ -128,7 +128,7 @@ def create_order():
     credit_card_cvv = request.json.get("credit_card_cvv", None)
     credit_card_month = request.json.get("credit_card_month", None)
     credit_card_year = request.json.get("credit_card_year", None)
-    
+
     user = User.query.filter_by(id = user_id).first()
 
     if user_id is None:
@@ -150,6 +150,6 @@ def create_order():
     db.session.commit()
     
     response = {
-        'msg': "Your puchase is complete!"
+        'msg': "Your purchase is complete!"
     }
     return jsonify(response), 200

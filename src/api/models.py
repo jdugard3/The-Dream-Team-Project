@@ -117,8 +117,8 @@ class Shipping(db.Model):
     billing_address = db.Column(db.String(120), unique=True, nullable=False)
     credit_card_num = db.Column(db.String(16), unique=True, nullable=False)
     credit_card_cvv = db.Column(db.String(3), unique=True, nullable=False)
-    credit_card_year = db.Column(db.String(120), unique=True, nullable=False)
     credit_card_month = db.Column(db.String(120), unique=True, nullable=False)
+    credit_card_year = db.Column(db.String(120), unique=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user_table.id"))
     user = db.relationship("User", backref="shipping")
     def __repr__(self):
@@ -130,8 +130,8 @@ class Shipping(db.Model):
             "billing_address": self.billing_address,
             "credit_card_num": self.credit_card_num,
             "credit_card_cvv": self.credit_card_cvv,
-            "credit_card_year": self.credit_card_year,
             "credit_card_month": self.credit_card_month,
+            "credit_card_year": self.credit_card_year
         }
     
 
