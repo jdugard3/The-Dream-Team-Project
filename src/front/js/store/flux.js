@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             isSignUpSuccessful: false,
             loginMessage: null,
             isLoginSuccessful: false,
+            cartItems: [],
             orders: [],
             favorites: [],
             shoes: [
@@ -206,17 +207,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
 
 
-
-
-
-
-
-
-
-
-
-
-
             addFavorite: (shoe) => {
                 const store = getStore();
                 setStore({ favorites: [...store.favorites, shoe] });
@@ -258,20 +248,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                 const response = await fetch(`${process.env.BACKEND_URL}api/orders`, options);
 
-                if(!response.ok) {
-                    return {
+                if (!response.ok) {
+                    console.log({
                         error: {
                             status: response.status,
                             statusText: response.statusText
                         }
-                    }
+                    })
+                    return false
                 }
 
                 const data = await response.json();
+                console.log(data)
                 setStore({
-                    orders: []
+                    cartItems: []
                 });
-                return data;
+                return true;
             },
         }
     };
