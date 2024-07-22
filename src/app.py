@@ -20,6 +20,7 @@ app.url_map.strict_slashes = False
 
 # Setup the Flask-JWT-Extended extension
 app.config["JWT_SECRET_KEY"] = os.environ.get("FLASK_SECRET")
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 7200
 jwt = JWTManager(app)
 
 # database condiguration

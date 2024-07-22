@@ -202,6 +202,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 			removeFromCart: (shoeId) => {
 				const store = getStore();
 				setStore({ orders: store.orders.filter(shoe => shoe.id !== shoeId) });
+			},
+
+			getShippingAddress: async () => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/shipping-address`,{
+					method: 'GET',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+					}
+				});
+				if (!response) {
+					console.error("Failed to fetch shipping address",
+						response.status);
+						return false;
+				}
+				const responseBody = await response.json()
+				return responseBody
+			},
+
+			updateShippingAddress: async (user) => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/edit-shipping-address`,{
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+					},
+					body: JSON.stringify({shipping: user.shipping})
+				});
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+				return true;
 			}
 
 		},

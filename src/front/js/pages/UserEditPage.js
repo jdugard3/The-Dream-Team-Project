@@ -1,105 +1,92 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Context } from "../store/appContext";
+
 
 export const UserEditPage = () => {
+
+  const {store, actions} = useContext(Context);
+  const [billingAddress, setBillingAddress] = useState("");
+  const [shippingAddress, setShippingAddress] = useState("");
+  const [card, setCard] = useState("");
+
+  /*useEffect(() => {
+    const getUserData = async () => {
+      actions.getShippingAddress()
+      setShippingAddress(await actions.getShippingAddress())
+    }
+  })*/
+  useEffect(() => {
+    actions.getShippingAddress()
+    setShippingAddress(shipping.address)
+  })
+  const handleEditSubmit = async () => {
+    let result = await actions.updateShippingAddress(shippingAddress);
+    if (result) {
+      console.log("Successfully updated shipping address")
+    } else {
+      console.alert("Failed to update")
+    }
+  }
   
   return (
     <div>
       <h2>Billing Address</h2>
       <input
         type="text"
-        name="street"
-        value={billingAddress.street}
-        onChange={handleBillingAddressChange}
-        placeholder="Street"
-      />
-      <input
-        type="text"
-        name="city"
-        value={billingAddress.city}
-        onChange={handleBillingAddressChange}
-        placeholder="City"
-      />
-      <input
-        type="text"
-        name="state"
-        value={billingAddress.state}
-        onChange={handleBillingAddressChange}
-        placeholder="State"
-      />
-      <input
-        type="text"
-        name="zip"
-        value={billingAddress.zip}
-        onChange={handleBillingAddressChange}
-        placeholder="Zip Code"
+        name="Billing Address"
+        // value={billingAddress.street}
+        // onChange={handleBillingAddressChange}
+        placeholder="Billing Address"
       />
       
       <h2>Shipping Address</h2>
       <label>
         <input
           type="checkbox"
-          checked={useBillingAddress}
-          onChange={handleCheckboxChange}
+          // checked={useBillingAddress}
+          // onChange={handleCheckboxChange}
         />
         Same as Billing Address
       </label>
       <input
         type="text"
-        name="street"
-        value={shippingAddress.street}
-        onChange={handleShippingAddressChange}
-        placeholder="Street"
-        disabled={useBillingAddress}
+        name="Shipping Address"
+        value={shippingAddress}
+        // onChange={handleShippingAddressChange}
+        placeholder="Shipping Address"
+        // disabled={useBillingAddress}
       />
-      <input
-        type="text"
-        name="city"
-        value={shippingAddress.city}
-        onChange={handleShippingAddressChange}
-        placeholder="City"
-        disabled={useBillingAddress}
-      />
-      <input
-        type="text"
-        name="state"
-        value={shippingAddress.state}
-        onChange={handleShippingAddressChange}
-        placeholder="State"
-        disabled={useBillingAddress}
-      />
-      <input
-        type="text"
-        name="zip"
-        value={shippingAddress.zip}
-        onChange={handleShippingAddressChange}
-        placeholder="Zip Code"
-        disabled={useBillingAddress}
-      />
-
       <h2>Credit Card Information</h2>
       <input
         type="text"
         name="cardNumber"
-        value={creditCardInfo.cardNumber}
-        onChange={handleCreditCardChange}
+//        value={creditCardInfo.cardNumber}
+//        onChange={handleCreditCardChange}
         placeholder="Card Number"
       />
       <input
         type="text"
-        name="expirationDate"
-        value={creditCardInfo.expirationDate}
-        onChange={handleCreditCardChange}
-        placeholder="Expiration Date"
+        name="expirationMonth"
+//        value={creditCardInfo.expirationMonth}
+//        onChange={handleCreditCardChange}
+        placeholder="Expiration Month"
+      />
+      <input
+        type="text"
+        name="expirationYear"
+//        value={creditCardInfo.expirationYear}
+//        onChange={handleCreditCardChange}
+        placeholder="Expiration Year"
       />
       <input
         type="text"
         name="cvv"
-        value={creditCardInfo.cvv}
-        onChange={handleCreditCardChange}
+//        value={creditCardInfo.cvv}
+//        onChange={handleCreditCardChange}
         placeholder="CVV"
       />
 
-      <button onClick={() => console.log('Submit')}>Submit</button>
+      <button onClick={{}}>Submit</button>
     </div>
   );
 };
