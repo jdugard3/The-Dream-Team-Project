@@ -11,10 +11,10 @@ const getState = ({ getStore, getActions, setStore }) => {
             favorites: [],
             shoes: [
                 {
-                    brand: "Nike",
-                    id: "1",
-                    name: "The Nike Shoe",
-                    retailPrice: 100
+                    brand: "Jordan",
+                    id: "685d6f3d-f54f-496a-b36a-219c7650b3c4",
+                    name: "Air Jordan 1",
+                    retailPrice: 650
                 },
                 {
                     brand: "Jordan",
@@ -78,7 +78,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 if (!response.ok) {
                     const data = await response.json();
                     
-                    if (response.status === 409) { // Assuming 409 for "User already exists"
+                    if (response.status === 409) {
                         setStore({ signupMessage: "User already exists" });
                     } else {
                         setStore({ signupMessage: data.msg || "Sign up failed" });
@@ -191,26 +191,27 @@ const getState = ({ getStore, getActions, setStore }) => {
             //     console.log(data);
             // },
 
-            // getShoeImage: async (id) => {
-            //     const response = await fetch(`https://zylalabs.com/api/916/sneakers+database+api/733/get+sneaker+by+id&sneaker_id=Required?sneaker_id=${id}`, {
-            //         method: 'GET',
-            //         headers: {
-            //             'Authorization': 'Bearer 4921|JxMOxwG0dTICy45mwp3WwQLJIvEps1RSbXk3Qdsk',
-            //             'Content-Type': 'application/json'
-            //         }
-            //     });
+            getShoeImage: async (id) => {
+                const response = await fetch(`https://zylalabs.com/api/916/sneakers+database+api/733/get+sneaker+by+id&sneaker_id=Required?sneaker_id=${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer 4921|JxMOxwG0dTICy45mwp3WwQLJIvEps1RSbXk3Qdsk',
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-            //     if (!response.ok) {
-            //         console.log(`Error: ${response.status}, ${response.statusText}`);
-            //         return;
-            //     }
+                if (!response.ok) {
+                    console.log(`Error: ${response.status}, ${response.statusText}`);
+                    return;
+                }
 
-            //     const data = await response.json();
-            //     const imageUrl = data.results[0].image.original;
+                const data = await response.json();
+                console.log(data.results)
+                const imageUrl = data.results[0].image.original;
 
-            //     const store = getStore();
-            //     setStore({ shoeImages: { ...store.shoeImages, [id]: imageUrl } });
-            // },
+                const store = getStore();
+                setStore({ shoeImages: { ...store.shoeImages, [id]: imageUrl } });
+            },
 
 
             addFavorite: (shoe) => {
@@ -225,12 +226,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             addToCart: (shoe) => {
                 const store = getStore();
-                setStore({ orders: [...store.orders, shoe] });
+                setStore({ orders: [...store.cartItems, shoe] });
             },
 
             removeFromCart: (shoeId) => {
                 const store = getStore();
-                setStore({ orders: store.orders.filter(shoe => shoe.id !== shoeId) });
+                setStore({ orders: store.cartItems.filter(shoe => shoe.id !== shoeId) });
+            },
+
+            clearCart: () => {
+                setStore({ cartItems: [] });
             },
 
             submitOrder: async (orderData) => {
@@ -262,6 +267,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                     const data = await response.json();
                     setStore({ orders: [...store.orders, data.order_details] });
+                    getActions().clearCart();
                     return data;
                 } catch (error) {
                     return {

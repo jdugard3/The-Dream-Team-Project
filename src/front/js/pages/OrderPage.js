@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Context } from '../store/appContext';
 import { useNavigate } from 'react-router-dom';
+import '../../styles/orderpage.css'
 
 
 
@@ -35,13 +36,13 @@ export const OrderPage = () => {
             alert(result.error.msg || 'Order submission failed');
         } else {
             alert('Order submitted successfully');
-            actions.removeFromCart();
+            actions.clearCart();
             navigate('/');
         }
     };
 
     return (
-        <div>
+        <div className="order-page">
             <h1>Order Page</h1>
             <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
                 <div>
