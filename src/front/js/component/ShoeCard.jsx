@@ -2,46 +2,46 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/shoecard.css";
 
-const ShoeCard = ({ shoes }) => {
+const ShoeCard = ({ shoe }) => {
     const { store, actions } = useContext(Context);
 
     // useEffect(() => {
-    //    if (!store.shoeImages[shoes.id]) {
-    //     actions.getShoeImage(shoes.id);
+    //    if (!store.shoeImages[shoe.id]) {
+    //     actions.getShoeImage(shoe.id);
     //    }
-    // }, [store.shoeImages, shoes.id, actions]);
+    // }, [store.shoeImages, shoe.id, actions]);
 
     const handleFavorites = () => {
-        if (!store.favorites.includes(shoes)) {
-            actions.addFavorite(shoes);
+        if (!store.favorites.includes(shoe)) {
+            actions.addFavorite(shoe);
         } else {
-            actions.removeFavorite(shoes.id); 
+            actions.removeFavorite(shoe.id); 
         }
     };
 
     const handleOrders = () => {
-        if (!store.orders.includes(shoes)) {
-            actions.addToCart(shoes);
+        if (!store.orders.includes(shoe)) {
+            actions.addToCart(shoe);
         } else {
-            actions.removeFromCart(shoes.id); 
+            actions.removeFromCart(shoe.id); 
         }
     };
 
     return (
         <div className="card shoe-card">
             <div className="shoe-card-header">
-                <h2 className="shoe-card-title">{shoes.name}</h2>
-                <p className="shoe-card-brand">{shoes.brand}</p>
+                <h2 className="shoe-card-title">{shoe.name}</h2>
+                <p className="shoe-card-brand">{shoe.brand}</p>
             </div>
             <div className="shoe-card-body">
-                {store.shoeImages[shoes.id] && <img src={store.shoeImages[shoes.id]} className="shoe-card-image" />}
-                <p className="shoe-card-price">${shoes.retailPrice}</p>
-                <p className="shoe-card-story">{shoes.story}</p>
+                {store.shoeImages[shoe.id] && <img src={store.shoeImages[shoe.id]} className="shoe-card-image" />}
+                <p className="shoe-card-price">${shoe.price}</p>
+                <p className="shoe-card-story">{shoe.story}</p>
                 <button className="btn btn-custom-favorite" onClick={handleFavorites}>
-                    {store.favorites.includes(shoes) ? "Remove from Favorites" : "Add to Favorites"}
+                    {store.favorites.includes(shoe) ? "Remove from Favorites" : "Add to Favorites"}
                 </button>
                 <button className="btn btn-custom-cart" onClick={handleOrders}>
-                    {store.orders.includes(shoes) ? "Remove from Cart" : "Add to Cart"}
+                    {store.orders.includes(shoe) ? "Remove from Cart" : "Add to Cart"}
                 </button>
             </div>
         </div>

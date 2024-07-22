@@ -30,7 +30,7 @@ const injectContext = PassedComponent => {
 			 **/
 			// state.actions.getMessage(); // <---- calling this function from the flux.js actions
 			state.actions.syncSessionTokenFromStore();
-			// state.actions.getShoes();
+			state.actions.getShoes();
 			// state.actions.getShoeDetails();
 			// state.actions.getShoeImage();
 			

@@ -89,7 +89,7 @@ export const MichaelJordan = () => {
                 <PlayerProfile player={player} />
                     <div>
                         {store.shoes.map((shoe) => (
-                            <ShoeCard key={shoe.id} shoes={shoe} />
+                            <ShoeCard key={shoe.id} shoe={shoe} />
                         ))}
                     </div>
                 <section className="sneaker-pairs">

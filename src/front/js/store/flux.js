@@ -9,26 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             orders: [],
             cartItems: [],
             favorites: [],
-            shoes: [
-                {
-                    brand: "Jordan",
-                    id: "685d6f3d-f54f-496a-b36a-219c7650b3c4",
-                    name: "Air Jordan 1",
-                    retailPrice: 650
-                },
-                {
-                    brand: "Jordan",
-                    id: "2",
-                    name: "Air Jordan",
-                    retailPrice: 250
-                },
-                {
-                    brand: "Adidas",
-                    id: "3",
-                    name: "Adidas Shoe",
-                    retailPrice: 50
-                }
-            ],
+            shoes: [],
             shoeImages: {}
         },
 
@@ -226,16 +207,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             addToCart: (shoe) => {
                 const store = getStore();
-                setStore({ orders: [...store.cartItems, shoe] });
+                setStore({ cartItems: [...store.cartItems, shoe] });
             },
 
             removeFromCart: (shoeId) => {
                 const store = getStore();
-                setStore({ orders: store.cartItems.filter(shoe => shoe.id !== shoeId) });
+                setStore({ cartItems: store.cartItems.filter(shoe => shoe.id !== shoeId) });
             },
 
             clearCart: () => {
                 setStore({ cartItems: [] });
+            },
+
+            getShoes: () => {
+                fetch(process.env.BACKEND_URL+"api/shoes")
+                .then(resp => resp.json())
+                .then(data => setStore({shoes:data.shoes}))
+                .catch(error => console.log(error))
             },
 
             submitOrder: async (orderData) => {
@@ -267,7 +255,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                     const data = await response.json();
                     setStore({ orders: [...store.orders, data.order_details] });
-                    getActions().clearCart();
+                    setStore({ cartItems: [] });
                     return data;
                 } catch (error) {
                     return {
