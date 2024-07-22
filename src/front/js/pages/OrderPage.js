@@ -1,182 +1,114 @@
-import React, { useContext, useState } from "react";
-import { Context } from "../store/appContext";
-import "../../styles/orderspage.css";
+import React, { useState, useContext } from 'react';
+import { Context } from '../store/appContext';
+import { useNavigate } from 'react-router-dom';
+
+
 
 export const OrderPage = () => {
     const { store, actions } = useContext(Context);
-    const [shippingAddress, setShippingAddress] = useState("");
-    const [billingAddress, setBillingAddress] = useState("");
-    const [cardNumber, setCardNumber] = useState("");
-    const [cardCvv, setCardCvv] = useState("");
-    const [cardMonth, setCardMonth] = useState("");
-    const [cardYear, setCardYear] = useState("");
+    const [billingAddress, setBillingAddress] = useState('');
+    const [shippingAddress, setShippingAddress] = useState('');
+    const [creditCardNum, setCreditCardNum] = useState('');
+    const [creditCardCVV, setCreditCardCVV] = useState('');
+    const [creditCardMonth, setCreditCardMonth] = useState('');
+    const [creditCardYear, setCreditCardYear] = useState('');
+    const [orderDate, setOrderDate] = useState(new Date().toISOString());
+    const [shoes, setShoes] = useState(store.cartItems); 
 
-    // // below is the useState codes in charge of checking fields, valid card number, etc
-    // const [emptyShipping, setEmptyShipping] = useState("");
-    // const [emptyBilling, setEmptyBilling] = useState("");
-    // const [emptyCardNum, setEmptyCardNum] = useState("");
-    // const [emptyCvv, setEmptyCvv] = useState("");
-    // const [emptyCardMonth, setEmptyCardMonth] = useState("");
-    // const [emptyCardYear, setEmptyCardYear] = useState("");
+    const navigate = useNavigate();
 
-    // const handleOrderSubmit = () => {
-    //     setEmptyShipping("");
-    //     setEmptyBilling("");
-    //     setEmptyCardNum("");
-    //     setEmptyCvv("");
-    //     setEmptyCardMonth("");
-    //     setEmptyCardYear("");
-    // };
-    //     let valid = true;
-
-    //     if (shippingAddress === "") {
-    //         setEmptyShipping("Field required");
-    //         valid = false;
-    //     }
-    //     if (billingAddress === "") {
-    //         setEmptyBilling("Field required");
-    //         valid = false;
-
-    //     }
-    //     if (cardNumber === "") {
-    //         setEmptyCardNum("Field required");
-    //         valid = false;
-
-    //     }
-    //     if (cardCvv === "") {
-    //         setEmptyCvv("Field required");
-    //         valid = false;
-
-    //     }
-    //     if (cardMonth === "") {
-    //         setEmptyCardMonth("Field required");
-    //         valid = false;
-
-    //     }
-    //     if (cardYear === "") {
-    //         setEmptyCardYear("Field required");
-    //         valid = false;
-    //     }
-        
-    //     if (valid) {
-    //         actions.submitOrder(shippingAddress, billingAddress, cardNumber, cardCvv, cardMonth, cardYear);
-    //     }
-    // };
-
-    // const handleCardNumberChange = (e) => {
-    //     const value = e.target.value.replace(/\D/g, "");
-    //     if (value.length <= 16) {
-    //         setCardNumber(value);
-    //     }
-    // };
-
-    // const handleCardCvvChange = (e) => {
-    //     const value = e.target.value.replace(/\D/g, "");
-    //     if (value.length <= 4) {
-    //         setCardCvv(value);
-    //     }
-    // };
-
-    const handleOrderSubmit = async () => {
-        const success = await actions.submitOrder({
+    const handleSubmit = async () => {
+        const orderData = {
+            billing_address: billingAddress,
             shipping_address: shippingAddress,
-            billing_address: billingAddress, 
-            card_num: cardNumber,
-            card_cvv: cardCvv,
-            card_month: cardMonth,
-            card_year: cardYear,
-        });
-        if (success){
-            console.log("alert sucessfully submitted")
+            credit_card_num: creditCardNum,
+            credit_card_cvv: creditCardCVV,
+            credit_card_month: creditCardMonth,
+            credit_card_year: creditCardYear,
+            order_date: orderDate,
+            shoes: shoes.map(shoe => ({ id: shoe.id }))
+        };
+
+        const result = await actions.submitOrder(orderData);
+
+        if (result.error) {
+            alert(result.error.msg || 'Order submission failed');
+        } else {
+            alert('Order submitted successfully');
+            actions.removeFromCart();
+            navigate('/');
         }
-        else{
-            console.log("alert, not successfully submitted")
-        }
-    }
+    };
 
     return (
         <div>
             <h1>Order Page</h1>
-            <div>
-                <h3>Shipping Address</h3>
-                <input
-                    type="text"
-                    placeholder="Enter shipping address"
-                    value={shippingAddress}
-                    onChange={e => setShippingAddress(e.target.value)}
-                    required
-                />
-                {/* {emptyShipping && <div style={{ color: 'red' }}>{emptyShipping}</div>} */}
-            </div>
-            <div>
-                <h3>Billing Address</h3>
-                <input
-                    type="text"
-                    placeholder="Enter billing address"
-                    value={billingAddress}
-                    onChange={e => setBillingAddress(e.target.value)}
-                    required
-                />
-                {/* {emptyBilling && <div style={{ color: 'red' }}>{emptyBilling}</div>} */}
-            </div>
-            <div>
-                <h3>Card Number</h3>
-                <input
-                    type="text"
-                    placeholder="Card Number"
-                    value={cardNumber}
-                    onChange={e => setCardNumber(e.target.value)}
-                    maxLength={16}
-                    required
-                />
-                {/* {emptyCardNum && <div style={{ color: 'red' }}>{emptyCardNum}</div>} */}
-            </div>
-            <div>
-                <h3>CVV Code</h3>
-                <input
-                    type="text"
-                    placeholder="CVV"
-                    value={cardCvv}
-                    onChange={e => setCardCvv(e.target.value)}
-                    maxLength={4}
-                    required
-                />
-                {/* {emptyCvv && <div style={{ color: 'red' }}>{emptyCvv}</div>} */}
-            </div>
-            <div>
-                <h3>Credit Card Month</h3>
-                <input
-                    type="text"
-                    placeholder="Card Month"
-                    value={cardMonth}
-                    onChange={e => setCardMonth(e.target.value)}
-                    required
-                />
-                {/* {emptyCardMonth && <div style={{ color: 'red' }}>{emptyCardMonth}</div>} */}
-            </div>
-            <div>
-                <h3>Credit Card Year</h3>
-                <input
-                    type="text"
-                    placeholder="Card Year"
-                    value={cardYear}
-                    onChange={e => setCardYear(e.target.value)}
-                    required
-                />
-                {/* {emptyCardYear && <div style={{ color: 'red' }}>{emptyCardYear}</div>} */}
-            </div>
-            <div className="cart-display">
-                <h3>Cart Items</h3>
-                {store.orders.map((item, index) => (
-                    <div className="item-wrapper" key={index}>
-                        <div className="item-image-box">Image here</div>
-                        <div className="item-details">
-                            <p>{item.name} - ${item.retailPrice}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <button onClick={handleOrderSubmit}>Confirm Purchase</button>
+            <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+                <div>
+                    <label>Billing Address:</label>
+                    <input
+                        type="text"
+                        value={billingAddress}
+                        onChange={(e) => setBillingAddress(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Shipping Address:</label>
+                    <input
+                        type="text"
+                        value={shippingAddress}
+                        onChange={(e) => setShippingAddress(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Credit Card Number:</label>
+                    <input
+                        type="text"
+                        value={creditCardNum}
+                        onChange={(e) => setCreditCardNum(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>CVV:</label>
+                    <input
+                        type="text"
+                        value={creditCardCVV}
+                        onChange={(e) => setCreditCardCVV(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Expiration Month:</label>
+                    <input
+                        type="text"
+                        value={creditCardMonth}
+                        onChange={(e) => setCreditCardMonth(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Expiration Year:</label>
+                    <input
+                        type="text"
+                        value={creditCardYear}
+                        onChange={(e) => setCreditCardYear(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Order Date:</label>
+                    <input
+                        type="text"
+                        value={orderDate}
+                        onChange={(e) => setOrderDate(e.target.value)}
+                        required
+                    />
+                </div>
+                <button type="submit">Confirm Order</button>
+            </form>
         </div>
     );
 };

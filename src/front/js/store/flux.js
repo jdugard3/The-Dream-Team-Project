@@ -233,63 +233,99 @@ const getState = ({ getStore, getActions, setStore }) => {
                 setStore({ orders: store.orders.filter(shoe => shoe.id !== shoeId) });
             },
 
-            // submitOrderTwo: async (order) => {
-            //     let data = json.stringify()
-            // }
-
-
-            submitOrder: async (ShippingAddress, BillingAddress, CardNumber, CardCvv, CardMonth, CardYear) => {
+            submitOrder: async (orderData) => {
                 const store = getStore();
-                const orderData = {
-                    ShippingAddress,
-                    BillingAddress,
-                    CardNumber,
-                    CardCvv,
-                    CardMonth,
-                    CardYear,
-                    items: store.orders.map(item => ({
-                        shoeId: item.id,
-                        quantity: 1
-                    }))
-                }
-                // const options = {
-                //     method: "POST",
-                //     headers: {
-                //         "Content-Type": "application/json",
-                //         "Authorization": `Bearer ${store.token}`
-                //     },
-                //     body: JSON.stringify({orderData})
-                // };
+                const token = store.token;
 
-                console.log(`Backend URL: ${process.env.BACKEND_URL}api/orders`);
-                console.log("Store token:", store.token);
-                console.log("Store orders:", store.orders);
-
-                const response = await fetch(`${process.env.BACKEND_URL}api/orders`, {
-                    method: "POST",
+                const options = {
+                    method: 'POST',
                     headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${store.token}`
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({orderData})
-                });
+                    body: JSON.stringify(orderData)
+                };
 
-                if (!response.ok) {
-                    console.log({
+                try {
+                    const response = await fetch(`${process.env.BACKEND_URL}api/orders`, options);
+
+                    if (!response.ok) {
+                        const data = await response.json();
+                        return {
+                            error: {
+                                status: response.status,
+                                statusText: response.statusText,
+                                msg: data.msg
+                            }
+                        };
+                    }
+
+                    const data = await response.json();
+                    setStore({ orders: [...store.orders, data.order_details] });
+                    return data;
+                } catch (error) {
+                    return {
                         error: {
-                            status: response.status,
-                            statusText: response.statusText
+                            status: 500,
+                            statusText: "Internal Server Error",
+                            msg: "An error occurred"
                         }
-                    })
-                    return false
+                    };
                 }
-                const data = await response.json();
-                console.log(data)
-                setStore({
-                    cartItems: []
-                });
-                return true;
             },
+
+            // submitOrder: async (ShippingAddress, BillingAddress, CardNumber, CardCvv, CardMonth, CardYear) => {
+            //     const store = getStore();
+            //     const orderData = {
+            //         ShippingAddress,
+            //         BillingAddress,
+            //         CardNumber,
+            //         CardCvv,
+            //         CardMonth,
+            //         CardYear,
+            //         items: store.orders.map(item => ({
+            //             shoeId: item.id,
+            //             quantity: 1
+            //         }))
+            //     }
+            //     // const options = {
+            //     //     method: "POST",
+            //     //     headers: {
+            //     //         "Content-Type": "application/json",
+            //     //         "Authorization": `Bearer ${store.token}`
+            //     //     },
+            //     //     body: JSON.stringify({orderData})
+            //     // };
+
+            //     console.log(`Backend URL: ${process.env.BACKEND_URL}api/orders`);
+            //     console.log("Store token:", store.token);
+            //     console.log("Store orders:", store.orders);
+
+            //     const response = await fetch(`${process.env.BACKEND_URL}api/orders`, {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //             "Authorization": `Bearer ${store.token}`
+            //         },
+            //         body: JSON.stringify({orderData})
+            //     });
+
+            //     if (!response.ok) {
+            //         console.log({
+            //             error: {
+            //                 status: response.status,
+            //                 statusText: response.statusText
+            //             }
+            //         })
+            //         return false
+            //     }
+            //     const data = await response.json();
+            //     console.log(data)
+            //     setStore({
+            //         cartItems: []
+            //     });
+            //     return true;
+            // },
         }
     };
 };
