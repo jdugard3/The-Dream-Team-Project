@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
+
 import "../../styles/home.css";
 
 export const Home = () => {
@@ -28,41 +29,29 @@ export const Home = () => {
 		}
 	];
 
+
 	return (
-		<div>
-			<header>
-				<nav>
-					<div className="logo">Hoop Legend Sneakers</div>
-					<ul>
-						<li><a href="/">Home</a></li>
-						<li><a href="/michael-jordan">Michael Jordan Collection</a></li>
-					</ul>
-				</nav>
-			</header>
-			<main>
-				<section className="hero">
-					<h1>Welcome to Hoop Legend Sneakers</h1>
-					<p className="mission-statement">
-						At HoopLegendSneakers, we celebrate the legacy of basketball's greatest superstars by bringing you an exclusive collection of iconic sneakers from Michael Jordan, Kobe Bryant, LeBron James, Stephen Curry, and Kevin Durant. Our mission is to connect you with the stories behind each legendary pair, providing not just footwear but a piece of basketball history. With detailed player bios and the rich narratives of their signature sneakers, we aim to inspire and ignite the passion of every basketball enthusiast. Step into greatness and wear the legacy with HoopLegendSneakers.
-					</p>
-					<a href="/collections" className="explore-button">Explore Collections</a>
-				</section>
-				<section className="collections">
-					{collections.map((collection, index) => (
+		<>
+
+			<div>
+				<main>
+					<section className="hero">
+						<h1>Welcome to Hoop Legend Sneakers</h1>
+						<p className="mission-statement">
+							At HoopLegendSneakers, we celebrate the legacy of basketball's greatest superstars by bringing you an exclusive collection of iconic sneakers from Michael Jordan, Kobe Bryant, LeBron James, Stephen Curry, and Kevin Durant. Our mission is to connect you with the stories behind each legendary pair, providing not just footwear but a piece of basketball history. With detailed player bios and the rich narratives of their signature sneakers, we aim to inspire and ignite the passion of every basketball enthusiast. Step into greatness and wear the legacy with HoopLegendSneakers.
+						</p>
+						{/* <a href="/collections" className="explore-button">Explore Collections</a> */}
+					</section>
+					<section className="collections">
+						{collections.map((collection, index) => (
 						<div key={index} className="collection">
-							<img src={collection.image} alt={`${collection.name} Sneakers`} />
-							<h2>{collection.name}</h2>
+								<img src={collection.image} alt={`${collection.name} Sneakers`} />
+								<h2>{collection.name}</h2>
 						</div>
-					))}
-				</section>
-			</main>
-			<footer>
-				<p>© 2024 Hoop Legend Sneakers. All rights reserved.</p>
-				<ul>
-					<li><a href="#">Privacy Policy</a></li>
-					<li><a href="#">Terms of Service</a></li>
-				</ul>
-			</footer>
-		</div>
+						))}
+					</section>
+				</main>
+			</div>
+		</>
 	);
 };

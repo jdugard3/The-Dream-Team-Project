@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
+import ShoeCard from "../component/ShoeCard.jsx";
 import "../../styles/home.css";
 
 const PlayerProfile = ({ player }) => (
@@ -86,6 +87,11 @@ export const MichaelJordan = () => {
             </header>
             <main>
                 <PlayerProfile player={player} />
+                    <div>
+                        {store.shoes.map((shoe) => (
+                            <ShoeCard key={shoe.id} shoes={shoe} />
+                        ))}
+                    </div>
                 <section className="sneaker-pairs">
                     <h2>Legendary Sneaker Pairs</h2>
                     {sneakerPairs.map((sneaker, index) => (

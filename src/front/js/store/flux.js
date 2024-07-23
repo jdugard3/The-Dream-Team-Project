@@ -1,4 +1,5 @@
 const getState = ({ getStore, getActions, setStore }) => {
+
 	return {
 		store: {
 			token: null,
@@ -6,9 +7,62 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isSignUpSuccessful: false,
 			loginMessage: null, 
 			isLoginSuccessful: false,
+			orders:[],
+			favorites:[],
+			shoes:[
+				{
+					brand:"Nike",
+					id:"1",
+					name:"The Nike Shoe",
+					retailPrice:100,
+					story:""
+
+				},
+				{
+					brand:"Jordan",
+					id:"2",
+					name:"Air Jordan",
+					retailPrice:250,
+					story:""
+
+				},
+				{
+					brand:"Adidas",
+					id:"3",
+					name:"Adidas shoe",
+					retailPrice:50,
+					story:""
+
+				},
+			],
 		},
 
-		actions: {
+        actions: {
+            feedback: async (userEmail, userFeedback) => {
+                const options = {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: userEmail,
+                        description: userFeedback
+                    })
+                }
+                const response = await fetch(`${process.env.BACKEND_URL}api/feedback`, options)
+
+                if (!response.ok) {
+                    return {
+                        error: {
+                            status: response.status,
+                            statusText: response.statusText
+                        }
+                    }
+                }
+				const data = await response.json();
+                return data;
+            },
 			
 			signUp: async (userEmail, userPassword, userFullName) => {
 				const options = {
@@ -25,9 +79,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				const response = await fetch(`${process.env.BACKEND_URL}api/signup`, options)
 
-				if(!response.ok) {
+				if (!response.ok) {
 					const data = await response.json()
-					//setStore({signupMessage: data.msg})
+					setStore({signupMessage: data.msg})
 					return {
 						error: {
 							status: response.status,
@@ -35,6 +89,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					}
 				}
+
 				const data = await response.json()
 				setStore({
 					signupMessage: data.msg,
@@ -94,7 +149,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 					isLoginSuccessful: false,
 				})
 			},
-		}
+
+			addFavorite: (shoe) => {
+                const store = getStore();
+                setStore({ favorites: [...store.favorites, shoe] });
+            },
+			
+            removeFavorite: (shoeId) => {
+                const store = getStore();
+                setStore({ favorites: store.favorites.filter(shoe => shoe.id !== shoeId) });
+            },
+
+			addToCart: (shoe) => {
+				const store = getStore();
+				setStore({ orders: [...store.orders, shoe] });
+			},
+
+			removeFromCart: (shoeId) => {
+				const store = getStore();
+				setStore({ orders: store.orders.filter (shoe => shoe.id !== shoeId) });
+			}
+
+		},
 	};
 };
 
