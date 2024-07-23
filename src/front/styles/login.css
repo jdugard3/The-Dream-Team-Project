@@ -7,7 +7,7 @@
 }
 
 .login-box {
-    background: linear-gradient(to right, #ff4b2b, #ff416c); 
+    background: linear-gradient(to right, #ff416c, #2b80ff); 
     border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -16,7 +16,7 @@
     text-align: center;
     color: white; 
     font-family: 'Arial', sans-serif; 
-    margin-top: -100px;
+    margin-top: -200px;
 }
 
 
@@ -69,7 +69,7 @@
 
 .login-box h2 {
     margin-bottom: 20px;
-    font-size: 24px;
+    font-size: 40px;
 }
 
 

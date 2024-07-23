@@ -6,6 +6,10 @@ import "../../styles/navbar.css";
 export const Navbar = () => {
     const { actions, store } = useContext(Context);
 
+    const handleLogout = () => {
+        actions.logout();
+    };
+
     return (
         <nav className="navbar custom-navbar">
             <div className="container">
@@ -13,9 +17,20 @@ export const Navbar = () => {
                     <img src="https://trello.com/1/cards/667c94d0b4d07a8c0c828db2/attachments/6685f3cabc9664e54ed22c08/previews/6685f3cbbc9664e54ed22c15/download/Hoop_Legend_Sneakers_Logo%21.webp" alt="Logo" className="navbar-logo" />
                 </Link>
                 <div className="navbar-buttons ml-auto">
+                    {store.isAuthenticated ? (
+                        <Link to="/login">
+                            <button className="btn btn-custom" onClick={handleLogout}>Logout</button>
+                        </Link>
+                    ) : (
+                        <Link to="/login">
+                            <button className="btn btn-custom">Login | Signup</button>
+                        </Link>
+                    )}
+
                     <Link to="/login">
                         <button className="btn btn-custom">Login/Signup</button>
                     </Link>
+
                     <Link to="/profile">
                         <button className="btn btn-custom">Profile</button>
                     </Link>

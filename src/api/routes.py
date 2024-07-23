@@ -53,7 +53,7 @@ def register_user():
 
     if user is not None and user.email == email:
         response = {
-            'msg': 'User already exists.'
+            'msg': 'Email is already associated with an account.'
         }
         return jsonify(response), 403
     

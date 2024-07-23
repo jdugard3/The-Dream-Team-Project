@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/signup.css";
 
@@ -13,6 +13,7 @@ export const SignUpPage = () => {
     const [emptyEmail, setEmptyEmail] = useState("");
     const [emptyPassword, setEmptyPassword] = useState("");
     const [specialCharWarning, setSpecialCharWarning] = useState("");
+    const [accountExists, setAccountExists] = useState("");
     const navigate = useNavigate();
     const { store, actions } = useContext(Context);
 
@@ -27,19 +28,20 @@ export const SignUpPage = () => {
         } else {
             setPasswordMismatch("Passwords do not match");
         }
-
         if (email === "") {
-            setEmptyEmail("Field cannot be empty");
+            setEmptyEmail("*Field cannot be empty*");
         }
         if (password === "") {
-            setEmptyPassword("Field cannot be empty");
+            setEmptyPassword("*Field cannot be empty*");
         }
         if (fullName === "") {
-            setEmptyName("Field cannot be empty");
+            setEmptyName("*Field cannot be empty*");
         }
         if (password === "" || !/[!@$1-9]/.test(password)) {
             setSpecialCharWarning("Password must include at least one special character: @, !, 1-10");
         }
+        
+ 
     }
 
     const handlePasswordChange = (e) => {
@@ -77,6 +79,8 @@ export const SignUpPage = () => {
             <div className="signup-box">
                 <div className="signup-box-contents">
                     <h1>Create an account</h1>
+                    <div style={{color: 'red'}}>{store.signupMessage || ""}</div>
+                    <h4 style={{ textAlign: 'left', color:"white" }}>Full Name:</h4>
                     <input
                         type="text"
                         placeholder="Enter full name"
@@ -85,6 +89,7 @@ export const SignUpPage = () => {
                         required
                     />
                     {emptyName && <div className="error">{emptyName}</div>}
+                    <h4 style={{ textAlign: 'left', color:"white" }}>Email:</h4>
                     <input
                         type="email"
                         placeholder="Enter email"
@@ -93,6 +98,7 @@ export const SignUpPage = () => {
                         required
                     />
                     {emptyEmail && !confirmPassword && !passwordMismatch && <div className="error">{emptyEmail}</div>}
+                    <h4 style={{ textAlign: 'left', color:"white" }}>Password:</h4>
                     <input
                         type="password"
                         placeholder="Create a password"
@@ -101,8 +107,9 @@ export const SignUpPage = () => {
                         required
                     />
                     <div className="special-char-warning">Special characters needed: @!$1-9</div>
-                    {specialCharWarning && !confirmPassword && !passwordMismatch && <div className="error">{specialCharWarning}</div>}
+                    {specialCharWarning && !confirmPassword && !passwordMismatch && <div className="text-dark">{specialCharWarning}</div>}
                     {emptyPassword && !confirmPassword && !passwordMismatch && <div className="error">{emptyPassword}</div>}
+                    <h4 style={{ textAlign: 'left', color:"white" }}>Confirm password:</h4>
                     <input
                         type="password"
                         placeholder="Confirm password"
@@ -113,6 +120,12 @@ export const SignUpPage = () => {
                     {emptyPassword && <div className="error">{emptyPassword}</div>}
                     {passwordMismatch && <div className="error">{passwordMismatch}</div>}
                     <button onClick={handleClick}>Create account</button>
+                    <div>
+                        <a style={{color:"white"}}>Already have an account?</a>
+                        <Link to={"/login"}>
+                            Log in
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
