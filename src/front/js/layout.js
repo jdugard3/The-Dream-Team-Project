@@ -12,6 +12,9 @@ import { Feedback } from "./pages/Feedback";
 import { LoginPage } from "./pages/LoginPage";
 import { SignUpPage } from "./pages/SignUpPage";
 import { ResetPassword } from "./pages/ResetPassword";
+import { ProfilePage } from "./pages/ProfilePage";
+import { OrderPage } from "./pages/OrderPage";
+
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -35,11 +38,12 @@ const Layout = () => {
 
                         <Route element={<LoginPage />} path="/login" />
                         <Route element={<SignUpPage />} path="/signup" />
+                        <Route element={<ProfilePage />} path="/profile" />
+                        <Route element={<OrderPage />} path="/orders" />
+
                         <Route element={<MichaelJordan />} path="/michael-jordan" />
 
                         <Route element={<Feedback />} path="/feedback" />
-                        <Route element={<LoginPage />} path="/login" />
-                        <Route element={<SignUpPage />} path="/signup" />
                         <Route element={<ResetPassword />} path="/resetpassword" />
 
                         <Route element={<h1>Not found!</h1>} />
