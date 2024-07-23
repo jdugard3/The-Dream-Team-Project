@@ -8,6 +8,7 @@ from flask_cors import CORS
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
+from datetime import timedelta
 
 
 api = Blueprint('api', __name__)
@@ -30,8 +31,8 @@ def generate_token():
             "msg": "Email or Password does not match."
         }
         return jsonify(response), 401 
-    
-    access_token = create_access_token(identity=user.id)
+    expires = timedelta(minutes = 60)
+    access_token = create_access_token(identity=user.id, expires_delta=expires)
     response = {
         "access_token": access_token, 
         "user_id": user.id, 
@@ -116,6 +117,15 @@ def get_one_user(user_id):
     
     return jsonify({"msg": "Here is your user", "user": user.serialize()}), 200 
 
+
+# Get all Shoes 
+@api.route('/shoes', methods=['GET'])
+def get_all_shoes():
+    shoes=Shoe.query.all()
+    serialized_shoes = []
+    for shoe in shoes: 
+        serialized_shoes.append(shoe.serialize())
+    return jsonify({"msg": "Here is the list of shoes", "shoes": serialized_shoes}), 200
 
 @api.route('/orders', methods=['POST'])
 @jwt_required()
@@ -207,3 +217,4 @@ def get_user_orders():
 
     
     return jsonify({"msg": "Here are your orders", "orders": serialized_orders}), 200 
+
