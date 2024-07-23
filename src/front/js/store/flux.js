@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             isSignUpSuccessful: false,
             loginMessage: null,
             isLoginSuccessful: false,
+            isAuthenticated: false,
             cartItems: [],
             orders: [],
             cartItems: [],
@@ -73,14 +74,14 @@ const getState = ({ getStore, getActions, setStore }) => {
                         full_name: userFullName
                     })
                 };
-            
+    
                 const response = await fetch(`${process.env.BACKEND_URL}api/signup`, options);
-            
+    
                 if (!response.ok) {
                     const data = await response.json();
                     
                     if (response.status === 409) { // Assuming 409 for "User already exists"
-                        setStore({ signupMessage: "User already exists" });
+                        setStore({ signupMessage: "Email is already associated with an account" });
                     } else {
                         setStore({ signupMessage: data.msg || "Sign up failed" });
                     }
@@ -92,11 +93,12 @@ const getState = ({ getStore, getActions, setStore }) => {
                         }
                     };
                 }
-            
+    
                 const data = await response.json();
                 setStore({
                     signupMessage: data.msg,
-                    isSignUpSuccessful: response.ok
+                    isSignUpSuccessful: response.ok,
+                    isAuthenticated: true 
                 });
                 return data;
             },            
@@ -113,25 +115,28 @@ const getState = ({ getStore, getActions, setStore }) => {
                         password: userPassword
                     })
                 }
-                const response = await fetch(`${process.env.BACKEND_URL}api/token`, options)
-
+    
+                const response = await fetch(`${process.env.BACKEND_URL}api/token`, options);
+    
                 if (!response.ok) {
-                    const data = await response.json()
-                    setStore({ loginMessage: data.msg })
+                    const data = await response.json();
+                    setStore({ loginMessage: data.msg });
                     return {
                         error: {
                             status: response.status,
                             statusText: response.statusText
                         }
-                    }
+                    };
                 }
-                const data = await response.json()
-                sessionStorage.setItem("token", data.access_token)
+    
+                const data = await response.json();
+                sessionStorage.setItem("token", data.access_token);
                 setStore({
                     loginMessage: data.msg,
                     token: data.access_token,
-                    isLoginSuccessful: true
-                })
+                    isLoginSuccessful: true,
+                    isAuthenticated: true, 
+                });
                 return data;
             },
 
@@ -150,6 +155,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     isSignUpSuccessful: false,
                     loginMessage: null,
                     isLoginSuccessful: false,
+                    isAuthenticated: false
                 })
             },
 

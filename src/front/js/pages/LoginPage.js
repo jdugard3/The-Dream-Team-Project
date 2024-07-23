@@ -15,6 +15,7 @@ export const LoginPage = () => {
     const { store, actions } = useContext(Context);
 
     const handleClick = async () => {
+
         setErrorMessage("");
         setResetPassword("");
         setEmptyEmail("");
@@ -22,9 +23,8 @@ export const LoginPage = () => {
 
         const success = await actions.login(email, password);
 
-        if (!success) {
+        if (success) {
             setErrorMessage("Email or password does not match. Try Again");
-            setResetPassword("Forgot your password?");
         }
 
         if (email === "") {
@@ -37,7 +37,7 @@ export const LoginPage = () => {
 
     useEffect(() => {
         if (store.isLoginSuccessful) {
-            navigate("/")
+            navigate("/profile");
         }
 
     }, [store.isLoginSuccessful])
@@ -47,11 +47,8 @@ export const LoginPage = () => {
             <div className="login-box">
                 <div className="login-box-contents">
                     <h2>Log In</h2>
-                    <div>
-                        {store.signupMessage || ""}
-                    </div>
-                    {errorMessage && !emptyEmail && !emptyPassword && <div className="error-message">{errorMessage}</div>}
-                    <h4 style={{ textAlign: 'left' }}>Email:</h4>
+                    {errorMessage && !emptyEmail && !emptyPassword && <div style={{color:"red"}} >{errorMessage}</div>}
+                    <h4 style={{ textAlign: 'left'}}>Email:</h4>
                     <input
                         type="email"
                         placeholder="Enter email"
@@ -69,13 +66,12 @@ export const LoginPage = () => {
                         required
                     />
                     {emptyPassword && <div className="error-message">{emptyPassword}</div>}
-                    {resetPassword && !emptyEmail && !emptyPassword && <Link to={"/resetpassword"}>{resetPassword}</Link>}
                     <button className="basketball-button" onClick={handleClick}>
                         <img className="basketball-img" src="https://cdn-icons-png.flaticon.com/512/889/889455.png" alt="Basketball Icon" />
                     </button>
                     <div>
-                        Don't have an account? 
-                        <Link to={"/signup"}>
+                        Don't have an account?
+                        <Link to={"/signup"} className="text-primary" >
                             Sign Up
                         </Link>
                     </div>
