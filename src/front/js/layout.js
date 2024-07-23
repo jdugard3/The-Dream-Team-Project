@@ -12,8 +12,12 @@ import { Feedback } from "./pages/Feedback";
 import { LoginPage } from "./pages/LoginPage";
 import { SignUpPage } from "./pages/SignUpPage";
 import { ResetPassword } from "./pages/ResetPassword";
+
+import { AboutUs } from "./pages/AboutUs";
+
 import { ProfilePage } from "./pages/ProfilePage";
 import { OrderPage } from "./pages/OrderPage";
+
 
 import injectContext from "./store/appContext";
 
@@ -23,7 +27,7 @@ import { Footer } from "./component/footer";
 const Layout = () => {
     const basename = process.env.BASENAME || "";
 
-    if(!process.env.BACKEND_URL || process.env.BACKEND_URL === "") return <BackendURL />;
+    if (!process.env.BACKEND_URL || process.env.BACKEND_URL === "") return <BackendURL />;
 
     return (
         <div>
@@ -42,11 +46,10 @@ const Layout = () => {
                         <Route element={<OrderPage />} path="/orders" />
 
                         <Route element={<MichaelJordan />} path="/michael-jordan" />
-
                         <Route element={<Feedback />} path="/feedback" />
                         <Route element={<ResetPassword />} path="/resetpassword" />
-
-                        <Route element={<h1>Not found!</h1>} />
+                        <Route element={<AboutUs />} path="/about-us" /> 
+                        <Route element={<h1>Not found!</h1>} path="*" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>
