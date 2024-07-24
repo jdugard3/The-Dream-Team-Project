@@ -181,15 +181,3 @@ class Card(db.Model):
             "month": self.month,
             "user_id": self.user_id,
         }
-
-
-
-
-
-
-
-
-
-
-
-

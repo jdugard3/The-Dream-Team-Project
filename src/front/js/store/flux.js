@@ -124,27 +124,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return true
 			},
 
-			/* if(!response.ok) {
-				const data = await response.json()
-				setStore({loginMessage: data.msg})
-				return {
-					error: {
-						status: response.status,
-						statusText: response.statusText
-					}
-				}
-			}
-			const data = await response.json()
-			sessionStorage.setItem("token", data.access_token)
-			setStore({
-				loginMessage: data.msg,
-				token: data.access_token,
-				isLoginSuccessful: true
-			})
-			getActions().fetchUserData();
-			return data;
-		}, */
-
 			fetchUserData: async () => {
 				
 				const response = await fetch(`${process.env.BACKEND_URL}api/user`, {
@@ -221,18 +200,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return responseBody
 			},
 
-			updateShippingAddress: async (user) => {
-				const response = await fetch(`${process.env.BACKEND_URL}api/edit-shipping-address`,{
+			updateShippingAddress: async (shippingData) => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/edit-shipping-address`, {
 					method: 'PUT',
 					headers: {
 						"Content-Type": "application/json",
 						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
 					},
-					body: JSON.stringify({shipping: user.shipping})
+					body: JSON.stringify(shippingData)
 				});
-				if (response.status !== 201) return false;
+			
+				if (response.status !== 200) {
+					console.error("Failed to update shipping address:", response.statusText);
+					return false;
+				}
+			
 				const responseBody = await response.json();
-				console.log(responseBody)
+				console.log(responseBody);
 				return true;
 			},
 
@@ -253,18 +237,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return responseBody
 			},
 
-			updateBillingAddress: async (user) => {
-				const response = await fetch(`${process.env.BACKEND_URL}api/edit-billing-address`,{
+			updateBillingAddress: async (billingData) => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/edit-billing-address`, {
 					method: 'PUT',
 					headers: {
 						"Content-Type": "application/json",
 						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
 					},
-					body: JSON.stringify({billing: user.billing})
+					body: JSON.stringify(billingData)
 				});
-				if (response.status !== 201) return false;
+			
+				if (response.status !== 200) {
+					console.error("Failed to update billing address:", response.statusText);
+					return false;
+				}
+			
 				const responseBody = await response.json();
-				console.log(responseBody)
+				console.log(responseBody);
 				return true;
 			},
 
@@ -285,20 +274,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return responseBody
 			},
 
-			updateCard: async (user) => {
-				const response = await fetch(`${process.env.BACKEND_URL}api/edit-card-info`,{
+			updateCard: async (cardData) => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/edit-card-info`, {
 					method: 'PUT',
 					headers: {
 						"Content-Type": "application/json",
 						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
 					},
-					body: JSON.stringify({num: user.card.num, cvv: user.card.cvv, month: user.card.month, year: user.card.year})
+					body: JSON.stringify({ card: cardData })
 				});
-				if (response.status !== 201) return false;
+			
+				if (response.status !== 200) {
+					console.error("Failed to update card info:", response.statusText);
+					return false;
+				}
+			
 				const responseBody = await response.json();
-				console.log(responseBody)
+				console.log(responseBody);
 				return true;
 			},
+			
 
 		},
 	};

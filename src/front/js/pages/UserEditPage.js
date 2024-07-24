@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 
 
 export const UserEditPage = () => {
 
-  const {store, actions} = useContext(Context);
+  const { store, actions } = useContext(Context);
   const [billingAddress, setBillingAddress] = useState("");
   const [shippingAddress, setShippingAddress] = useState("");
   const [num, setNum] = useState("");
@@ -12,59 +13,62 @@ export const UserEditPage = () => {
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
 
-  /*useEffect(() => {
+  useEffect(() => {
     const getUserData = async () => {
-      actions.getShippingAddress()
-      setShippingAddress(await actions.getShippingAddress())
-    }
-  })*/
+      const shippingData = await actions.getShippingAddress();
+      if (shippingData) {
+        setShippingAddress(shippingData.shipping.address);
+      }
+      const billingData = await actions.getBillingAddress();
+      if (billingData) {
+        setBillingAddress(billingData.billing.address);
+      }
+      const cardData = await actions.getCard();
+      if (cardData) {
+        setNum(cardData.card.num)
+        setCvv(cardData.card.cvv)
+        setMonth(cardData.card.month)
+        setYear(cardData.card.year)
+      }
+    };
+    getUserData();
+  }, [actions]);
 
-    useEffect(() => {
-      const getUserData = async () => {
-        const shippingData = await actions.getShippingAddress();
-        if (shippingData) {
-          setShippingAddress(shippingData.shipping.address);
+  const handleEditSubmit = async () => {
+    try {
+        // Ensure the payloads match the API expectations
+        const shippingPayload = { shipping: { address: shippingAddress } };
+        const billingPayload = { billing: { address: billingAddress } };
+        const cardPayload = { num, cvv, month, year };
+
+        // Update Shipping Address
+        const updateShippingResult = await actions.updateShippingAddress(shippingPayload);
+        if (!updateShippingResult) {
+            alert("An error occurred while updating the shipping address.");
+            return;
         }
-        const billingData = await actions.getBillingAddress();
-        if (billingData) {
-          setBillingAddress(billingData.billing.address);
+
+        // Update Billing Address
+        const updateBillingResult = await actions.updateBillingAddress(billingPayload);
+        if (!updateBillingResult) {
+            alert("An error occurred while updating the billing address.");
+            return;
         }
-        const cardData = await actions.getCard();
-        if (cardData) {
-          setNum(cardData.card.num)
-          setCvv(cardData.card.cvv)
-          setMonth(cardData.card.month)
-          setYear(cardData.card.year)
-        }
-      };
-      getUserData();
-    }, [actions]);
-  
-    const handleEditSubmit = async () => {
-  try {
-    // Ensure the payloads match the API expectations
-    const shippingPayload = { shipping: { address: shippingAddress } };
-    const billingPayload = { billing: { address: billingAddress } };
 
-    // Update Shipping Address
-    const updateShippingResult = await actions.updateShippingAddress(shippingPayload);
-    if (!updateShippingResult) {
-      alert("An error occurred while updating the shipping address.");
-      return;
+         // Update Card Information
+         const updateCardResult = await actions.updateCard(cardPayload);
+         if (!updateCardResult) {
+             alert("An error occurred while updating the card information.");
+             return;
+         }
+
+        alert("Addresses updated successfully!");
+        window.location.href = "/profile";
+
+    } catch (error) {
+        console.error("Error updating addresses:", error);
+        alert("An error occurred while editing address(es).");
     }
-
-    // Update Billing Address
-    const updateBillingResult = await actions.updateBillingAddress(billingPayload);
-    if (!updateBillingResult) {
-      alert("An error occurred while updating the billing address.");
-      return;
-    }
-
-    alert("Addresses updated successfully!");
-  } catch (error) {
-    console.error("Error updating addresses:", error);
-    alert("An error occurred while editing address(es).");
-  }
 };
 
   return (
@@ -79,13 +83,13 @@ export const UserEditPage = () => {
         }}
         placeholder="Billing Address"
       />
-      
+
       <h2>Shipping Address</h2>
       <label>
         <input
           type="checkbox"
-          // checked={useBillingAddress}
-          // onChange={handleCheckboxChange}
+        // checked={useBillingAddress}
+        // onChange={handleCheckboxChange}
         />
         Same as Billing Address
       </label>
@@ -97,7 +101,6 @@ export const UserEditPage = () => {
           setShippingAddress(e.target.value)
         }}
         placeholder="Shipping Address"
-        // disabled={useBillingAddress}
       />
       <h2>Credit Card Information</h2>
       <input
@@ -138,6 +141,7 @@ export const UserEditPage = () => {
       />
 
       <button onClick={handleEditSubmit}>Submit</button>
+      <Link to="/profile"><button>Cancel</button></Link>
     </div>
   );
 };
