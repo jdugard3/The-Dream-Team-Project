@@ -234,7 +234,71 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const responseBody = await response.json();
 				console.log(responseBody)
 				return true;
-			}
+			},
+
+			getBillingAddress: async () => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/billing-address`,{
+					method: 'GET',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+					}
+				});
+				if (!response) {
+					console.error("Failed to fetch billing address",
+						response.status);
+						return false;
+				}
+				const responseBody = await response.json()
+				return responseBody
+			},
+
+			updateBillingAddress: async (user) => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/edit-billing-address`,{
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+					},
+					body: JSON.stringify({billing: user.billing})
+				});
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+				return true;
+			},
+
+			getCard: async () => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/card`,{
+					method: 'GET',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+					}
+				});
+				if (!response) {
+					console.error("Failed to fetch card info",
+						response.status);
+						return false;
+				}
+				const responseBody = await response.json()
+				return responseBody
+			},
+
+			updateCard: async (user) => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/edit-card-info`,{
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+					},
+					body: JSON.stringify({num: user.card.num, cvv: user.card.cvv, month: user.card.month, year: user.card.year})
+				});
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+				return true;
+			},
 
 		},
 	};

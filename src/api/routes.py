@@ -72,38 +72,6 @@ def register_user():
 
     return jsonify(response), 200
 
-@api.route('/orders', methods=['POST'])
-def shipping_info():
-    shipping_address = request.json.get("shipping_address")
-    billing_address = request.json.get("billing_address")
-    credit_card_num = request.json.get("credit_card_num")
-    credit_card_cvv = request.json.get("credit_card_cvv")
-    credit_card_year = request.json.get("credit_card_year")
-    credit_card_month = request.json.get("credit_card_month")
-
-    # Check for missing fields
-    if not all([shipping_address, billing_address, credit_card_num, credit_card_cvv, credit_card_year, credit_card_month]):
-        return jsonify({'msg': 'Missing one or more info fields. Please review your info.'}), 400
-
-    # Create a new shipping instance
-    shipping = Shipping(
-        shipping_address=shipping_address,
-        billing_address=billing_address,
-        credit_card_num=credit_card_num,
-        credit_card_cvv=credit_card_cvv,
-        credit_card_year=credit_card_year,
-        credit_card_month=credit_card_month
-    )
-
-    # Add to the database
-    db.session.add(shipping)
-    db.session.commit()
-
-    response = {'msg': f'Your info was added!'}
-
-    return jsonify(response), 201
-    return jsonify(response), 200
-
 @api.route('/feedback', methods=['POST'])
 
 def generate_feedback():
