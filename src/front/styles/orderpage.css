@@ -1,0 +1,83 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+}
+
+.order-page {
+    padding: 2rem;
+    background: #fff;
+    max-width: 800px;
+    margin: 2rem auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.order-page h1 {
+    color: #d32f2f;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.order-page form {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-page label {
+    font-weight: bold;
+    color: #d32f2f;
+    margin-bottom: 0.5rem;
+}
+
+.order-page input {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.order-page input:focus {
+    border-color: #d32f2f;
+    outline: none;
+    box-shadow: 0 0 5px rgba(211, 40, 40, 0.5);
+}
+
+.order-page button {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: center;
+    margin-top: 1rem;
+    max-width: 200px;
+    width: 100%;
+}
+
+.order-page button:hover {
+    background-color: #b71c1c;
+}
+
+@media (max-width: 600px) {
+    .order-page {
+        padding: 1rem;
+    }
+
+    .order-page h1 {
+        font-size: 1.5rem;
+    }
+
+    .order-page input {
+        font-size: 0.875rem;
+    }
+
+    .order-page button {
+        padding: 0.5rem 1rem;
+    }
+}
