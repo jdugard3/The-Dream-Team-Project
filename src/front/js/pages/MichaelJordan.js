@@ -5,7 +5,7 @@ import "../../styles/home.css";
 
 const PlayerProfile = ({ player }) => (
     <section className="player-profile">
-        <img style={{boxShadow: "none"}} src={player.topImage} alt={`${player.name} Top`} className="top-image" />
+        <img style={{boxShadow: "none", borderRadius: "7%"}} src={player.topImage} alt={`${player.name} Top`} className="top-image" />
         <h2>{player.name}</h2>
         <p>Position: {player.position}</p>
         <p>Team: {player.team}</p>

@@ -5,7 +5,7 @@ import '../../styles/UserBar.css';
 export const UserBar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="container-fluid">
+            {/* <div className="container-fluid">
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
@@ -22,7 +22,7 @@ export const UserBar = () => {
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> */}
         </nav>
     );
 }

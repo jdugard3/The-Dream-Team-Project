@@ -29,7 +29,9 @@ export const Footer = () => {
 				<ul>
 					<li><a href="#">Privacy Policy</a></li>
 					<li><a href="#">Terms of Service</a></li>
-					<li><a href="#">About Us</a></li>
+					<Link to="/about-us">
+						<li><a href="#">About Us</a></li>
+					</Link>
 					<Link to="/feedback">
 						<li><a data-bs-toggle="modal" data-bs-target="#staticBackdrop">Feedback</a></li>
 					</Link>
