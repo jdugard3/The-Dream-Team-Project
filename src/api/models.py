@@ -12,14 +12,17 @@ class User(db.Model):
     billing_addresses = db.relationship('BillingAddress', back_populates='user')
     shipping_addresses = db.relationship('ShippingAddress', back_populates='user')
     orders = db.relationship('Order', back_populates='user')
+    
     def __repr__(self):
         return f'<User {self.email}>'
+      
     def serialize(self):
         return {
             "id": self.id,
             "email": self.email,
             "full_name": self.full_name,
         }
+      
 class Favorite(db.Model):
     __tablename__ = "favorites_table"
     id = db.Column(db.Integer, primary_key=True)
@@ -29,12 +32,14 @@ class Favorite(db.Model):
     shoe = db.relationship("Shoe", backref="favorites")
     def __repr__(self):
         return f'<Favorite {self.user.email}>'
+      
     def serialize(self):
         return {
             "id": self.id,
             "user_id": self.user_id,
             "shoe_id": self.shoe_id,
         }
+      
 class Shoe(db.Model):
     __tablename__ = "shoes_table"
     id = db.Column(db.Integer, primary_key=True)
@@ -43,8 +48,10 @@ class Shoe(db.Model):
     brand = db.Column(db.String(120), nullable=False)
     price = db.Column(db.Numeric(10, 2), nullable=False)
     ordered_in = db.relationship('ShoesOrdered', back_populates='shoe')
+    
     def __repr__(self):
         return f'<Shoe {self.name}>'
+      
     def serialize(self):
         return {
             "id": self.id,
@@ -53,6 +60,7 @@ class Shoe(db.Model):
             "brand": self.brand,
             "price": self.price,
         }
+      
 class Order(db.Model):
     __tablename__ = "orders_table"
     id = db.Column(db.Integer, primary_key=True)
@@ -67,8 +75,10 @@ class Order(db.Model):
     shoes_ordered = db.relationship('ShoesOrdered', back_populates='order')
     total_price = db.Column(db.Float, nullable=True)
     order_date = db.Column(db.String(120), nullable=True)
+    
     def __repr__(self):
         return f'<Order {self.id}>'
+      
     def serialize(self):
         return {
             "id": self.id,
@@ -76,6 +86,7 @@ class Order(db.Model):
             "total_price": self.total_price,
             "order_date": self.order_date,
         }
+      
 class ShoesOrdered (db.Model) :
     __tablename__="shoes_ordered"
     id = db.Column(db.Integer, primary_key=True)
@@ -83,8 +94,10 @@ class ShoesOrdered (db.Model) :
     shoe_id=db.Column("shoe_id", db.ForeignKey("shoes_table.id"))
     order = db.relationship('Order', back_populates='shoes_ordered')
     shoe=db.relationship('Shoe', back_populates='ordered_in')
+    
     def __repr__(self):
         return f'<ShoesOrdered {self.id}>'
+      
     def serialize(self):
         return {
             "id": self.id,
@@ -100,6 +113,7 @@ class Feedback(db.Model):
     user = db.relationship("User", back_populates="feedbacks")
     def __repr__(self):
         return f'<Feedback {self.id}>'
+      
     def serialize(self):
         return {
             "id": self.id,
@@ -107,6 +121,7 @@ class Feedback(db.Model):
             "description": self.description,
             "user_id": self.user_id,
         }
+      
 class ShippingAddress(db.Model):
     __tablename__ = "shipping_address_table"
     id = db.Column(db.Integer, primary_key=True)
@@ -122,6 +137,7 @@ class ShippingAddress(db.Model):
             "address": self.address,
             "user_id": self.user_id,
         }
+      
 class BillingAddress(db.Model):
     __tablename__ = "billing_address_table"
     id = db.Column(db.Integer, primary_key=True)
@@ -129,14 +145,17 @@ class BillingAddress(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user_table.id"),nullable=False)
     orders = db.relationship("Order", back_populates="billing_address")
     user = db.relationship("User", back_populates="billing_addresses")
+    
     def __repr__(self):
         return f'<BillingAddress {self.address}>'
+      
     def serialize(self):
         return {
             "id": self.id,
             "address": self.address,
             "user_id": self.user_id,
         }
+      
 class Card(db.Model):
     __tablename__ = "card_table"
     id = db.Column(db.Integer, primary_key=True)
@@ -149,6 +168,7 @@ class Card(db.Model):
     user = db.relationship("User", back_populates="cards")
     def __repr__(self):
         return f'<Card {self.num}>'
+      
     def serialize(self):
         return {
             "id": self.id,
@@ -158,3 +178,4 @@ class Card(db.Model):
             "month": self.month,
             "user_id": self.user_id,
         }
+      

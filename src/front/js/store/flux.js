@@ -7,105 +7,162 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isSignUpSuccessful: false,
 			loginMessage: null,
 			isLoginSuccessful: false,
+			user: null,
 			orders: [],
 			favorites: [],
-			shoes: [
-				{
-					brand: "Jordan",
-					id: "1",
-					name: "Air Jordan 1 Mid",
-					retailPrice: 100,
-					
-				},
-				{
-					brand: "Jordan",
-					id: "2",
-					name: "Air Jordan 6 Retro White/Black",
-					retailPrice: 200,
-					
-				},
-				{
-					brand: "Jordan",
-					id: "3",
-					name: "Air Jordan 11 Retro 'Bred' 2019",
-					retailPrice: 311,
-				},
-			],
-		},
+      shoes: [
+            {
+                   brand: "Jordan",
+                   id: "1",
+                   name: "Air Jordan 1 Mid",
+                   retailPrice: 100,
+             },
+             {
+                         brand: "Jordan",
+                         id: "2",
+                         name: "Air Jordan 6 Retro White/Black",
+                         retailPrice: 200,
+             },
+             {
+                         brand: "Jordan",
+                         id: "3",
+                         name: "Air Jordan 11 Retro 'Bred' 2019",
+                         retailPrice: 311,
+             },
+    ],
+  },
+
 
 		actions: {
+      feedback: async (userEmail, userFeedback) => {
+                const options = {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: userEmail,
+                        description: userFeedback
+                    })
+                }
+                const response = await fetch(`${process.env.BACKEND_URL}api/feedback`, options)
+
+                if (!response.ok) {
+                    return {
+                        error: {
+                            status: response.status,
+                            statusText: response.statusText
+                        }
+                    }
+                }
+                const data = await response.json();
+                return data;
+            },
 
 			signUp: async (userEmail, userPassword, userFullName) => {
-				const options = {
-					method: 'POST',
-					mode: 'cors',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						email: userEmail,
-						password: userPassword,
-						full_name: userFullName
-					})
-				}
-				const response = await fetch(`${process.env.BACKEND_URL}api/signup`, options)
-
-				if (!response.ok) {
-					const data = await response.json()
-					setStore({ signupMessage: data.msg })
-					return {
-						error: {
-							status: response.status,
-							statusText: response.statusText
-						}
-					}
-				}
-				const data = await response.json()
-				setStore({
-					signupMessage: data.msg,
-					isSignUpSuccessful: response.ok
-				})
-				return data;
-			},
-
+                const options = {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: userEmail,
+                        password: userPassword,
+                        full_name: userFullName
+                    })
+                };
+    
+                const response = await fetch(`${process.env.BACKEND_URL}api/signup`, options);
+    
+                if (!response.ok) {
+                    const data = await response.json();
+                    
+                    if (response.status === 409) { 
+                        setStore({ signupMessage: "Email is already associated with an account" });
+                    } else {
+                        setStore({ signupMessage: data.msg || "Sign up failed" });
+                    }
+                    
+                    return {
+                        error: {
+                            status: response.status,
+                            statusText: response.statusText
+                        }
+                    };
+                }
+    
+                const data = await response.json();
+                setStore({
+                    signupMessage: data.msg,
+                    isSignUpSuccessful: response.ok,
+                    isAuthenticated: true 
+                });
+                return data;
+            },
+      
 			login: async (userEmail, userPassword) => {
-				const options = {
-					method: 'POST',
-					mode: 'cors',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						email: userEmail,
-						password: userPassword
-					})
-				}
-				const response = await fetch(`${process.env.BACKEND_URL}api/token`, options)
+                const options = {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: userEmail,
+                        password: userPassword
+                    })
+                }
+    
+                const response = await fetch(`${process.env.BACKEND_URL}api/token`, options);
+    
+                if (!response.ok) {
+                    const data = await response.json();
+                    setStore({ loginMessage: data.msg });
+                    return {
+                        error: {
+                            status: response.status,
+                            statusText: response.statusText
+                        }
+                    };
+                }
+    
+                const data = await response.json();
+                sessionStorage.setItem("token", data.access_token);
+                setStore({
+                    loginMessage: data.msg,
+                    token: data.access_token,
+                    isLoginSuccessful: true,
+                    isAuthenticated: true, 
+                });
+                return data;
+            },
 
+			fetchUserData: async () => {
+				
+				const response = await fetch(`${process.env.BACKEND_URL}api/user`, {
+					headers: {
+						'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+					},
+				});
+				console.log("Response status:", response.status); // Debugging log
 				if (!response.ok) {
-					const data = await response.json()
-					setStore({ loginMessage: data.msg })
-					return {
-						error: {
-							status: response.status,
-							statusText: response.statusText
-						}
-					}
+
+					console.log("Failed to fetch User data:", response.status); // Debugging log
+					return false;
 				}
-				const data = await response.json()
-				sessionStorage.setItem("token", data.access_token)
-				setStore({
-					loginMessage: data.msg,
-					token: data.access_token,
-					isLoginSuccessful: true
-				})
-				return data;
+				const data = await response.json();
+				setStore({user:data.user})
+				return true
 			},
 
 			syncSessionTokenFromStore: () => {
 				const sessionToken = sessionStorage.getItem('token');
+				console.log("Session token:", sessionToken); // Debugging log
 				if (sessionToken && sessionToken != "" && sessionToken != undefined) {
 					setStore({ token: sessionToken })
+					getActions().fetchUserData();
 				}
 			},
 
@@ -117,6 +174,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					isSignUpSuccessful: false,
 					loginMessage: null,
 					isLoginSuccessful: false,
+					user: null,
 				})
 			},
 
@@ -438,7 +496,104 @@ const getState = ({ getStore, getActions, setStore }) => {
 			removeFromCart: (shoeId) => {
 				const store = getStore();
 				setStore({ orders: store.orders.filter(shoe => shoe.id !== shoeId) });
-			}
+			},
+
+			getShippingAddress: async () => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/shipping-address`,{
+					method: 'GET',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+					}
+				});
+				if (!response) {
+					console.error("Failed to fetch shipping address",
+						response.status);
+						return false;
+				}
+				const responseBody = await response.json()
+				return responseBody
+			},
+
+			updateShippingAddress: async (user) => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/edit-shipping-address`,{
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+					},
+					body: JSON.stringify({shipping: user.shipping})
+				});
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+				return true;
+			},
+
+			getBillingAddress: async () => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/billing-address`,{
+					method: 'GET',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+					}
+				});
+				if (!response) {
+					console.error("Failed to fetch billing address",
+						response.status);
+						return false;
+				}
+				const responseBody = await response.json()
+				return responseBody
+			},
+
+			updateBillingAddress: async (user) => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/edit-billing-address`,{
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+					},
+					body: JSON.stringify({billing: user.billing})
+				});
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+				return true;
+			},
+
+			getCard: async () => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/card`,{
+					method: 'GET',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+					}
+				});
+				if (!response) {
+					console.error("Failed to fetch card info",
+						response.status);
+						return false;
+				}
+				const responseBody = await response.json()
+				return responseBody
+			},
+
+			updateCard: async (user) => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/edit-card-info`,{
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json",
+						'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+					},
+					body: JSON.stringify({num: user.card.num, cvv: user.card.cvv, month: user.card.month, year: user.card.year})
+				});
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+				return true;
+			},
+			// }
 
             //     const response = await fetch(`${process.env.BACKEND_URL}api/orders`, {
             //         method: "POST",
@@ -466,7 +621,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             //     });
             //     return true;
             // },
-        }
+        // }
     };
 };
 

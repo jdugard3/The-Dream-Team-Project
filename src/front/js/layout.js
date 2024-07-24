@@ -16,6 +16,9 @@ import { Feedback } from "./pages/Feedback";
 
 import { LoginPage } from "./pages/LoginPage";
 import { SignUpPage } from "./pages/SignUpPage";
+import { OrdersPage } from "./pages/OrdersPage";
+import { UserProfilePage } from "./pages/UserProfilePage";
+import { UserEditPage } from "./pages/UserEditPage";
 import { ResetPassword } from "./pages/ResetPassword";
 
 import { AboutUs } from "./pages/AboutUs";
@@ -42,12 +45,11 @@ const Layout = () => {
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />
-
-
+                        <Route element={<Single />} path="/single/" />
                         <Route element={<LoginPage />} path="/login" />
                         <Route element={<SignUpPage />} path="/signup" />
-
+                        <Route element={<UserEditPage />} path="/profile/edit" />
+                        <Route element={<UserProfilePage />} path="/profile" />
 
                         <Route element={<MichaelJordan />} path="/michael-jordan" />
                         <Route element={<KobeBryant />} path="/kobe-bryant" /> 
