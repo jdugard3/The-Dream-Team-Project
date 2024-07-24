@@ -81,7 +81,7 @@ def generate_feedback():
 
     if user is None:
         response = {
-            'msg': 'User not found.'
+            'msg': 'Email does not exist, please create an account.'
         }
         return jsonify(response), 403
     
