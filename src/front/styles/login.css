@@ -1,19 +1,92 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.login-box {
+    background: linear-gradient(to right, #ff416c, #2b80ff); 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 500px;
+    height: 500px; 
+    text-align: center;
+    color: white; 
+    font-family: 'Arial', sans-serif; 
+    margin-top: -200px;
+}
+
+
 .login-box-contents {
-    border-style: solid;
-    border-color: red;
-    box-shadow: black -5px 5px 3px;
-    
+    background-position: center;
+    padding: 20px;
 }
 
-.basketball-button:hover{
-    background-color: white;
+
+.login-box-contents input[type="email"],
+.login-box-contents input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+
+.basketball-button {
+    background-color: transparent; 
     border: none;
-    border-radius: 50px;
-    transform: rotate(360deg);
-    transition: transform .7s ease-in-out;
+    border-radius: 40px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.basketball-img{
+.basketball-button:hover {
+    transform: rotate(360deg);
+    transition: transform .9s ease-in-out;
+}
+
+
+.login-box-contents a {
+    color: white;
+    text-decoration: underline;
+}
+
+.login-box-contents a:hover {
+    color: #ff416c; 
+}
+
+
+.login-box h2 {
+    margin-bottom: 20px;
+    font-size: 40px;
+}
+
+
+.login-box-contents img {
+    background-position: center;
+    width: 70px; 
+    height: 70px; 
+}
+
+
+.basketball-img {
     width: 70px;
     height: 70px;
 }
+
+
+.error-message {
+    color: white;
+}
+

@@ -58,6 +58,7 @@ export const MichaelJordan = () => {
 
     return (
         <div>
+
             <main>
                 <PlayerProfile player={player} />
                 <div className="shoe-card-container">
@@ -65,6 +66,24 @@ export const MichaelJordan = () => {
                         <ShoeCard key={shoe.id} shoes={shoe} />
                     ))}
                 </div>
+
+            {/* <header>
+                <nav>
+                    <div className="logo">HoopLegendSneakers</div>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/michael-jordan">Michael Jordan Collection</a></li>
+                    </ul>
+                </nav>
+            </header> */}
+            <main>
+                <PlayerProfile player={player} />
+                    <div>
+                        {store.shoes.map((shoe) => (
+                            <ShoeCard key={shoe.id} shoe={shoe} />
+                        ))}
+                    </div>
+
                 <section className="sneaker-pairs">
                     <h2>Legendary Sneaker Pairs</h2>
                     {sneakerPairs.map((sneaker, index) => (
