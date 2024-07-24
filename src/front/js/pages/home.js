@@ -10,31 +10,44 @@ export const Home = () => {
 	const collections = [
 		{
 			name: "Michael Jordan",
-			image: "/path/to/michael-jordan-sneakers.jpg",
+
+			image: "https://www.si.com/.image/c_limit%2Ccs_srgb%2Cq_auto:good%2Cw_700/MTY4MTg2MDIyNzgyODM4MDMz/1988-michael-jordan-001238167_0jpg.webp",
+
+	
+
 			route: "/michael-jordan"
 		},
 		{
 			name: "Kobe Bryant",
-			image: "/path/to/kobe-bryant-sneakers.jpg",
+
+			image: "https://media.gettyimages.com/id/84597779/photo/los-angeles-lakers-v-new-york-knicks.jpg?s=2048x2048&w=gi&k=20&c=Aj0r0rG0r7FPfRTDYqEQh6qnHV411wEQaJOQ7k9B5C4=",
+
+			
 			route: "/kobe-bryant"
 		},
 		{
 			name: "LeBron James",
-			image: "/path/to/lebron-james-sneakers.jpg",
+
+			image: "https://library.sportingnews.com/styles/crop_style_16_9_desktop/s3/2023-12/LeBron%20James%20121123.jpeg?h=920929c4&itok=Y69O-gbW",
+
 			route: "/lebron-james"
 		},
 		{
 			name: "Stephen Curry",
-			image: "/path/to/stephen-curry-sneakers.jpg",
+
+			image: "https://library.sportingnews.com/styles/crop_style_16_9_desktop/s3/2021-12/stephen-curry-12142021-ftr_4eql5k00ttqn1jkyeqm8zu999.jpeg?itok=4ZMIHMKt",
+
+			
 			route: "/stephen-curry"
 		},
 		{
 			name: "Kevin Durant",
-			image: "/path/to/kevin-durant-sneakers.jpg",
+
+			image: "https://pyxis.nymag.com/v1/imgs/031/1e4/8624fe26c49094b3910d0d0b2f144f07c7-Kevin-Durant.rhorizontal.w700.jpg",
+
 			route: "/kevin-durant"
 		}
 	];
-
 
 	return (
 		<>
@@ -45,14 +58,20 @@ export const Home = () => {
 						<p className="mission-statement">
 							At HoopLegendSneakers, we celebrate the legacy of basketball's greatest superstars by bringing you an exclusive collection of iconic sneakers from Michael Jordan, Kobe Bryant, LeBron James, Stephen Curry, and Kevin Durant. Our mission is to connect you with the stories behind each legendary pair, providing not just footwear but a piece of basketball history. With detailed player bios and the rich narratives of their signature sneakers, we aim to inspire and ignite the passion of every basketball enthusiast. Step into greatness and wear the legacy with HoopLegendSneakers.
 						</p>
-						{/* <a href="/collections" className="explore-button">Explore Collections</a> */}
 					</section>
 					<section className="collections">
 						{collections.map((collection, index) => (
+
+							<Link to={collection.route} key={index} className="collection">
+								<img src={collection.image} alt={`${collection.name} Sneakers`} className="collection-image" />
+								<h2>{collection.name}</h2>
+							</Link>
+
 						<Link to={collection.route} key={index} className="collection">
 								<img src={collection.image} alt={`${collection.name} Sneakers`}/>
 								<h2>{collection.name}</h2>
 						</Link>
+
 						))}
 					</section>
 				</main>

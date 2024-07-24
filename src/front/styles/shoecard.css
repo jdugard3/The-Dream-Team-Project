@@ -1,4 +1,17 @@
+.shoe-card-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 1rem;
+    padding: 1rem;
+    justify-content: center;
+    align-items: flex-start;
+    height: auto;
+    margin-top: 1rem;
+}
+
 .shoe-card {
+    flex: 0 0 auto;
     width: 18rem;
     border: 1px solid #ddd;
     border-radius: 10px;
