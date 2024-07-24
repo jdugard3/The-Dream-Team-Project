@@ -1,192 +1,176 @@
 const getState = ({ getStore, getActions, setStore }) => {
 
-	return {
-		store: {
-			token: null,
-			signupMessage: null,
-			isSignUpSuccessful: false,
-			loginMessage: null,
-			isLoginSuccessful: false,
-			user: null,
-			orders: [],
-			favorites: [],
-      shoes: [
-            {
-                   brand: "Jordan",
-                   id: "1",
-                   name: "Air Jordan 1 Mid",
-                   retailPrice: 100,
-             },
-             {
-                         brand: "Jordan",
-                         id: "2",
-                         name: "Air Jordan 6 Retro White/Black",
-                         retailPrice: 200,
-             },
-             {
-                         brand: "Jordan",
-                         id: "3",
-                         name: "Air Jordan 11 Retro 'Bred' 2019",
-                         retailPrice: 311,
-             },
-    ],
-  },
+// 	return {
+// 		store: {
+// 			token: null,
+// 			signupMessage: null,
+// 			isSignUpSuccessful: false,
+// 			loginMessage: null,
+// 			isLoginSuccessful: false,
+// 			user: null,
+// 			orders: [],
+// 			favorites: [],
+//          shoes: [
+//                 {
+//                     brand: "Jordan",
+//                     id: "1",
+//                     name: "Air Jordan 1 Mid",
+//                     retailPrice: 100,
+//                 },
+//                 {
+//                     brand: "Jordan",
+//                     id: "2",
+//                     name: "Air Jordan 6 Retro White/Black",
+//                     retailPrice: 200,
+//                 },
+//                 {
+//                     brand: "Jordan",
+//                     id: "3",
+//                     name: "Air Jordan 11 Retro 'Bred' 2019",
+//                     retailPrice: 311,
+//                 },
+//             ],
+//   },
 
 
-		actions: {
-      feedback: async (userEmail, userFeedback) => {
-                const options = {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email: userEmail,
-                        description: userFeedback
-                    })
-                }
-                const response = await fetch(`${process.env.BACKEND_URL}api/feedback`, options)
+		// actions: {
+    //   feedback: async (userEmail, userFeedback) => {
+    //             const options = {
+    //                 method: 'POST',
+    //                 mode: 'cors',
+    //                 headers: {
+    //                     'Content-Type': 'application/json'
+    //                 },
+    //                 body: JSON.stringify({
+    //                     email: userEmail,
+    //                     description: userFeedback
+    //                 })
+    //             }
+    //             const response = await fetch(`${process.env.BACKEND_URL}api/feedback`, options)
 
-                if (!response.ok) {
-                    return {
-                        error: {
-                            status: response.status,
-                            statusText: response.statusText
-                        }
-                    }
-                }
-                const data = await response.json();
-                return data;
-            },
+    //             if (!response.ok) {
+    //                 return {
+    //                     error: {
+    //                         status: response.status,
+    //                         statusText: response.statusText
+    //                     }
+    //                 }
+    //             }
+    //             const data = await response.json();
+    //             return data;
+    //         },
 
-			signUp: async (userEmail, userPassword, userFullName) => {
-                const options = {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email: userEmail,
-                        password: userPassword,
-                        full_name: userFullName
-                    })
-                };
+	// 		signUp: async (userEmail, userPassword, userFullName) => {
+    //             const options = {
+    //                 method: 'POST',
+    //                 mode: 'cors',
+    //                 headers: {
+    //                     'Content-Type': 'application/json'
+    //                 },
+    //                 body: JSON.stringify({
+    //                     email: userEmail,
+    //                     password: userPassword,
+    //                     full_name: userFullName
+    //                 })
+    //             };
     
-                const response = await fetch(`${process.env.BACKEND_URL}api/signup`, options);
+    //             const response = await fetch(`${process.env.BACKEND_URL}api/signup`, options);
     
-                if (!response.ok) {
-                    const data = await response.json();
+    //             if (!response.ok) {
+    //                 const data = await response.json();
                     
-                    if (response.status === 409) { 
-                        setStore({ signupMessage: "Email is already associated with an account" });
-                    } else {
-                        setStore({ signupMessage: data.msg || "Sign up failed" });
-                    }
+    //                 if (response.status === 409) { 
+    //                     setStore({ signupMessage: "Email is already associated with an account" });
+    //                 } else {
+    //                     setStore({ signupMessage: data.msg || "Sign up failed" });
+    //                 }
                     
-                    return {
-                        error: {
-                            status: response.status,
-                            statusText: response.statusText
-                        }
-                    };
-                }
+    //                 return {
+    //                     error: {
+    //                         status: response.status,
+    //                         statusText: response.statusText
+    //                     }
+    //                 };
+    //             }
     
-                const data = await response.json();
-                setStore({
-                    signupMessage: data.msg,
-                    isSignUpSuccessful: response.ok,
-                    isAuthenticated: true 
-                });
-                return data;
-            },
+    //             const data = await response.json();
+    //             setStore({
+    //                 signupMessage: data.msg,
+    //                 isSignUpSuccessful: response.ok,
+    //                 isAuthenticated: true 
+    //             });
+    //             return data;
+    //         },
       
-			login: async (userEmail, userPassword) => {
-                const options = {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email: userEmail,
-                        password: userPassword
-                    })
-                }
+			// login: async (userEmail, userPassword) => {
+            //     const options = {
+            //         method: 'POST',
+            //         mode: 'cors',
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         },
+            //         body: JSON.stringify({
+            //             email: userEmail,
+            //             password: userPassword
+            //         })
+            //     }
     
-                const response = await fetch(`${process.env.BACKEND_URL}api/token`, options);
+            //     const response = await fetch(`${process.env.BACKEND_URL}api/token`, options);
     
-                if (!response.ok) {
-                    const data = await response.json();
-                    setStore({ loginMessage: data.msg });
-                    return {
-                        error: {
-                            status: response.status,
-                            statusText: response.statusText
-                        }
-                    };
-                }
+            //     if (!response.ok) {
+            //         const data = await response.json();
+            //         setStore({ loginMessage: data.msg });
+            //         return {
+            //             error: {
+            //                 status: response.status,
+            //                 statusText: response.statusText
+            //             }
+            //         };
+            //     }
     
-                const data = await response.json();
-                sessionStorage.setItem("token", data.access_token);
-                setStore({
-                    loginMessage: data.msg,
-                    token: data.access_token,
-                    isLoginSuccessful: true,
-                    isAuthenticated: true, 
-                });
-                return data;
-            },
+            //     const data = await response.json();
+            //     sessionStorage.setItem("token", data.access_token);
+            //     setStore({
+            //         loginMessage: data.msg,
+            //         token: data.access_token,
+            //         isLoginSuccessful: true,
+            //         isAuthenticated: true, 
+            //     });
+            //     return data;
+            // },
 
-			fetchUserData: async () => {
-				
-				const response = await fetch(`${process.env.BACKEND_URL}api/user`, {
-					headers: {
-						'Authorization': 'Bearer ' + sessionStorage.getItem("token")
-					},
-				});
-				console.log("Response status:", response.status); // Debugging log
-				if (!response.ok) {
+			
 
-					console.log("Failed to fetch User data:", response.status); // Debugging log
-					return false;
-				}
-				const data = await response.json();
-				setStore({user:data.user})
-				return true
-			},
+			// syncSessionTokenFromStore: () => {
+			// 	const sessionToken = sessionStorage.getItem('token');
+			// 	console.log("Session token:", sessionToken); // Debugging log
+			// 	if (sessionToken && sessionToken != "" && sessionToken != undefined) {
+			// 		setStore({ token: sessionToken })
+			// 		getActions().fetchUserData();
+			// 	}
+			// },
 
-			syncSessionTokenFromStore: () => {
-				const sessionToken = sessionStorage.getItem('token');
-				console.log("Session token:", sessionToken); // Debugging log
-				if (sessionToken && sessionToken != "" && sessionToken != undefined) {
-					setStore({ token: sessionToken })
-					getActions().fetchUserData();
-				}
-			},
+			// logout: () => {
+			// 	sessionStorage.removeItem('token');
+			// 	setStore({
+			// 		token: null,
+			// 		signupMessage: null,
+			// 		isSignUpSuccessful: false,
+			// 		loginMessage: null,
+			// 		isLoginSuccessful: false,
+			// 		user: null,
+			// 	})
+			// },
 
-			logout: () => {
-				sessionStorage.removeItem('token');
-				setStore({
-					token: null,
-					signupMessage: null,
-					isSignUpSuccessful: false,
-					loginMessage: null,
-					isLoginSuccessful: false,
-					user: null,
-				})
-			},
+			// addFavorite: (shoe) => {
+			// 	const store = getStore();
+			// 	setStore({ favorites: [...store.favorites, shoe] });
+			// },
 
-			addFavorite: (shoe) => {
-				const store = getStore();
-				setStore({ favorites: [...store.favorites, shoe] });
-			},
-
-			removeFavorite: (shoeId) => {
-				const store = getStore();
-				setStore({ favorites: store.favorites.filter(shoe => shoe.id !== shoeId) });
-			},
+			// removeFavorite: (shoeId) => {
+			// 	const store = getStore();
+			// 	setStore({ favorites: store.favorites.filter(shoe => shoe.id !== shoeId) });
+			// },
 
     return {
         store: {
@@ -205,6 +189,24 @@ const getState = ({ getStore, getActions, setStore }) => {
         },
 
         actions: {
+
+            fetchUserData: async () => {
+				const response = await fetch(`${process.env.BACKEND_URL}api/user`, {
+					headers: {
+						'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+					},
+				});
+				console.log("Response status:", response.status); // Debugging log
+				if (!response.ok) {
+
+					console.log("Failed to fetch User data:", response.status); // Debugging log
+					return false;
+				}
+				const data = await response.json();
+				setStore({user:data.user})
+				return true
+			},
+
             feedback: async (userEmail, userFeedback) => {
                 const options = {
                     method: 'POST',
@@ -465,38 +467,11 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
 
-            // submitOrder: async (ShippingAddress, BillingAddress, CardNumber, CardCvv, CardMonth, CardYear) => {
-            //     const store = getStore();
-            //     const orderData = {
-            //         ShippingAddress,
-            //         BillingAddress,
-            //         CardNumber,
-            //         CardCvv,
-            //         CardMonth,
-            //         CardYear,
-            //         items: store.orders.map(item => ({
-            //             shoeId: item.id,
-            //             quantity: 1
-            //         }))
-            //     }
-            //     // const options = {
-            //     //     method: "POST",
-            //     //     headers: {
-            //     //         "Content-Type": "application/json",
-            //     //         "Authorization": `Bearer ${store.token}`
-            //     //     },
-            //     //     body: JSON.stringify({orderData})
-            //     // };
 
-            //     console.log(`Backend URL: ${process.env.BACKEND_URL}api/orders`);
-            //     console.log("Store token:", store.token);
-            //     console.log("Store orders:", store.orders);
-
-
-			removeFromCart: (shoeId) => {
-				const store = getStore();
-				setStore({ orders: store.orders.filter(shoe => shoe.id !== shoeId) });
-			},
+			// removeFromCart: (shoeId) => {
+			// 	const store = getStore();
+			// 	setStore({ orders: store.orders.filter(shoe => shoe.id !== shoeId) });
+			// },
 
 			getShippingAddress: async () => {
 				const response = await fetch(`${process.env.BACKEND_URL}api/shipping-address`,{
@@ -621,7 +596,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             //     });
             //     return true;
             // },
-        // }
+        }
     };
 };
 

@@ -83,10 +83,10 @@
 .basketball-img {
     width: 70px;
     height: 70px;
+    box-shadow: none;
 }
 
 
 .error-message {
     color: white;
 }
-

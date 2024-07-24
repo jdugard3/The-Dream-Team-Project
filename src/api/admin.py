@@ -1,4 +1,3 @@
-
 import os
 from flask_admin import Admin
 from .models import db, User, Favorite, Shoe, Order, Feedback, ShippingAddress, BillingAddress, Card, ShoesOrdered
@@ -20,10 +19,7 @@ def setup_admin(app):
     admin.add_view(ModelView(ShoesOrdered, db.session))
     admin.add_view(ModelView(Card, db.session))
     admin.add_view(ModelView(Feedback, db.session))
-    admin.add_view(ModelView(ShippingAddress, db.session))
-    admin.add_view(ModelView(BillingAddress, db.session))
-    admin.add_view(ModelView(Card, db.session))
-    admin.add_view(ModelView(ShoesOrdered, db.session))
+
     
 
 

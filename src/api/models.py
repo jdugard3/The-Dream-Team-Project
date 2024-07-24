@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
+
 class User(db.Model):
     __tablename__ = "user_table"
     id = db.Column(db.Integer, primary_key=True)
@@ -104,6 +105,7 @@ class ShoesOrdered (db.Model) :
             "order_id": self.order_id,
             "shoe_id": self.shoe_id,
         }
+    
 class Feedback(db.Model):
     __tablename__ = "feedback_table"
     id = db.Column(db.Integer, primary_key=True)
