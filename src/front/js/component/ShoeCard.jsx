@@ -20,7 +20,7 @@ const ShoeCard = ({ shoe }) => {
     };
 
     const handleOrders = () => {
-        if (!store.orders.includes(shoe)) {
+        if (!store.cartItems.includes(shoe)) {
             actions.addToCart(shoe);
         } else {
             actions.removeFromCart(shoe.id); 
@@ -41,7 +41,7 @@ const ShoeCard = ({ shoe }) => {
                     {store.favorites.includes(shoe) ? "Remove from Favorites" : "Add to Favorites"}
                 </button>
                 <button className="btn btn-custom-cart" onClick={handleOrders}>
-                    {store.orders.includes(shoe) ? "Remove from Cart" : "Add to Cart"}
+                    {store.cartItems.includes(shoe) ? "Remove from Cart" : "Add to Cart"}
                 </button>
             </div>
         </div>

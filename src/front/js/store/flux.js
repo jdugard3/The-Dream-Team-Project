@@ -192,7 +192,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 if (!response.ok) {
                     const data = await response.json();
                     
-                    if (response.status === 409) { // Assuming 409 for "User already exists"
+                    if (response.status === 409) { 
                         setStore({ signupMessage: "Email is already associated with an account" });
                     } else {
                         setStore({ signupMessage: data.msg || "Sign up failed" });
