@@ -102,24 +102,6 @@ def generate_feedback():
     }
     return jsonify(response), 200
 
-  
-@api.route('/users', methods=['GET'])
-def get_all_users():
-    users=User.query.all()
-    serialize_users = []
-    for user in users:
-        serialize_users.append(user.serialize())
-    return jsonify({"msg": "Here is the list of users", "users": serialize_users}), 200
-
-@api.route('/user', methods=['GET'])
-@jwt_required()
-def get_one_user():
-    user_id = get_jwt_identity()
-    user = User.query.filter_by(id = user_id).first()
-    if user is None:
-        return jsonify({"msg": "user not found"}), 404
-    return jsonify({"msg": "Here is your user", "user": user.serialize()}), 200
-
 @api.route('/users/login', methods=['POST'])
 def handle_login():
     email=request.json.get("email",None)

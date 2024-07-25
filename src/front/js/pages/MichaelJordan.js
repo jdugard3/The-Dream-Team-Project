@@ -60,12 +60,12 @@ export const MichaelJordan = () => {
         <div>
 
             <main>
-                <PlayerProfile player={player} />
+                {/*<PlayerProfile player={player} />
                 <div className="shoe-card-container">
                     {store.shoes.map((shoe) => (
                         <ShoeCard key={shoe.id} shoes={shoe} />
                     ))}
-                </div>
+                </div>*/}
 
             {/* <header>
                 <nav>
@@ -76,7 +76,6 @@ export const MichaelJordan = () => {
                     </ul>
                 </nav>
             </header> */}
-            <main>
                 <PlayerProfile player={player} />
                     <div>
                         {store.shoes.map((shoe) => (
