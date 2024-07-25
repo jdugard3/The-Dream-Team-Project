@@ -13,7 +13,7 @@ export const Home = () => {
 
 			image: "https://www.si.com/.image/c_limit%2Ccs_srgb%2Cq_auto:good%2Cw_700/MTY4MTg2MDIyNzgyODM4MDMz/1988-michael-jordan-001238167_0jpg.webp",
 
-	
+
 
 			route: "/michael-jordan"
 		},
@@ -22,7 +22,7 @@ export const Home = () => {
 
 			image: "https://media.gettyimages.com/id/84597779/photo/los-angeles-lakers-v-new-york-knicks.jpg?s=2048x2048&w=gi&k=20&c=Aj0r0rG0r7FPfRTDYqEQh6qnHV411wEQaJOQ7k9B5C4=",
 
-			
+
 			route: "/kobe-bryant"
 		},
 		{
@@ -37,7 +37,7 @@ export const Home = () => {
 
 			image: "https://library.sportingnews.com/styles/crop_style_16_9_desktop/s3/2021-12/stephen-curry-12142021-ftr_4eql5k00ttqn1jkyeqm8zu999.jpeg?itok=4ZMIHMKt",
 
-			
+
 			route: "/stephen-curry"
 		},
 		{
@@ -52,7 +52,10 @@ export const Home = () => {
 	return (
 		<>
 			<div>
-				<main style={{height:"800px"}} >
+				{/* <header>
+
+				</header> */}
+				<main style={{ height: "1000px" }} >
 					<section className="hero">
 						<h1 className="website-title" >Welcome to Hoop Legend Sneakers</h1>
 						<p className="mission-statement">
@@ -61,11 +64,10 @@ export const Home = () => {
 					</section>
 					<section className="collections">
 						{collections.map((collection, index) => (
-
-							<Link to={collection.route} key={index} className="collection">
-								<img src={collection.image} alt={`${collection.name} Sneakers`} className="collection-image" />
-								<h2>{collection.name}</h2>
-							</Link>
+							// <Link to={collection.route} key={index} className="collection">
+							// 	<img src={collection.image} alt={`${collection.name} Sneakers`} className="collection-image" />
+							// 	<h2>{collection.name}</h2>
+							// </Link>
 
 						))}
 					</section>

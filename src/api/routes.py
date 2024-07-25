@@ -71,7 +71,6 @@ def register_user():
     response = {
         'msg': f'Congratulations {user.email}. You have signed up!'
     }
-
     return jsonify(response), 200
 
 @api.route('/feedback', methods=['POST'])
@@ -101,6 +100,24 @@ def generate_feedback():
         'msg': f'Thank you, {user.email} for your feedback!'
     }
     return jsonify(response), 200
+
+
+# get all users & get 1 user routes 
+@api.route('/users', methods=['GET'])
+def get_all_users():
+    users = User.query.all()
+    serialized_users = []
+    for user in users: 
+        serialized_users.append(user.serialize())
+    return jsonify({"msg": "Here is the list of users", "users": serialized_users}), 200
+
+@api.route('/users/<int:user_id>', methods=['GET'])
+def get_one_user(user_id):
+    user = User.query.filter_by(id = user_id).first()
+    if user is None: 
+        return jsonify({"msg": "user not found"}), 404 
+    
+    return jsonify({"msg": "Here is your user", "user": user.serialize()}), 200 
 
 @api.route('/users/login', methods=['POST'])
 def handle_login():
@@ -257,23 +274,6 @@ def update_card_info():
 
     return jsonify({"msg": "Card details updated", "card": card.serialize()}), 200
   
-# get all users & get 1 user routes 
-@api.route('/users', methods=['GET'])
-def get_all_users():
-    users = User.query.all()
-    serialized_users = []
-    for user in users: 
-        serialized_users.append(user.serialize())
-    return jsonify({"msg": "Here is the list of users", "users": serialized_users}), 200
-
-@api.route('/users/<int:user_id>', methods=['GET'])
-def get_one_user(user_id):
-    user = User.query.filter_by(id = user_id).first()
-    if user is None: 
-        return jsonify({"msg": "user not found"}), 404 
-    
-    return jsonify({"msg": "Here is your user", "user": user.serialize()}), 200 
-
 
 # Get all Shoes 
 @api.route('/shoes', methods=['GET'])

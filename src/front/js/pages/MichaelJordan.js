@@ -5,7 +5,7 @@ import "../../styles/home.css";
 
 const PlayerProfile = ({ player }) => (
     <section className="player-profile">
-        <img src={player.topImage} alt={`${player.name} Top`} className="top-image" />
+        <img style={{boxShadow: "none", borderRadius: "20%"}} src={player.topImage} alt={`${player.name} Top`} className="top-image" />
         <h2>{player.name}</h2>
         <p>Position: {player.position}</p>
         <p>Team: {player.team}</p>
@@ -15,7 +15,7 @@ const PlayerProfile = ({ player }) => (
 
 const SneakerPair = ({ sneaker }) => (
     <div className="sneaker-pair">
-        <img src={sneaker.image} alt={sneaker.name} />
+        <img style={{boxShadow: "none"}} src={sneaker.image} alt={sneaker.name} />
         <div>
             <h3>{sneaker.name}</h3>
             <p>{sneaker.description}</p>
@@ -58,14 +58,15 @@ export const MichaelJordan = () => {
 
     return (
         <div>
+                {/* <PlayerProfile player={player} />
 
             <main>
                 {/*<PlayerProfile player={player} />
                 <div className="shoe-card-container">
                     {store.shoes.map((shoe) => (
-                        <ShoeCard key={shoe.id} shoes={shoe} />
+                        <ShoeCard key={shoe.id} shoe={shoe} />
                     ))}
-                </div>*/}
+                </div> */}
 
             {/* <header>
                 <nav>
