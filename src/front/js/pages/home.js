@@ -68,7 +68,10 @@ export const Home = () => {
 							// 	<img src={collection.image} alt={`${collection.name} Sneakers`} className="collection-image" />
 							// 	<h2>{collection.name}</h2>
 							// </Link>
-
+							<Link to={collection.route} key={index} className="collection">
+								<img src={collection.image} alt={`${collection.name} Sneakers`}/>
+								<h2>{collection.name}</h2>
+						</Link>
 						))}
 					</section>
 				</main>

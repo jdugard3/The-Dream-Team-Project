@@ -38,8 +38,6 @@ export const UserProfilePage = () => {
     
         fetchUserData(); // Call fetchUserData when component mounts
     }, []);
-    
-    const UserEditRedir = () => { navigate(`/profile/edit`); };
 
     return (
         <div className="container mt-5">

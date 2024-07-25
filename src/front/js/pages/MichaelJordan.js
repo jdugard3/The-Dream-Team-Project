@@ -77,6 +77,7 @@ export const MichaelJordan = () => {
                     </ul>
                 </nav>
             </header> */}
+            <main>
                 <PlayerProfile player={player} />
                     <div>
                         {store.shoes.map((shoe) => (
