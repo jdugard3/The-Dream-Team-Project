@@ -72,76 +72,82 @@ export const UserEditPage = () => {
 };
 
   return (
-    <div>
-      <h2>Billing Address</h2>
-      <input
-        type="text"
-        name="Billing Address"
-        value={billingAddress}
-        onChange={(e) => {
-          setBillingAddress(e.target.value)
-        }}
-        placeholder="Billing Address"
-      />
-
-      <h2>Shipping Address</h2>
-      <label>
+    <div className="row">
+      <div className="col-1">
+      </div>
+      <div className="col-10">
+        <h2 className="col-6">Billing Address</h2>
         <input
-          type="checkbox"
-        // checked={useBillingAddress}
-        // onChange={handleCheckboxChange}
+          type="text"
+          name="Billing Address"
+          value={billingAddress}
+          onChange={(e) => {
+            setBillingAddress(e.target.value)
+          }}
+          placeholder="Billing Address"
         />
-        Same as Billing Address
-      </label>
-      <input
-        type="text"
-        name="Shipping Address"
-        value={shippingAddress}
-        onChange={(e) => {
-          setShippingAddress(e.target.value)
-        }}
-        placeholder="Shipping Address"
-      />
-      <h2>Credit Card Information</h2>
-      <input
-        type="text"
-        name="cardNumber"
-        value={num}
-        onChange={(e) => {
-          setNum(e.target.value)
-        }}
-        placeholder="Card Number"
-      />
-      <input
-        type="text"
-        name="expirationMonth"
-        value={month}
-        onChange={(e) => {
-          setMonth(e.target.value)
-        }}
-        placeholder="Expiration Month"
-      />
-      <input
-        type="text"
-        name="expirationYear"
-        value={year}
-        onChange={(e) => {
-          setYear(e.target.value)
-        }}
-        placeholder="Expiration Year"
-      />
-      <input
-        type="text"
-        name="cvv"
-        value={cvv}
-        onChange={(e) => {
-          setCvv(e.target.value)
-        }}
-        placeholder="CVV"
-      />
 
-      <button onClick={handleEditSubmit}>Submit</button>
-      <Link to="/profile"><button>Cancel</button></Link>
+        <h2 className="col-6">Shipping Address</h2>
+        <label>
+          <input
+            type="checkbox"
+          // checked={useBillingAddress}
+          // onChange={handleCheckboxChange}
+          />
+          Same as Billing Address
+        </label>
+        <input
+          type="text"
+          name="Shipping Address"
+          value={shippingAddress}
+          onChange={(e) => {
+            setShippingAddress(e.target.value)
+          }}
+          placeholder="Shipping Address"
+        />
+        <h2>Credit Card Information</h2>
+        <input
+          type="text"
+          name="cardNumber"
+          value={num}
+          onChange={(e) => {
+            setNum(e.target.value)
+          }}
+          placeholder="Card Number"
+        />
+        <input
+          type="text"
+          name="expirationMonth"
+          value={month}
+          onChange={(e) => {
+            setMonth(e.target.value)
+          }}
+          placeholder="Expiration Month"
+        />
+        <input
+          type="text"
+          name="expirationYear"
+          value={year}
+          onChange={(e) => {
+            setYear(e.target.value)
+          }}
+          placeholder="Expiration Year"
+        />
+        <input
+          type="text"
+          name="cvv"
+          value={cvv}
+          onChange={(e) => {
+            setCvv(e.target.value)
+          }}
+          placeholder="CVV"
+        />
+
+        <button onClick={handleEditSubmit}>Submit</button>
+        <Link to="/profile"><button>Cancel</button></Link>
+      </div>
+      <div className='col-1'>
+      </div>
     </div>
   );
 };
