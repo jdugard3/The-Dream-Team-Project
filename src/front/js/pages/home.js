@@ -52,6 +52,9 @@ export const Home = () => {
 	return (
 		<>
 			<div>
+				{/* <header>
+
+				</header> */}
 				<main style={{ height: "1000px" }} >
 					<section className="hero">
 						<h1 className="website-title" >Welcome to Hoop Legend Sneakers</h1>

@@ -37,7 +37,7 @@ export const LoginPage = () => {
 
     useEffect(() => {
         if (store.isLoginSuccessful) {
-            navigate("/profile");
+            navigate("/");
         }
 
     }, [store.isLoginSuccessful])
