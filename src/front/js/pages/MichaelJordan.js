@@ -5,7 +5,7 @@ import "../../styles/home.css";
 
 const PlayerProfile = ({ player }) => (
     <section className="player-profile">
-        <img style={{boxShadow: "none", borderRadius: "20%"}} src={player.topImage} alt={`${player.name} Top`} className="top-image" />
+        <img style={{ boxShadow: "none", borderRadius: "7%" }} src={player.topImage} alt={`${player.name} Top`} className="top-image" />
         <h2>{player.name}</h2>
         <p>Position: {player.position}</p>
         <p>Team: {player.team}</p>
@@ -15,7 +15,7 @@ const PlayerProfile = ({ player }) => (
 
 const SneakerPair = ({ sneaker }) => (
     <div className="sneaker-pair">
-        <img style={{boxShadow: "none"}} src={sneaker.image} alt={sneaker.name} />
+        <img style={{ boxShadow: "none" }} src={sneaker.image} alt={sneaker.name} />
         <div>
             <h3>{sneaker.name}</h3>
             <p>{sneaker.description}</p>
@@ -58,30 +58,13 @@ export const MichaelJordan = () => {
 
     return (
         <div>
-                {/* <PlayerProfile player={player} />
+            <main>
+                <PlayerProfile player={player} />
                 <div className="shoe-card-container">
                     {store.shoes.map((shoe) => (
                         <ShoeCard key={shoe.id} shoe={shoe} />
                     ))}
-                </div> */}
-
-            {/* <header>
-                <nav>
-                    <div className="logo">HoopLegendSneakers</div>
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/michael-jordan">Michael Jordan Collection</a></li>
-                    </ul>
-                </nav>
-            </header> */}
-            <main>
-                <PlayerProfile player={player} />
-                    <div>
-                        {store.shoes.map((shoe) => (
-                            <ShoeCard key={shoe.id} shoe={shoe} />
-                        ))}
-                    </div>
-
+                </div>
                 <section className="sneaker-pairs">
                     <h2>Legendary Sneaker Pairs</h2>
                     {sneakerPairs.map((sneaker, index) => (
@@ -89,19 +72,6 @@ export const MichaelJordan = () => {
                     ))}
                 </section>
             </main>
-            {/* <footer>
-                <p>© 2024 HoopLegendSneakers. Celebrating the history and significance of legendary basketball sneakers.</p>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                </ul>
-                <div className="social-media">
-                    <a href="#"><img src="/path/to/facebook-icon.png" alt="Facebook" /></a>
-                    <a href="#"><img src="/path/to/twitter-icon.png" alt="Twitter" /></a>
-                    <a href="#"><img src="/path/to/instagram-icon.png" alt="Instagram" /></a>
-                </div>
-            </footer> */}
         </div>
     );
 };

@@ -155,25 +155,22 @@ def get_one_shipping():
 @jwt_required()
 def update_one_shipping_address():
     user_id = get_jwt_identity()
-    shipping_address = request.json.get("shipping_addresses")
-    
-    if not shipping_address:
-        return jsonify({"msg": "Some fields are missing in your request"}), 400
-
+    shipping_address_data = request.json.get("shipping")
+    if not shipping_address_data:
+        return jsonify({"msg": "Shipping address is missing in your request"}), 400
+    new_address = shipping_address_data.get("address")
+    if not new_address:
+        return jsonify({"msg": "Address field is missing in your request"}), 400
     user = User.query.filter_by(id=user_id).first()
     if not user:
         return jsonify({"msg": "User not found"}), 404
-
     shipping = ShippingAddress.query.filter_by(user_id=user_id).first()
     if not shipping:
         return jsonify({"msg": "Shipping address not found"}), 404
-
-    # Update the shipping address fields
-    shipping.address = shipping_address
-
+    # Update the shipping address field
+    shipping.address = new_address
     db.session.commit()
     db.session.refresh(shipping)
-
     return jsonify({"msg": "Shipping address updated", "shipping": shipping.serialize()}), 200
 
 @api.route('/billing-addresses', methods=['GET'])
@@ -195,26 +192,22 @@ def get_one_billing():
 @jwt_required()
 def update_one_billing_address():
     user_id = get_jwt_identity()
-    billing_address = request.json.get("billing_addresses")
-    
-    if not billing_address:
-        return jsonify({"msg": "Some fields are missing in your request"}), 400
-
+    billing_address_data = request.json.get("billing")
+    if not billing_address_data:
+        return jsonify({"msg": "Billing address is missing in your request"}), 400
+    new_address = billing_address_data.get("address")
+    if not new_address:
+        return jsonify({"msg": "Address field is missing in your request"}), 400
     user = User.query.filter_by(id=user_id).first()
     if not user:
         return jsonify({"msg": "User not found"}), 404
-
     billing = BillingAddress.query.filter_by(user_id=user_id).first()
     if not billing:
-        return jsonify({"msg": "Shipping address not found"}), 404
-
-    # Update the billing address fields
-    billing.address = billing_address
-
+        return jsonify({"msg": "Billing address not found"}), 404
+    billing.address = new_address
     db.session.commit()
     db.session.refresh(billing)
-
-    return jsonify({"msg": "Billing address updated", "billing": billing.serialize()}), 200
+    return jsonify({"msg": "Shipping address updated", "billing": billing.serialize()}), 200
 
 @api.route('/cards', methods=['GET'])
 def get_all_cards():
@@ -235,33 +228,29 @@ def get_one_card():
 @jwt_required()
 def update_card_info():
     user_id = get_jwt_identity()
-    num = request.json.get("num")
-    cvv = request.json.get("cvv")
-    month = request.json.get("month")
-    year = request.json.get("year")
-
+    card_data = request.json.get("card")
+    if not card_data:
+        return jsonify({"msg": "Card data is missing in your request"}), 400
+    num = card_data.get("num")
+    cvv = card_data.get("cvv")
+    month = card_data.get("month")
+    year = card_data.get("year")
     if num is None or cvv is None or month is None or year is None:
         return jsonify({"msg": "Field/Fields cannot be empty"}), 400
-
     user = User.query.filter_by(id=user_id).first()
     if not user:
         return jsonify({"msg": "User not found"}), 404
-
     card = Card.query.filter_by(user_id=user_id).first()
     if not card:
         return jsonify({"msg": "Card details not found"}), 404
-
     # Update the card details fields
     card.num = num
     card.cvv = cvv
     card.month = month
     card.year = year
-
     db.session.commit()
     db.session.refresh(card)
-
-    return jsonify({"msg": "Card details updated", "card": card.serialize()}), 200
-  
+    return jsonify({"msg": "Card details updated", "card": card.serialize()}), 200  
 
 # Get all Shoes 
 @api.route('/shoes', methods=['GET'])

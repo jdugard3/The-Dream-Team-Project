@@ -1,0 +1,87 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+}
+
+.user-edit-page {
+    padding: 2rem;
+    background: #fff;
+    max-width: 800px;
+    margin: 2rem auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.user-edit-page h2 {
+    color: #d32f2f;
+    margin-bottom: 1rem;
+}
+
+.user-edit-page input {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.user-edit-page input:focus {
+    border-color: #d32f2f;
+    outline: none;
+    box-shadow: 0 0 5px rgba(211, 40, 40, 0.5);
+}
+
+.user-edit-page button {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+    margin-right: 1rem;
+}
+
+.user-edit-page button:hover {
+    background-color: #b71c1c;
+}
+
+.user-edit-page .row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-edit-page .col-10 {
+    width: 100%;
+    max-width: 800px;
+}
+
+.user-edit-page label {
+    font-weight: bold;
+    color: #d32f2f;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    .user-edit-page {
+        padding: 1rem;
+    }
+
+    .user-edit-page h2 {
+        font-size: 1.25rem;
+    }
+
+    .user-edit-page input {
+        font-size: 0.875rem;
+    }
+
+    .user-edit-page button {
+        padding: 0.5rem 1rem;
+    }
+}

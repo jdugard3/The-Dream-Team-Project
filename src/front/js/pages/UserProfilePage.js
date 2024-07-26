@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import '../../styles/profile.css';
 import { UserBar } from '../component/UserBar.js';
 import { useNavigate, Link } from "react-router-dom";
-import { Context } from "../store/appContext"; // Import Context
+import { Context } from "../store/appContext";
 
 export const UserProfilePage = () => {
-    const { store, actions } = useContext(Context); // Use Context to access store and actions
+    const { store, actions } = useContext(Context);
     const navigate = useNavigate();
     const [user, setUser] = useState({
         email: "",
@@ -21,10 +21,10 @@ export const UserProfilePage = () => {
             try {
                 if (!sessionStorage.getItem("token")) {
                     navigate("/login");
-                    return; // Exit function early if token or userId is not present
+                    return;
                 }
     
-                const result = await actions.fetchUserData(); // Assuming fetchUserData returns user data
+                const result = await actions.fetchUserData();
                 if (result) {
                     setUser(store.user)
                 } else {
@@ -32,29 +32,33 @@ export const UserProfilePage = () => {
                 }
             } catch (err) {
                 console.error("Error fetching user data:", err);
-                // Optionally handle error state or retry logic
             }
         };
     
-        fetchUserData(); // Call fetchUserData when component mounts
+        fetchUserData();
     }, []);
     
     const UserEditRedir = () => { navigate(`/profile/edit`); };
 
     return (
-        <div className="container mt-5">
-            <div className="row">
+        <div className="container mt-5" style={{ backgroundColor: '#f8f8f8', padding: '20px', borderRadius: '10px' }}>
+            <div className="row" style={{height:"620px"}}>
                 <div className="col-1"></div>
                 <div className="col-10">
                     <UserBar />
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ width: '100px', height: '100px', borderRadius: '50%', backgroundColor: '#ccc', marginRight: '20px' }}></div>
+                        <div>
+                            <h1>{user?.username}</h1>
+                            <h3>{user?.full_name}</h3>
+                            <p>{user?.details}</p>
+                            <Link to="/profile/edit"><button className="btn btn-primary">Edit Shipping Info</button></Link>
+                        </div>
+                    </div>
                 </div>
                 <div className="col-1"></div>
                 <div className="col-md-8">
-                    <h1>{user?.username}</h1>
-                    <h3>{user?.full_name}</h3>
-                    <h5>{user?.details}</h5>
-                    {/* <button onClick={UserEditRedir}></button> */}
-                    <Link to="/profile/edit"><button>Update Shipping/Card Info</button></Link>
+                    
                 </div>
             </div>
         </div>
